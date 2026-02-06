@@ -1,0 +1,1278 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&family=Poppins:wght@300;400;500;600&display=swap');
+:root {
+  /* Deeper Gerbera palette - richer, more saturated */
+  --color-primary: #E8457A;        /* Deeper gerbera pink */
+  --color-secondary: #D47298;      /* Rich dusty rose */
+  --color-accent: #C9A6D4;         /* Deeper lavender accent */
+  --color-warm: #F4E4E8;           /* Warm rose cream */
+  --color-lavender: #B89FC9;       /* Deeper lavender */  
+  --color-peach: #E8C4CB;          /* Dusty peach */
+  
+  /* Deeper, richer gradients */
+    --gradient-main: linear-gradient(135deg, #D4869C 0%, #B89FC9 50%, #E8D5E0 100%);
+  --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.15));
+  --gradient-button: linear-gradient(135deg, #E8457A, #D47298);
+  
+  /* Typography */
+  --font-display: 'Playfair Display', serif;
+  --font-elegant: 'Cormorant Garamond', serif;
+  --font-body: 'Poppins', sans-serif;
+  
+  /* Spacing & Sizing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 6rem;
+  
+  /* Effects */
+  --shadow-soft: 0 8px 32px rgba(232, 69, 122, 0.2);
+  --shadow-medium: 0 12px 48px rgba(232, 69, 122, 0.25);
+  --blur-glass: blur(12px);
+  --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Dark Mode Variables - AÚN MÁS OSCURO */
+body.dark-mode {
+  --color-primary: #FFB7E0;        /* Lighter pink for dark bg */
+  --color-secondary: #D4A5D8;      /* Soft purple */
+  --color-accent: #C9A6E8;         /* Lavender glow */
+  --color-warm: #1A1420;           /* Very dark warm */
+  --color-lavender: #6B4B7A;       /* Deep lavender */
+  --color-peach: #3A2842;          /* Dark peach */
+  
+  /* Gradientes MÁS OSCUROS */
+  --gradient-main: linear-gradient(135deg, #0d0a12 0%, #1a1225 50%, #1e1525 100%);
+  --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  --gradient-button: linear-gradient(135deg, #D4A5D8, #C9A6E8);
+  
+  /* Dark mode shadows with stronger glow */
+  --shadow-soft: 0 8px 32px rgba(212, 165, 216, 0.25);
+  --shadow-medium: 0 12px 48px rgba(212, 165, 216, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--gradient-main);
+  background-attachment: fixed;
+  color: #2A1F2D;
+  line-height: 1.7;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Subtle animated background pattern (gerbera petals) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 107, 157, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(232, 213, 242, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255, 212, 229, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+  animation: breathe 20s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 4. SECTION BASE LAYOUT                                      */
+/* ────────────────────────────────────────────────────────── */
+.section {
+  min-height: 100vh;
+  padding: clamp(3rem, 10vh, 6rem) clamp(1.5rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+/* Scroll reveal animation */
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 5. HERO SECTION - First Impression                         */
+/* ────────────────────────────────────────────────────────── */
+.hero {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+  text-shadow: 0 4px 12px rgba(255, 107, 157, 0.2);
+  animation: fadeInDown 1.4s ease-out;
+}
+
+.hero p {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  color: #3A2B3D;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-md);
+  line-height: 1.8;
+  animation: fadeInUp 1.6s ease-out 0.3s backwards;
+}
+
+.hero button {
+  animation: fadeInUp 1.8s ease-out 0.6s backwards;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 6. TIMELINE/HISTORY SECTION - Cards with Glassmorphism     */
+/* ────────────────────────────────────────────────────────── */
+.history {
+  gap: var(--spacing-md);
+}
+
+.card {
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  max-width: 600px;
+  width: 100%;
+  margin: var(--spacing-sm) auto;
+  box-shadow: var(--shadow-soft);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: #2A1F2D;
+  font-weight: 400;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.8s;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-medium);
+  border-color: rgba(255, 107, 157, 0.4);
+}
+
+.card:hover::before {
+  left: 100%;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 7. ADMIRATION SECTION                                       */
+/* ────────────────────────────────────────────────────────── */
+.admire h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+}
+
+.admire p {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: #3A2B3D;
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 2;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 8. HEART INTERACTION SECTION - The Emotional Center        */
+/* ────────────────────────────────────────────────────────── */
+.heart {
+  gap: var(--spacing-md);
+}
+
+#heart {
+  font-size: clamp(5rem, 15vw, 8rem);
+  cursor: pointer;
+  display: inline-block;
+  transition: var(--transition-bounce);
+  filter: drop-shadow(0 8px 24px rgba(255, 107, 157, 0.3));
+  animation: heartbeat 2s ease-in-out infinite;
+  user-select: none;
+}
+
+/* Heartbeat animation */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  10% { transform: scale(1.1); }
+  20% { transform: scale(1); }
+  30% { transform: scale(1.1); }
+  40% { transform: scale(1); }
+}
+
+#heart:hover {
+  transform: scale(1.2) rotate(5deg);
+  filter: drop-shadow(0 12px 36px rgba(255, 107, 157, 0.5));
+}
+
+#heart:active {
+  transform: scale(0.95);
+}
+
+#heartMsg {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: var(--color-primary);
+  max-width: 500px;
+  margin: var(--spacing-md) auto 0;
+  font-weight: 600;
+  line-height: 1.9;
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#heartMsg.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 9. CLOSING SECTION                                          */
+/* ────────────────────────────────────────────────────────── */
+.close p {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+  color: #3A2B3D;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 2;
+  font-weight: 400;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 10. BUTTON STYLES - Call to Action                         */
+/* ────────────────────────────────────────────────────────── */
+button {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  font-weight: 600;
+  padding: clamp(0.9rem, 3vw, 1.2rem) clamp(2rem, 6vw, 3rem);
+  background: var(--gradient-button);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.3);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  min-width: 200px;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(255, 107, 157, 0.4);
+}
+
+button:active {
+  transform: translateY(-2px);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 11. KEYFRAME ANIMATIONS                                     */
+/* ────────────────────────────────────────────────────────── */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 12. RESPONSIVE REFINEMENTS                                  */
+/* ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section {
+    padding: clamp(2rem, 8vh, 4rem) var(--spacing-sm);
+  }
+  
+  .card {
+    padding: var(--spacing-md);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 13. FLOATING PARTICLES - Gerberas in Background            */
+/* ────────────────────────────────────────────────────────── */
+.floating-particle {
+  position: fixed;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  opacity: 0.2;
+  will-change: transform;
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0) translateX(0) rotate(0deg); 
+  }
+  25% { 
+    transform: translateY(-30px) translateX(15px) rotate(90deg); 
+  }
+  50% { 
+    transform: translateY(-60px) translateX(-15px) rotate(180deg); 
+  }
+  75% { 
+    transform: translateY(-30px) translateX(15px) rotate(270deg); 
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 14. CURSOR TRAIL - Sparkle Stars Following Mouse           */
+/* ────────────────────────────────────────────────────────── */
+.cursor-trail {
+  position: fixed;
+  pointer-events: none;
+  user-select: none;
+  z-index: 9998;
+  font-size: 1.2rem;
+  opacity: 1;
+  animation: trailFade 0.8s ease-out forwards;
+}
+
+@keyframes trailFade {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(180deg);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 15. "POR QUÉ ERES ESPECIAL" SECTION - 6 Reasons           */
+/* ────────────────────────────────────────────────────────── */
+.reasons {
+  gap: var(--spacing-sm);
+}
+
+.reasons h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .reasons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.reason-card {
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+}
+
+.reason-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Staggered animation delays for each card */
+.reason-card:nth-child(1).visible { transition-delay: 0.1s; }
+.reason-card:nth-child(2).visible { transition-delay: 0.2s; }
+.reason-card:nth-child(3).visible { transition-delay: 0.3s; }
+.reason-card:nth-child(4).visible { transition-delay: 0.4s; }
+.reason-card:nth-child(5).visible { transition-delay: 0.5s; }
+.reason-card:nth-child(6).visible { transition-delay: 0.6s; }
+
+.reason-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.8s;
+}
+
+.reason-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: var(--shadow-medium);
+  border-color: rgba(255, 107, 157, 0.5);
+}
+
+.reason-card:hover::before {
+  left: 100%;
+}
+
+.reason-emoji {
+  font-size: clamp(2rem, 5vw, 3rem);
+  display: block;
+  margin-bottom: var(--spacing-sm);
+}
+
+.reason-text {
+  font-family: var(--font-elegant);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: #2A1F2D;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 16. LIVE TIME COUNTER - Days Since Reconnection           */
+/* ────────────────────────────────────────────────────────── */
+.time-counter {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.1);
+}
+
+.time-counter-label {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  color: #3A2B3D;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.time-counter-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--color-primary);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 17. FOOTER - Special Date                                  */
+/* ────────────────────────────────────────────────────────── */
+footer {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  padding: var(--spacing-md);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: var(--spacing-lg);
+}
+
+footer p {
+  font-family: var(--font-elegant);
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: #3A2B3D;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.footer-date {
+  color: var(--color-primary);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.footer-message {
+  font-style: italic;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 18. PHOTO GALLERY - Polaroid Memories Section              */
+/* ────────────────────────────────────────────────────────── */
+.memories {
+  gap: var(--spacing-md);
+}
+
+.memories h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+}
+
+.memories-intro {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: #3A2B3D;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-lg);
+  line-height: 1.8;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  max-width: 900px;
+  margin: 0 auto var(--spacing-lg);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .photo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Polaroid-style photo cards */
+.polaroid {
+  background: white;
+  padding: 1rem;
+  padding-bottom: 3.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 
+              0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  transform: rotate(0deg);
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px) rotate(-2deg);
+}
+
+.polaroid.visible {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+/* Slight random rotations for authenticity */
+.polaroid:nth-child(1) { transform: rotate(2deg); }
+.polaroid:nth-child(2) { transform: rotate(-1deg); }
+.polaroid:nth-child(3) { transform: rotate(1deg); }
+.polaroid:nth-child(4) { transform: rotate(-2deg); }
+.polaroid:nth-child(5) { transform: rotate(1.5deg); }
+.polaroid:nth-child(6) { transform: rotate(-1.5deg); }
+
+/* Staggered reveal for polaroids */
+.polaroid:nth-child(1).visible { transition-delay: 0.1s; transform: rotate(2deg); }
+.polaroid:nth-child(2).visible { transition-delay: 0.2s; transform: rotate(-1deg); }
+.polaroid:nth-child(3).visible { transition-delay: 0.3s; transform: rotate(1deg); }
+.polaroid:nth-child(4).visible { transition-delay: 0.4s; transform: rotate(-2deg); }
+.polaroid:nth-child(5).visible { transition-delay: 0.5s; transform: rotate(1.5deg); }
+.polaroid:nth-child(6).visible { transition-delay: 0.6s; transform: rotate(-1.5deg); }
+
+.polaroid:hover {
+  transform: translateY(-12px) rotate(0deg) scale(1.05);
+  box-shadow: 0 12px 40px rgba(255, 107, 157, 0.3),
+              0 0 0 1px rgba(255, 107, 157, 0.2);
+  z-index: 10;
+}
+
+.polaroid-image {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: var(--gradient-main);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.polaroid-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder for photos */
+.polaroid-placeholder {
+  font-size: clamp(3rem, 8vw, 5rem);
+  opacity: 0.5;
+}
+
+.polaroid-caption {
+  font-family: 'Permanent Marker', var(--font-body);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: #333;
+  text-align: center;
+  margin-top: 1rem;
+  line-height: 1.4;
+  min-height: 2.5rem;
+}
+
+/* Memory invitation message */
+.memory-invitation {
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: clamp(2rem, 5vw, 3rem);
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.memory-invitation p {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: #2A1F2D;
+  line-height: 2;
+  margin: 0;
+}
+
+/* Fix visibility in dark mode */
+body.dark-mode .memory-invitation p {
+  color: #E8D5F2;
+}
+
+body.dark-mode .memory-invitation .highlight {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.memory-invitation .highlight {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-family: var(--font-display);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 19. LIGHTBOX MODAL - Full Photo View                       */
+/* ────────────────────────────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: white;
+  padding: 1.5rem;
+  padding-bottom: 4rem;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.lightbox.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-image {
+  max-width: 100%;
+  max-height: calc(90vh - 8rem);
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+.lightbox-caption {
+  font-family: var(--font-elegant);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: #333;
+  text-align: center;
+  margin-top: 1.5rem;
+  line-height: 1.6;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -3rem;
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+  color: #333;
+}
+
+.lightbox-close:hover {
+  background: white;
+  transform: rotate(90deg);
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 20. SECRET HOVER MESSAGES - Hidden Romantic Tooltips       */
+/* ────────────────────────────────────────────────────────── */
+.secret-word {
+  position: relative;
+  cursor: help;
+  background: linear-gradient(180deg, transparent 85%, var(--color-primary) 85%);
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease, color 0.3s ease;
+  padding: 0 2px;
+}
+
+.secret-word:hover {
+  background-size: 100% 100%;
+  color: white;
+}
+
+.secret-word::after {
+  content: attr(data-message);
+position:absolute;
+  bottom: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f4f9 100%);
+  color: #2A1F2D;
+  padding: 0.85rem 1.1rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+              0 2px 8px rgba(232, 69, 122, 0.2);
+  font-family: var(--font-body);
+  font-weight: 500;
+  z-index: 1000;
+  max-width: 280px;
+  min-width: 180px;
+  border: 1px solid rgba(232, 69, 122, 0.15);
+  text-align: center;
+}
+
+/* Dark mode tooltip styling */
+body.dark-mode .secret-word::after {
+  background: linear-gradient(135deg, #2d2435 0%, #3a2d45 100%);
+  color: #E8D5F2;
+  border: 1px solid rgba(255, 183, 224, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+              0 2px 8px rgba(255, 183, 224, 0.15);
+}
+
+.secret-word::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1001;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+body.dark-mode .secret-word::before {
+  border-top-color: #2d2435;
+}
+
+.secret-word:hover::after,
+.secret-word:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Mobile: tap instead of hover */
+@media (hover: none) {
+  .secret-word.active::after,
+  .secret-word.active::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 21. PROMISE FLIP CARDS - 3D Rotating Cards                 */
+/* ────────────────────────────────────────────────────────── */
+.promises {
+  gap: var(--spacing-md);
+}
+
+.promises h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+}
+
+.promises-intro {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: #3A2B3D;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.promises-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .promises-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.flip-card {
+  perspective: 1000px;
+  height: 380px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-soft);
+}
+
+.flip-card-front {
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  transform: rotateY(180deg);
+}
+
+.flip-card-front h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.flip-card-front p {
+  font-family: var(--font-body);
+  color: #5A4A5D;
+  opacity: 0.8;
+}
+
+.flip-card-back p {
+  font-family: var(--font-elegant);
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  color: white;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 22. INTERACTIVE QUIZ - Game UI                             */
+/* ────────────────────────────────────────────────────────── */
+.quiz {
+  gap: var(--spacing-md);
+}
+
+.quiz h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.quiz-container {
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: clamp(2rem, 5vw, 3rem);
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-soft);
+}
+
+.quiz-question {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: #2A1F2D;
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.quiz-option {
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  color: #2A1F2D;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-align: left;
+}
+
+.quiz-option:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--color-primary);
+  transform: translateX(8px);
+}
+
+.quiz-option.correct {
+  background: rgba(144, 238, 144, 0.3);
+  border-color: #4CAF50;
+}
+
+.quiz-option.incorrect {
+  background: rgba(255, 182, 193, 0.3);
+  border-color: #FF6B9D;
+}
+
+.quiz-start, .quiz-restart {
+  margin-top: var(--spacing-md);
+}
+
+.quiz-score {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--color-primary);
+  text-align: center;
+  margin-top: var(--spacing-md);
+}
+
+.quiz-hidden {
+  display: none;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 23. SONG PLAYER - Audio Controls                           */
+/* ────────────────────────────────────────────────────────── */
+.song-player {
+  position: fixed;
+  bottom: var(--spacing-md);
+  right: var(--spacing-md);
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 60px;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 9999;
+  transition: var(--transition-smooth);
+}
+
+.song-player:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 56px rgba(255, 107, 157, 0.3);
+}
+
+.play-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gradient-button);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.play-button:hover {
+  transform: scale(1.1);
+}
+
+.play-button svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+.song-info {
+  font-family: var(--font-body);
+  color: #2A1F2D;
+}
+
+.song-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.song-artist {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 24. DARK MODE TOGGLE - Sun/Moon Button                     */
+/* ────────────────────────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-soft);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: var(--shadow-medium);
+}
+
+.theme-toggle svg {
+  width: 24px;
+  height: 24px;
+  transition: var(--transition-smooth);
+}
+
+.sun-icon { fill: #FFD700; }
+.moon-icon { fill: #D4A5D8; }
+
+body.dark-mode .sun-icon { display: none; }
+body:not(.dark-mode) .moon-icon { display: none; }
+
+/* ────────────────────────────────────────────────────────── */
+/* 25. CONSTELLATION CANVAS - Background Effect               */
+/* ────────────────────────────────────────────────────────── */
+#constellation-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.4;
+}
+
+body.dark-mode #constellation-canvas {
+  opacity: 0.6;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* 26. DARK MODE ADJUSTMENTS - Text Colors                    */
+/* ────────────────────────────────────────────────────────── */
+body.dark-mode {
+  color: #E8D5F2;
+}
+
+body.dark-mode .hero h1,
+body.dark-mode .admire h2,
+body.dark-mode .reasons h2,
+body.dark-mode .memories h2,
+body.dark-mode .promises h2,
+body.dark-mode .quiz h2 {
+  color: var(--color-primary);
+  text-shadow: 0 0 20px rgba(212, 165, 216, 0.5);
+}
+
+body.dark-mode .hero p,
+body.dark-mode .admire p,
+body.dark-mode .memories-intro,
+body.dark-mode .promises-intro,
+body.dark-mode .card,
+body.dark-mode .reason-text {
+  color: #E8D5F2;
+}
+
+body.dark-mode .close p {
+  color: #E8D5F2;
+}
+
+body.dark-mode footer p {
+  color: #D4A5D8;
+}
+
+body.dark-mode .polaroid-caption,
+body.dark-mode .quiz-question,
+body.dark-mode .quiz-option,
+body.dark-mode .song-info {
+  color: #E8D5F2;
+}
+
+body.dark-mode .time-counter-label,
+body.dark-mode .time-counter-value {
+  color: #E8D5F2;
+}
+
+

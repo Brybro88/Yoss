@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volvimos a encontrarnos 💖</title>
+  
+  <!-- Meta tags for sharing -->
+  <meta name="description" content="A veces la vida separa caminos, pero cuando dos personas se reencuentran, es porque algo nunca dejó de existir.">
+  <meta property="og:title" content="Volvimos a encontrarnos 💖">
+  <meta property="og:description" content="Una historia de reencuentro y nuevos comienzos.">
+  
+  <!-- Favicon - Gerbera emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+  
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="dark-mode">
+
+  <!-- Constellation Canvas Background -->
+  <canvas id="constellation-canvas"></canvas>
+  
+  <!-- Dark Mode Toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <svg class="sun-icon" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="5"/>
+      <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+    </svg>
+    <svg class="moon-icon" viewBox="0 0 24 24">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <main>
+
+    <!-- HERO / REENCUENTRO -->
+    <section class="section hero">
+      <h1>Volvimos a encontrarnos</h1>
+      <p>
+        A veces la vida separa caminos…<br>
+        pero cuando dos personas se reencuentran,<br>
+        es porque algo nunca dejó de existir.
+      </p>
+      <button id="startBtn">Sigue leyendo 💖</button>
+    </section>
+
+    <!-- HISTORIA -->
+    <section class="section history">
+      <div class="card">🕰️ Hace más de 2 años… el destino nos llevó por rumbos distintos.</div>
+      <div class="card">💬 >Volvimos a hablar todo volvió a tener sentido.
+    </div>
+      <div class="card">🌸 Hoy… algo genuino sigue aquí, más fuerte que antes.</div>
+      
+      <!-- Contador de tiempo vivo -->
+      <div class="time-counter">
+        <span class="time-counter-label">💕 Desde que reconectamos han pasado:</span>
+        <span class="time-counter-value" id="timeCounter">Cargando...</span>
+      </div>
+    </section>
+
+    <!-- ADMIRACIÓN -->
+    <section class="section admire">
+      <h2>Admiro profundamente quién eres</h2>
+      <p>
+        Tu disciplina.<br>
+        Tu esfuerzo incansable.<br>
+        La pasión con la que recorres este camino hacia la <span class="secret-word" data-message="Vas a cambiar vidas, empezando por la mía">medicina</span> 🩺<br>
+        <br>
+        Verte perseguir tus sueños hace que yo también quiera ser mejor.
+      </p>
+    </section>
+    
+    <!-- POR QUÉ ERES ESPECIAL - 6 Razones -->
+    <section class="section reasons">
+      <h2>Por qué eres especial para mí</h2>
+      
+      <div class="reasons-grid">
+        <div class="reason-card">
+          <span class="reason-emoji">🌟</span>                                                                                   
+          <p class="reason-text">
+            Tu <span class="secret-word" data-message="Lo más hermoso de ti es que nunca finges">autenticidad</span>. Eres genuina, real, sin máscaras. Eso me hace sentir que puedo ser yo mismo contigo.
+          </p>
+        </div>
+        
+        <div class="reason-card">
+          <span class="reason-emoji">🩺</span>
+          <p class="reason-text">
+            Tu dedicación a la medicina. Verte luchar por tus sueños con esa pasión me inspira a ser mejor cada día.
+          </p>
+        </div>
+        
+        <div class="reason-card">
+          <span class="reason-emoji">💬</span>
+          <p class="reason-text">
+            La forma en que me haces sentir cuando hablamos. Cada conversación se siente como volver a casa.
+          </p>
+        </div>
+        
+        <div class="reason-card">
+          <span class="reason-emoji">✨</span>
+          <p class="reason-text">
+            La conexión que nunca desapareció. Dos años sin hablar y cuando regresaste, todo seguía ahí, intacto.
+          </p>
+        </div>
+        
+        <div class="reason-card">
+          <span class="reason-emoji">🎯</span>
+          <p class="reason-text">
+            Tu fortaleza. Estás cursando el cero, esforzándote cada día, y no te rindes. Eso habla de quién eres.
+          </p>
+        </div>
+        
+        <div class="reason-card">
+          <span class="reason-emoji">💫</span>
+          <p class="reason-text">
+            Porque cuando pienso en el <span class="secret-word" data-message="Un futuro donde cada día sea una aventura juntos">futuro</span>, en construir algo bonito, en crear momentos que importen... te imagino ahí.
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- RECUERDOS - Photo Gallery -->
+    <section class="section memories">
+      <h2>Nuestros recuerdos 📸</h2>
+      <p class="memories-intro">
+        Son pocas las fotos que guardamos... pero cada una cuenta una historia,<br>
+        un momento que fue real, que fue nuestro.
+      </p>
+      
+      <div class="photo-grid">
+        <!-- Polaroid 1 -->
+        <div class="polaroid">
+          <div class="polaroid-image">
+            <!-- Reemplaza con: <img src="/images/foto1.jpg" alt="Nosotros"> -->
+            <span class="polaroid-placeholder">📸</span>
+          </div>
+          <div class="polaroid-caption">Ese día que todo empezó...</div>
+        </div>
+        
+        <!-- Polaroid 2 -->
+        <div class="polaroid">
+          <div class="polaroid-image">
+            <!-- Reemplaza con: <img src="/images/foto2.jpg" alt="Nosotros"> -->
+            <span class="polaroid-placeholder">💕</span>
+          </div>
+          <div class="polaroid-caption">Risas que no olvido</div>
+        </div>
+        
+        <!-- Polaroid 3 -->
+        <div class="polaroid">
+          <div class="polaroid-image">
+            <!-- Reemplaza con: <img src="/images/foto3.jpg" alt="Nosotros"> -->
+            <span class="polaroid-placeholder">🌸</span>
+          </div>
+          <div class="polaroid-caption">Un recuerdo que guardo cerca</div>
+        </div>
+      </div>
+      
+      <!-- Memory Invitation -->
+      <div class="memory-invitation">
+        <p>
+          Estas son <span class="highlight">las pocas que tenemos</span>...<br>
+          pero me encantaría que juntos <span class="highlight">creemos miles más</span>.<br>
+          <br>
+          Momentos reales. Sonrisas genuinas. <span class="highlight">Recuerdos que valgan la pena guardar</span>.
+        </p>
+      </div>
+    </section>
+    
+    <!-- INTERACCIÓN -->
+    <section class="section heart">
+      <div id="heart" title="Haz clic aquí 💖" role="button" tabindex="0">💗</div>
+      <p id="heartMsg" class="hidden">
+        Esto es lo que siento cada vez que hablo contigo.<br>
+        Un corazón que late más fuerte, una sonrisa inevitable,<br>
+        y la certeza de que contigo, todo es diferente.
+      </p>
+    </section>
+    
+    <!-- PROMESAS - Flip Cards -->
+    <section class="section promises">
+      <h2>Promesas para nuestro futuro 💝</h2>
+      <p class="promises-intro">
+        Cosas que quiero que vivamos juntos...<br>
+        Haz clic en cada tarjeta para descubrir.
+      </p>
+      
+      <div class="promises-grid">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h3>⛪ Promesa #1</h3>
+              <p>Toca para revelar...</p>
+            </div>
+            <div class="flip-card-back">
+              <p>"Ir a misa en diferentes países y ciudades, compartiendo nuestra fe y descubriendo el mundo juntos."</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h3>✈️ Promesa #2</h3>
+              <p>Toca para revelar...</p>
+            </div>
+            <div class="flip-card-back">
+              <p>"Llevarte a conocer lugares que nunca has visto. Cada viaje será una aventura que recordaremos siempre."</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h3>🍳 Promesa #3</h3>
+              <p>Toca para revelar...</p>
+            </div>
+            <div class="flip-card-back">
+              <p>"Cocinar juntos algo que nos salga terrible y reírnos del resultado. Los mejores recuerdos no son perfectos."</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h3>🌟 Promesa #4</h3>
+              <p>Toca para revelar...</p>
+            </div>
+            <div class="flip-card-back">
+              <p>"Que mi ambición te inspire, así como la tuya me impulsa. Crecer juntos, no separados."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- QUIZ INTERACTIVO -->
+    <section class="section quiz">
+      <h2>¿Qué tanto nos conocemos? 🎯</h2>
+      
+      <div class="quiz-container">
+        <div id="quizWelcome">
+          <p class="quiz-question">
+            Un pequeño juego para ver si prestaste atención a todos los detalles de este sitio... 😊
+          </p>
+          <button id="quizStart" class="btn quiz-start">¡Empezar! 🎮</button>
+        </div>
+        
+        <div id="quizQuestion" class="quiz-hidden">
+          <p id="questionText" class="quiz-question"></p>
+          <div id="quizOptions" class="quiz-options"></div>
+        </div>
+        
+        <div id="quizResult" class="quiz-hidden">
+          <p id="quizScore" class="quiz-score"></p>
+          <button id="quizRestart" class="btn quiz-restart">Jugar de nuevo 🔄</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CIERRE -->
+    <section class="section close">
+      <p>
+        No sé exactamente qué venga después…<br>
+        pero sé que me gustaría construirlo contigo,<br>
+        paso a paso, sonrisa a sonrisa.<br>
+        <br>
+        🌸 Con cariño, admiración, y toda la ilusión del mundo 🌸
+      </p>
+    </section>
+
+  </main>
+  
+  <!-- LIGHTBOX MODAL for Photos -->
+  <div id="lightbox" class="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Cerrar">×</button>
+      <img id="lightboxImage" class="lightbox-image" src="" alt="">
+      <div id="lightboxCaption" class="lightbox-caption"></div>
+    </div>
+  </div>
+  
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      <span class="footer-date">14 de febrero de 2026</span>
+      <span class="footer-message">🌸</span>
+    </p>
+  </footer>
+  
+  <!-- Song Player -->
+  <div class="song-player">
+    <button id="playBtn" class="play-button" aria-label="Play/Pause">
+      <svg viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </button>
+    <div class="song-info">
+      <div class="song-title">Canción especial</div>
+      <div class="song-artist">Para ti 💕</div>
+    </div>
+  </div>
+  
+  <!-- Audio Element (Replace src with your song file) -->
+  <audio id="romanticSong" preload="auto">
+    <source src="/audio/song.mp3" type="audio/mpeg">
+    <source src="/audio/song.ogg" type="audio/ogg">
+  </audio>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
