@@ -1,0 +1,315 @@
+/* ────────────────────────────────────────────────────────── */
+.love-letter-intro {
+  gap: var(--spacing-md);
+}
+
+.love-letter-intro h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+}
+
+.letter-cta {
+  font-family: var(--font-body);
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  font-weight: 600;
+  padding: clamp(1rem, 3vw, 1.4rem) clamp(2.5rem, 6vw, 3.5rem);
+  background: var(--gradient-button);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  min-width: 250px;
+}
+
+.letter-cta:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(255, 107, 157, 0.5);
+}
+
+.letter-cta:active {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* MODAL - Fullscreen Love Letter Experience                  */
+/* ────────────────────────────────────────────────────────── */
+.love-letter-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 10001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+}
+
+.love-letter-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* ENVELOPE - 3D Animated Container                           */
+/* ────────────────────────────────────────────────────────── */
+.envelope-container {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  perspective: 1000px;
+  z-index: 10002;
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  transform-style: preserve-3d;
+  transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.envelope-body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5e6ea 0%, #e8d5e0 100%);
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(135deg, #e8c4d0 0%, #d4a5b8 100%);
+  border-radius: 8px 8px 0 0;
+  transform-origin: top center;
+  transition: transform 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+/* Opened state */
+.envelope-container.opened .envelope-flap {
+  transform: rotateX(-180deg);
+}
+
+.envelope-container.opened .envelope {
+  transform: translateY(-50px) scale(1.05);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* LETTER CONTENT - Paper with Typewriter Effect              */
+/* ────────────────────────────────────────────────────────── */
+.letter-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  max-height: 70vh;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease 2s;
+  overflow-y: auto;
+  padding: var(--spacing-sm);
+}
+
+.envelope-container.opened .letter-content {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.letter-paper {
+  background: linear-gradient(to bottom, #fffbf5 0%, #fef8f0 100%);
+  padding: clamp(2rem, 5vw, 4rem);
+  border-radius: 8px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  position: relative;
+  min-height: 400px;
+}
+
+/* Papel rayado sutil */
+.letter-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 39px,
+    rgba(200, 150, 150, 0.1) 39px,
+    rgba(200, 150, 150, 0.1) 40px
+  );
+  pointer-events: none;
+  border-radius: 8px;
+}
+
+.letter-text {
+  font-family: 'comic sans ms', 'Brush Script MT' ;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: #2A1F2D;
+  line-height: 2;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: left;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Typewriter cursor */
+.letter-text.typing::after {
+  content: '|';
+  animation: blink 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* CLOSE BUTTON                                                */
+/* ────────────────────────────────────────────────────────── */
+.close-letter {
+  display: block;
+  margin: var(--spacing-md) auto 0;
+  padding: 0.9rem 2.5rem;
+  background: var(--gradient-button);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.3);
+  transition: var(--transition-smooth);
+}
+
+.close-letter:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(255, 107, 157, 0.4);
+}
+
+.close-letter:active {
+  transform: translateY(-2px);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* FALLING PETALS ANIMATION                                    */
+/* ────────────────────────────────────────────────────────── */
+.petals-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  opacity: 0.7;
+  animation: fall linear forwards;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) translateX(0) rotate(0deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100vh) translateX(var(--x-offset, 50px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SCROLLBAR STYLING                                           */
+/* ────────────────────────────────────────────────────────── */
+.letter-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.letter-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.letter-content::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 10px;
+}
+
+.letter-content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* RESPONSIVE ADJUSTMENTS                                      */
+/* ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .envelope {
+    height: 300px;
+  }
+  
+  .letter-paper {
+    padding: clamp(1.5rem, 4vw, 2rem);
+    min-height: 300px;
+  }
+  
+  .letter-text {
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    line-height: 1.9;
+  }
+  
+  .letter-content {
+    max-height: 60vh;
+  }
+}
+
+/* Dark mode support */
+body.dark-mode .letter-paper {
+  background: linear-gradient(to bottom, #2a1f25 0%, #1f1520 100%);
+}
+
+body.dark-mode .letter-text {
+  color: #f5e6ea;
+}
+
+body.dark-mode .envelope-body {
+  background: linear-gradient(135deg, #3a2832 0%, #2d1f28 100%);
+}
+
+body.dark-mode .envelope-flap {
+  background: linear-gradient(135deg, #4a3540 0%, #3a2832 100%);
+}

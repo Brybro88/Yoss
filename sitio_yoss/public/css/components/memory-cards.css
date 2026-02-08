@@ -1,0 +1,314 @@
+/* ═══════════════════════════════════════════════════════════
+   MEMORY CARDS - Tarjetas Interactivas 3D
+   Sistema de descubrimiento con flip animation y mensajes
+   ═══════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────── */
+/* SECTION CONTAINER                                           */
+/* ────────────────────────────────────────────────────────── */
+.memory-game {
+  padding: clamp(4rem, 10vw, 8rem) var(--spacing-md);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2rem, 5vw, 3rem);
+}
+
+.memory-game h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+}
+
+.memory-game-intro {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: #3A2B3D;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-lg);
+  line-height: 1.8;
+}
+
+body.dark-mode .memory-game-intro {
+  color: #E8D5F2;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* CARDS GRID - Responsive Layout                             */
+/* ────────────────────────────────────────────────────────── */
+.memory-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  perspective: 1000px;
+}
+
+@media (min-width: 640px) {
+  .memory-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(2.5rem, 5vw, 4rem);
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--spacing-lg) 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .memory-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* INDIVIDUAL CARD - 3D Flip Container                        */
+/* ────────────────────────────────────────────────────────── */
+.memory-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease;
+  perspective: 1000px;
+  height: clamp(360px, 45vw, 460px);
+  transition: transform 0.3s ease;
+}
+
+.memory-card:hover {
+  transform: translateY(-8px);
+}
+
+.memory-card:active {
+  transform: translateY(-4px);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* CARD FLIP ANIMATION - Simple Fade Transition               */
+/* ────────────────────────────────────────────────────────── */
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* Front face visible by default */
+.memory-card-front {
+  background: var(--gradient-card);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Shimmer effect on front */
+.memory-card-front::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.8s;
+}
+
+.memory-card:hover .memory-card-front::before {
+  left: 100%;
+}
+
+/* Back Face - hidden by default */
+.memory-card-back {
+  background: linear-gradient(135deg, rgba(255, 183, 224, 0.95) 0%, rgba(201, 166, 232, 0.95) 100%);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  z-index: 1;
+}
+
+body.dark-mode .memory-card-back {
+  background: linear-gradient(135deg, rgba(212, 165, 216, 0.95) 0%, rgba(201, 166, 232, 0.95) 100%);
+}
+
+/* When flipped: hide front, show back */
+.memory-card.flipped .memory-card-front {
+  opacity: 0;
+  z-index: 1;
+}
+
+.memory-card.flipped .memory-card-back {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* CARD CONTENT                                                */
+/* ────────────────────────────────────────────────────────── */
+.card-icon {
+  font-size: clamp(3rem, 8vw, 5rem);
+  margin-bottom: var(--spacing-sm);
+  filter: drop-shadow(0 4px 12px rgba(255, 107, 157, 0.3));
+  animation: float-gentle 3s ease-in-out infinite;
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.card-message {
+  font-family: var(--font-elegant);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.8;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-weight: 500;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* GLOW EFFECT ON HOVER                                        */
+/* ────────────────────────────────────────────────────────── */
+.memory-card:hover .memory-card-front,
+.memory-card:hover .memory-card-back {
+  box-shadow: 
+    0 15px 50px rgba(255, 107, 157, 0.4),
+    0 0 40px rgba(255, 107, 157, 0.2);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* REVEAL ANIMATION - Cards appear on scroll                  */
+/* ────────────────────────────────────────────────────────── */
+.memory-card {
+  opacity: 0;
+  transform: translateY(50px) scale(0.9);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.memory-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Staggered reveal */
+.memory-card:nth-child(1).visible { transition-delay: 0.1s; }
+.memory-card:nth-child(2).visible { transition-delay: 0.2s; }
+.memory-card:nth-child(3).visible { transition-delay: 0.3s; }
+.memory-card:nth-child(4).visible { transition-delay: 0.4s; }
+.memory-card:nth-child(5).visible { transition-delay: 0.5s; }
+.memory-card:nth-child(6).visible { transition-delay: 0.6s; }
+.memory-card:nth-child(7).visible { transition-delay: 0.7s; }
+.memory-card:nth-child(8).visible { transition-delay: 0.8s; }
+
+/* ────────────────────────────────────────────────────────── */
+/* COMPLETION MESSAGE                                          */
+/* ────────────────────────────────────────────────────────── */
+.memory-completion {
+  margin-top: var(--spacing-lg);
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+}
+
+.memory-completion.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.memory-completion h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.memory-completion p {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: #3A2B3D;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+body.dark-mode .memory-completion p {
+  color: #E8D5F2;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* MOBILE OPTIMIZATIONS                                        */
+/* ────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .memory-cards-grid {
+    gap: var(--spacing-md);
+  }
+  
+  .memory-card {
+    aspect-ratio: 2/3;
+  }
+  
+  .card-icon {
+    font-size: clamp(2.5rem, 7vw, 4rem);
+  }
+  
+  .card-message {
+    font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+  }
+}
+
+/* Touch devices - add tap instruction */
+@media (hover: none) and (pointer: coarse) {
+  .memory-game-intro::after {
+    content: ' Toca las cartas para revelarlas.';
+    font-style: italic;
+    color: var(--color-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .memory-card-inner {
+    transition: transform 0.3s ease;
+  }
+  
+  .card-icon {
+    animation: none;
+  }
+  
+  .memory-card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+}

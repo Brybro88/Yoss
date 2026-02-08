@@ -465,29 +465,29 @@ document.addEventListener('DOMContentLoaded', initFlipCards);
 // ────────────────────────────────────────────────────────────
 const quizQuestions = [
   {
-    question: "¿Cuál es mi flor favorita?",
+    question: "¿Cuál es tu flor favorita?",
     options: ["Rosas", "Gerberas", "Tulipanes", "Girasoles"],
     correct: 1
   },
   {
-    question: "¿Hace cuánto reconectamos?",
-    options: ["1 mes", "2 meses", "3 meses", "6 meses"],
-    correct: 1
+    question: "Según este sitio, ¿qué es lo que más admiro de ti?",
+    options: ["Tu sonrisa", "Tu disciplina y pasión por la medicina", "Tu sentido del humor", "Tu manera de bailar"],
+    correct: 0
   },
   {
-    question: "¿Qué estoy estudiando?",
-    options: ["Derecho", "Medicina", "Ingeniería", "Psicología"],
-    correct: 1
-  },
-  {
-    question: "¿Cuántas razones te di de por qué eres especial?",
+    question: "¿Cuántas razones especiales te di en este sitio de por qué eres importante para mí?",
     options: ["3", "5", "6", "10"],
     correct: 2
   },
   {
-    question: "¿Cuántas gerberas hay en el confetti del corazón?",
-    options: ["4", "6", "8", "12"],
+    question: "Después de cuánto tiempo volvimos a hablar, según menciono en la carta?",
+    options: ["1 año", "Más de 2 años", "6 meses", "3 años"],
     correct: 1
+  },
+  {
+    question: "¿Cuál de estas promesas mencioné para nuestro futuro?",
+    options: ["Adoptar un perro juntos", "Mudarnos a la playa", "Aprender a tocar guitarra","Ir a misa en diferentes países"],
+    correct: 3
   }
 ];
 
@@ -581,10 +581,10 @@ function showResults() {
   let message = '';
   
   if (percentage === 100) {
-    message = `¡Perfecto! ${score}/${quizQuestions.length} - ¡Me conoces increíblemente bien! 💕`;
+    message = `¡Perfecto! ${score}/${quizQuestions.length} - ¡Increíblemente bien, como tú! 💕`;
   } else if (percentage >= 80) {
     message = `¡Excelente! ${score}/${quizQuestions.length} - ¡Prestas mucha atención! 🌸`;
-  } else if (percentage >= 60) {
+  } else if (percentage >= 60) { 
     message = `¡Bien! ${score}/${quizQuestions.length} - ¡Vamos conociendo más! 😊`;
   } else {
     message = `${score}/${quizQuestions.length} - ¡Hay más por descubrir juntos! 💫`;
@@ -833,3 +833,24 @@ function initConstellation() {
 
 document.addEventListener('DOMContentLoaded', initConstellation);
 
+// ────────────────────────────────────────────────────────────
+// 19. INITIALIZE NEW COMPONENTS
+// ────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize new romantic components
+  if (typeof initRomanticAnimations === 'function') {
+    initRomanticAnimations();
+  }
+  
+  if (typeof initLoveLetter === 'function') {
+    initLoveLetter();
+  }
+  
+  if (typeof initMemoryCards === 'function') {
+    initMemoryCards();
+  }
+  
+  if (typeof initNavigation === 'function') {
+    initNavigation();
+  }
+});

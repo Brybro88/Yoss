@@ -13,9 +13,36 @@
   <!-- Favicon - Gerbera emoji -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
   
+  <!-- Google Fonts - Handwriting -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/components/romantic-animations.css">
+  <link rel="stylesheet" href="/css/components/love-letter.css">
+  <link rel="stylesheet" href="/css/components/memory-cards.css">
+  <link rel="stylesheet" href="/css/components/navigation.css">
 </head>
 <body class="dark-mode">
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill"></div>
+  </div>
+
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" id="scrollToTop" aria-label="Volver arriba">
+    ↑
+  </button>
+
+  <!-- Floating Hearts Container -->
+  <div class="floating-hearts-container" id="floatingHearts"></div>
+
+  <!-- Star Field Container -->
+  <div class="star-field-container" id="starField"></div>
 
   <!-- Constellation Canvas Background -->
   <canvas id="constellation-canvas"></canvas>
@@ -55,6 +82,94 @@
       <div class="time-counter">
         <span class="time-counter-label">💕 Desde que reconectamos han pasado:</span>
         <span class="time-counter-value" id="timeCounter">Cargando...</span>
+      </div>
+    </section>
+
+    <!-- LOVE LETTER SECTION - Nueva -->
+    <section class="section love-letter-intro" id="letter">
+      <h2>Tengo algo especial para ti 💌</h2>
+      <p>
+        He guardado estas palabras por tanto tiempo...<br>
+        Creo que es momento de que las leas.
+      </p>
+      <button id="openLetterBtn" class="letter-cta">
+        Ábrelo solo si aún crees en nosotros ✨
+      </button>
+    </section>
+
+    <!-- MEMORY CARDS SECTION - Descubre nuestros recuerdos -->
+    <section class="section memory-game" id="memory-game">
+      <h2>Descubre nuestros recuerdos 🌌</h2>
+      <p class="memory-game-intro">
+        Voltea las cartas para revelar momentos especiales...
+      </p>
+      
+      <div class="memory-cards-grid">
+        <div class="memory-card" data-message="La primera vez que te vi, supe que eras especial. El tiempo solo lo confirmó.">
+          <div class="memory-card-inner">
+            <div class="memory-card-front">
+              <span class="card-icon">💕</span>
+            </div>
+            <div class="memory-card-back">
+              <p class="card-message"></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="memory-card" data-message="Tu risa es mi sonido favorito en todo el mundo. Me hace creer que todo va a estar bien.">
+          <div class="memory-card-inner">
+            <div class="memory-card-front">
+              <span class="card-icon">💖</span>
+            </div>
+            <div class="memory-card-back">
+              <p class="card-message"></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="memory-card" data-message="Admiro tu fortaleza para perseguir tus sueños. Me inspiras a ser mejor cada día.">
+          <div class="memory-card-inner">
+            <div class="memory-card-front">
+              <span class="card-icon">💗</span>
+            </div>
+            <div class="memory-card-back">
+              <p class="card-message"></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="memory-card" data-message="Cada conversación contigo se siente como volver a casa después de un largo viaje.">
+          <div class="memory-card-inner">
+            <div class="memory-card-front">
+              <span class="card-icon">💝</span>
+            </div>
+            <div class="memory-card-back">
+              <p class="card-message"></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="memory-card" data-message="Pienso en ti cuando veo algo bonito y pienso: 'Le gustaría ver esto'.">
+          <div class="memory-card-inner">
+            <div class="memory-card-front">
+              <span class="card-icon">💘</span>
+            </div>
+            <div class="memory-card-back">
+              <p class="card-message"></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="memory-card" data-message="Quiero ser la persona que esté ahí para ti en tus peores días y celebrar contigo en los mejores.">
+          <div class="memory-card-inner">
+            <div class="memory-card-front">
+              <span class="card-icon">💞</span>
+            </div>
+            <div class="memory-card-back">
+              <p class="card-message"></p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -273,6 +388,23 @@
 
   </main>
   
+  <!-- LOVE LETTER MODAL -->
+  <div id="loveLetterModal" class="love-letter-modal">
+    <div class="envelope-container">
+      <div class="envelope">
+        <div class="envelope-flap"></div>
+        <div class="envelope-body"></div>
+      </div>
+      <div class="letter-content">
+        <div class="letter-paper">
+          <p class="letter-text" id="letterText"></p>
+        </div>
+        <button class="close-letter">Cerrar 💖</button>
+      </div>
+    </div>
+    <div class="petals-container" id="petalsContainer"></div>
+  </div>
+  
   <!-- LIGHTBOX MODAL for Photos -->
   <div id="lightbox" class="lightbox">
     <div class="lightbox-content">
@@ -308,6 +440,13 @@
     <source src="/audio/ytmp3free.cc_lord-huron-the-night-we-met-official-audio-youtubemp3free.org.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- Component Scripts -->
+  <script src="/js/components/romanticAnimations.js"></script>
+  <script src="/js/components/loveLetter.js"></script>
+  <script src="/js/components/memoryCards.js"></script>
+  <script src="/js/components/navigation.js"></script>
+  
+  <!-- Main orchestrator -->
   <script src="/js/main.js"></script>
 </body>
 </html>

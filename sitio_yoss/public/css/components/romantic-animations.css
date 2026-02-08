@@ -1,0 +1,377 @@
+/* ═══════════════════════════════════════════════════════════
+   ROMANTIC ANIMATIONS - Sistema Global de Animaciones
+   Corazones flotantes, partículas, parallax y efectos mágicos
+   ═══════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────── */
+/* FLOATING HEARTS - Corazones Flotantes Globales             */
+/* ────────────────────────────────────────────────────────── */
+.floating-hearts-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0.25;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+  animation: floatHeart linear infinite;
+}
+
+@keyframes floatHeart {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) translateX(var(--drift, 50px)) rotate(var(--rotation, 180deg)) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Dark mode hearts - lighter color */
+body.dark-mode .floating-heart {
+  opacity: 0.15;
+  filter: saturate(1.5);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* STAR FIELD - Campo de Estrellas de Fondo                   */
+/* ────────────────────────────────────────────────────────── */
+.star-field-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: twinkle 3s ease-in-out infinite;
+  color: var(--color-primary);
+}
+
+.star.small {
+  width: 1px;
+  height: 1px;
+  opacity: 0.4;
+}
+
+.star.large {
+  width: 3px;
+  height: 3px;
+  opacity: 0.8;
+  box-shadow: 0 0 4px currentColor;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+body.dark-mode .star {
+  color: var(--color-accent);
+  opacity: 0.8;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* ANIMATED GRADIENT BACKGROUND - Fondo con Gradiente Vivo    */
+/* ────────────────────────────────────────────────────────── */
+.animated-gradient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: var(--gradient-main);
+  background-size: 200% 200%;
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* PARALLAX ELEMENTS - Elementos con Efecto Parallax          */
+/* ────────────────────────────────────────────────────────── */
+.parallax-layer {
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.parallax-layer.slow {
+  transform: translateY(calc(var(--scroll-offset, 0) * 0.2px));
+}
+
+.parallax-layer.medium {
+  transform: translateY(calc(var(--scroll-offset, 0) * 0.5px));
+}
+
+.parallax-layer.fast {
+  transform: translateY(calc(var(--scroll-offset, 0) * 0.8px));
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SECTION TRANSITIONS - Transiciones Cinemáticas             */
+/* ────────────────────────────────────────────────────────── */
+.section-transition {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-transition::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to bottom, transparent 0%, var(--gradient-main) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.section-transition::after {
+  content: '';
+  position: absolute;
+  top: -75px;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to top, transparent 0%, var(--gradient-main) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SPARKLE BURST - Explosión de Brillos                       */
+/* ────────────────────────────────────────────────────────── */
+.sparkle-burst {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 1.5rem;
+  animation: sparkleBurst 1s ease-out forwards;
+}
+
+@keyframes sparkleBurst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--burst-x, 0px)), 
+      calc(-50% + var(--burst-y, 0px))
+    ) scale(1.5) rotate(360deg);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* GLOW PULSE - Resplandor Pulsante                           */
+/* ────────────────────────────────────────────────────────── */
+.glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 107, 157, 0.6);
+  }
+}
+
+body.dark-mode .glow-pulse {
+  animation: glowPulseDark 2s ease-in-out infinite;
+}
+
+@keyframes glowPulseDark {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 165, 216, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 165, 216, 0.7);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SHIMMER EFFECT - Efecto Brillante en Textos                */
+/* ────────────────────────────────────────────────────────── */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 50%,
+    var(--color-primary) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* BOUNCE IN - Entrada con Rebote                             */
+/* ────────────────────────────────────────────────────────── */
+.bounce-in {
+  animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* FADE IN SCALE - Aparición con Escala                       */
+/* ────────────────────────────────────────────────────────── */
+.fade-in-scale {
+  animation: fadeInScale 0.8s ease-out;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SLIDE IN FROM SIDES - Deslizamiento Lateral                */
+/* ────────────────────────────────────────────────────────── */
+.slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.8s ease-out;
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* PERFORMANCE OPTIMIZATIONS                                   */
+/* ────────────────────────────────────────────────────────── */
+
+/* GPU acceleration for smooth animations */
+.floating-heart,
+.star,
+.sparkle-burst,
+.parallax-layer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduce animations on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  .floating-heart,
+  .star,
+  .sparkle-burst,
+  .glow-pulse,
+  .shimmer-text,
+  .bounce-in,
+  .fade-in-scale,
+  .slide-in-left,
+  .slide-in-right {
+    animation: none !important;
+  }
+  
+  .parallax-layer {
+    transform: none !important;
+  }
+  
+  .animated-gradient-bg {
+    animation: none !important;
+  }
+}
+
+/* Hide complex animations on mobile for performance */
+@media (max-width: 768px) and (hover: none) {
+  .floating-hearts-container,
+  .star-field-container {
+    display: none;
+  }
+}

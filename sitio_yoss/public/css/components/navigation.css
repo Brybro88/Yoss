@@ -1,0 +1,304 @@
+/* ═══════════════════════════════════════════════════════════
+   CINEMATIC NAVIGATION - Navegación Romántica Mejorada
+   Navbar translúcido, indicador de progreso, scroll to top
+   ═══════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────── */
+/* READING PROGRESS BAR - Barra de Progreso de Lectura        */
+/* ────────────────────────────────────────────────────────── */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.reading-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  box-shadow: 0 0 10px var(--color-primary);
+  transition: width 0.1s ease;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* ROMANTIC NAVBAR - Navegación Translúcida                   */
+/* ────────────────────────────────────────────────────────── */
+.romantic-navbar {
+  position: fixed;
+  top: var(--spacing-sm);
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: var(--gradient-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.romantic-navbar.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.romantic-navbar.hidden {
+  transform: translateX(-50%) translateY(-100px);
+  opacity: 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin: 0;
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  color: #2A1F2D;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  display: block;
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::before,
+.nav-links a.active::before {
+  width: 80%;
+}
+
+.nav-links a:hover {
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.nav-links a.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Dark mode navbar */
+body.dark-mode .romantic-navbar {
+  border-color: rgba(255, 183, 224, 0.2);
+  box-shadow: 0 8px 32px rgba(212, 165, 216, 0.2);
+}
+
+body.dark-mode .nav-links a {
+  color: #E8D5F2;
+}
+
+body.dark-mode .nav-links a:hover {
+  background: rgba(212, 165, 216, 0.2);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SCROLL TO TOP BUTTON - Botón Flotante                      */
+/* ────────────────────────────────────────────────────────── */
+.scroll-to-top {
+  position: fixed;
+  bottom: calc(var(--spacing-md) + 80px); /* Above music player */
+  right: var(--spacing-md);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--gradient-button);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.4);
+  z-index: 9998;
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 12px 36px rgba(255, 107, 157, 0.5);
+}
+
+.scroll-to-top:active {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SECTION INDICATORS - Indicadores de Sección Activa         */
+/* ────────────────────────────────────────────────────────── */
+.section-indicator {
+  position: fixed;
+  left: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 9997;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.section-indicator.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.section-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.section-dot.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px var(--color-primary);
+  transform: scale(1.3);
+}
+
+.section-dot:hover {
+  transform: scale(1.2);
+  background: rgba(255, 107, 157, 0.5);
+}
+
+/* Tooltip for section dots */
+.section-dot::after {
+  content: attr(data-section);
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.section-dot:hover::after {
+  opacity: 1;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* RESPONSIVE ADJUSTMENTS                                      */
+/* ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .romantic-navbar {
+    top: auto;
+    bottom: var(--spacing-sm);
+    padding: 0.6rem 1.2rem;
+  }
+  
+  .nav-links {
+    gap: 0.8rem;
+  }
+  
+  .nav-links a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .section-indicator {
+    display: none; /* Hide on mobile */
+  }
+  
+  .scroll-to-top {
+    bottom: calc(var(--spacing-md) + 120px); /* Above navbar and player */
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 0.5rem;
+  }
+  
+  .nav-links a {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Hide navbar when scrolling down, show when scrolling up */
+.romantic-navbar.scroll-down {
+  transform: translateX(-50%) translateY(-100px);
+  opacity: 0;
+}
+
+.romantic-navbar.scroll-up {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SMOOTH SCROLL BEHAVIOR                                      */
+/* ────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .romantic-navbar,
+  .scroll-to-top,
+  .reading-progress-fill {
+    transition: none;
+  }
+}

@@ -960,7 +960,8 @@ body.dark-mode .secret-word::before {
 
 .flip-card {
   perspective: 1000px;
-  height: 380px;
+  height: clamp(280px, 35vw, 320px);
+  aspect-ratio: 4/3;
   cursor: pointer;
 }
 
@@ -968,12 +969,6 @@ body.dark-mode .secret-word::before {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transform-style: preserve-3d;
-}
-
-.flip-card.flipped .flip-card-inner {
-  transform: rotateY(180deg);
 }
 
 .flip-card-front,
@@ -981,7 +976,6 @@ body.dark-mode .secret-word::before {
   position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -989,17 +983,32 @@ body.dark-mode .secret-word::before {
   justify-content: center;
   padding: var(--spacing-md);
   box-shadow: var(--shadow-soft);
+  transition: opacity 0.6s ease;
 }
 
 .flip-card-front {
   background: var(--gradient-card);
   backdrop-filter: var(--blur-glass);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  opacity: 1;
+  z-index: 2;
 }
 
 .flip-card-back {
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  transform: rotateY(180deg);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* When flipped: fade out front, fade in back */
+.flip-card.flipped .flip-card-front {
+  opacity: 0;
+  z-index: 1;
+}
+
+.flip-card.flipped .flip-card-back {
+  opacity: 1;
+  z-index: 2;
 }
 
 .flip-card-front h3 {
