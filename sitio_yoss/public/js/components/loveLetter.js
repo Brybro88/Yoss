@@ -112,19 +112,23 @@ function closeLetter() {
 }
 
 /**
- * Efecto máquina de escribir para el texto de la carta
+ * Efecto de escritura a mano para el texto de la carta
+ * Simula escritura con lápiz con velocidad variable y movimientos naturales
  * @param {HTMLElement} element - Elemento donde se escribirá el texto
  * @param {string} text - Texto a escribir
- * @param {number} speed - Velocidad en ms por caracter (default: 100ms para lectura muy pausada)
+ * @param {number} baseSpeed - Velocidad base en ms por caracter (default: 100ms)
  */
-function startTypewriter(element, text, speed = 100) {
+function startTypewriter(element, text, baseSpeed = 100) {
   let index = 0;
   element.textContent = '';
   element.classList.add('typing');
   
-  const typeInterval = setInterval(() => {
+  function writeNextChar() {
     if (index < text.length) {
-      element.textContent += text.charAt(index);
+      const char = text.charAt(index);
+      
+      // Simplemente agregar el carácter sin envolverlo en span
+      element.textContent += char;
       index++;
       
       // Auto-scroll al final del texto
@@ -132,11 +136,31 @@ function startTypewriter(element, text, speed = 100) {
       if (letterContent) {
         letterContent.scrollTop = letterContent.scrollHeight;
       }
+      
+      // Velocidad variable para simular escritura humana
+      let nextDelay = baseSpeed;
+      
+      // Pausas más largas después de puntuación
+      if (char === '.' || char === '!' || char === '?') {
+        nextDelay = baseSpeed * 3; // Pausa después de oración
+      } else if (char === ',' || char === ';') {
+        nextDelay = baseSpeed * 1.5; // Pausa después de coma
+      } else if (char === '\n') {
+        nextDelay = baseSpeed * 2; // Pausa en saltos de línea
+      } else if (char === ' ') {
+        nextDelay = baseSpeed * 0.8; // Espacios ligeramente más rápidos
+      } else {
+        // Variación aleatoria para naturalidad (±30%)
+        nextDelay = baseSpeed * (0.7 + Math.random() * 0.6);
+      }
+      
+      setTimeout(writeNextChar, nextDelay);
     } else {
-      clearInterval(typeInterval);
       element.classList.remove('typing');
     }
-  }, speed);
+  }
+  
+  writeNextChar();
 }
 
 /**

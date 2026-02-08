@@ -113,17 +113,15 @@
   transform: translateY(-50px) scale(1.05);
 }
 
-/* ────────────────────────────────────────────────────────── */
-/* LETTER CONTENT - Paper with Typewriter Effect              */
-/* ────────────────────────────────────────────────────────── */
+
 .letter-content {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 600px;
-  max-height: 70vh;
+  width: 92%;
+  max-width: 750px;
+  max-height: 75vh;
   opacity: 0;
   pointer-events: none;
   transition: opacity 1s ease 2s;
@@ -137,14 +135,17 @@
 }
 
 .letter-paper {
-  background: linear-gradient(to bottom, #fffbf5 0%, #fef8f0 100%);
-  padding: clamp(2rem, 5vw, 4rem);
+  background: linear-gradient(to bottom, #f9f6f0 0%, #f5f0e8 100%);
+  padding: clamp(2.5rem, 6vw, 5rem);
   border-radius: 8px;
   box-shadow: 
     0 10px 40px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   position: relative;
-  min-height: 400px;
+  min-height: 500px;
+  border-left: 3px solid #e8c4d0;
+  max-width: 100%;
+  width: 100%;
 }
 
 /* Papel rayado sutil */
@@ -166,29 +167,48 @@
 }
 
 .letter-text {
-  font-family: 'comic sans ms', 'Brush Script MT' ;
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  color: #2A1F2D;
-  line-height: 2;
+  font-family: 'comic sans ms';
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: #3d3344;
+  line-height: 2.2;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: normal;
+  word-break: normal;
   text-align: left;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.3px;
   position: relative;
   z-index: 1;
+  
+  /* Efecto de tinta manuscrita */
+  text-shadow: 
+    0.5px 0.5px 0.5px rgba(61, 51, 68, 0.3),
+    -0.3px -0.3px 0.3px rgba(61, 51, 68, 0.2);
 }
 
-/* Typewriter cursor */
+body.dark-mode .letter-text {
+  color: #E8D5F2;
+}
+
+/* Handwriting animation - no longer needed since we don't use spans */
+
+/* Cursor parpadeante mientras escribe */
 .letter-text.typing::after {
   content: '|';
-  animation: blink 1s infinite;
+  display: inline-block;
   margin-left: 2px;
+  opacity: 0.8;
+  animation: blinkCursor 0.8s infinite;
+  color: var(--color-primary);
 }
 
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+@keyframes blinkCursor {
+  0%, 49% {
+    opacity: 0.8;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
 }
 
 /* ────────────────────────────────────────────────────────── */
