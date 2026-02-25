@@ -23,8 +23,32 @@
   <link rel="stylesheet" href="/css/components/love-letter.css">
   <link rel="stylesheet" href="/css/components/memory-cards.css">
   <link rel="stylesheet" href="/css/components/navigation.css">
+  <link rel="stylesheet" href="/css/components/user-bar.css">
+  <link rel="stylesheet" href="/css/components/shared-space.css">
+  <link rel="stylesheet" href="/css/components/moment-popup.css">
 </head>
 <body class="dark-mode">
+
+  <!-- User Bar - Saludo + Espacio Compartido + Logout -->
+  <div class="user-bar" id="userBar">
+    <div class="user-bar__greeting">
+      <span class="user-bar__avatar">🌸</span>
+      <span>Hola, <span class="user-bar__name" id="userName">...</span> 💖</span>
+    </div>
+    <div class="user-bar__divider"></div>
+    <button class="user-bar__space-btn" id="sharedSpaceBtn">
+      <span>🌌</span>
+      <span>Nuestro Espacio</span>
+      <span class="user-bar__badge hidden" id="unreadBadge">0</span>
+    </button>
+    <button class="user-bar__logout" id="logoutBtn" title="Cerrar sesión">
+      <svg viewBox="0 0 24 24">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+    </button>
+  </div>
 
   <!-- Reading Progress Bar -->
   <div class="reading-progress">
@@ -439,6 +463,64 @@
   <audio id="romanticSong" preload="auto">
     <source src="/audio/ytmp3free.cc_lord-huron-the-night-we-met-official-audio-youtubemp3free.org.mp3" type="audio/mpeg">
   </audio>
+
+  <!-- ═══ SHARED SPACE MODAL ═══ -->
+  <div class="shared-space-overlay" id="sharedSpaceOverlay">
+    <div class="shared-space">
+      <div class="shared-space__header">
+        <span class="shared-space__title">🌌 Nuestro Espacio</span>
+        <button class="shared-space__close" id="sharedSpaceClose">✕</button>
+      </div>
+
+      <div class="shared-space__tabs">
+        <button class="shared-space__tab active" data-tab="panelThoughts">💭 Pensamientos</button>
+        <button class="shared-space__tab" data-tab="panelLetters">💌 Cartas <span class="shared-space__tab-badge hidden" id="letterTabBadge">0</span></button>
+      </div>
+
+      <div class="shared-space__content">
+        <!-- THOUGHTS PANEL -->
+        <div class="shared-space__panel active" id="panelThoughts">
+          <form class="compose-form" id="thoughtForm">
+            <button type="button" class="compose-form__emoji-btn" id="thoughtEmojiBtn" title="Cambiar emoji">💭</button>
+            <input class="compose-form__input" id="thoughtInput" placeholder="¿Qué estás pensando? 💖" maxlength="500" autocomplete="off" />
+            <button type="submit" class="compose-form__send">Compartir</button>
+          </form>
+          <div id="thoughtFeed"></div>
+        </div>
+
+        <!-- LETTERS PANEL -->
+        <div class="shared-space__panel" id="panelLetters">
+          <form class="compose-form compose-form--letter" id="letterForm">
+            <textarea class="compose-form__input" id="letterInput" placeholder="Escribe una carta especial... 💌" maxlength="5000" rows="4"></textarea>
+            <button type="submit" class="compose-form__send">Enviar carta 💌</button>
+          </form>
+          <div id="letterFeed"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MOMENTO ESPECIAL POPUP ═══ -->
+  <div class="moment-popup-overlay" id="momentPopupOverlay">
+    <div class="moment-popup__sparkles">
+      <div class="moment-popup__sparkle"></div>
+      <div class="moment-popup__sparkle"></div>
+      <div class="moment-popup__sparkle"></div>
+      <div class="moment-popup__sparkle"></div>
+      <div class="moment-popup__sparkle"></div>
+    </div>
+    <div class="moment-popup">
+      <div class="moment-popup__emoji" id="momentPopupEmoji">💖</div>
+      <h2 class="moment-popup__title" id="momentPopupTitle"></h2>
+      <div class="moment-popup__divider"></div>
+      <div class="moment-popup__content" id="momentPopupContent"></div>
+      <button class="moment-popup__close" id="momentPopupClose">💖 He leído tu sorpresa</button>
+    </div>
+  </div>
+
+  <!-- Session (must load first) -->
+  <script src="/js/components/userSession.js"></script>
+  <script src="/js/components/sharedSpace.js"></script>
 
   <!-- Component Scripts -->
   <script src="/js/components/romanticAnimations.js"></script>

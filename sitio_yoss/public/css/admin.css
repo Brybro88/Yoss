@@ -1,0 +1,493 @@
+/**
+ * admin.css — Estilos del Panel de Administración de Bryan
+ * 
+ * Estética: dark glassmorphism consistente con el sitio principal,
+ * pero con un toque más "dashboard" y funcional.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ─── Variables ─── */
+:root {
+  --admin-bg: #0d0a1a;
+  --admin-card: rgba(26, 10, 46, 0.6);
+  --admin-border: rgba(255, 182, 193, 0.12);
+  --admin-accent: #e8457a;
+  --admin-accent-glow: rgba(232, 69, 122, 0.3);
+  --admin-text: #e8d5f2;
+  --admin-text-muted: rgba(232, 213, 242, 0.6);
+  --admin-success: #4ade80;
+  --admin-warning: #fbbf24;
+  --admin-danger: #f87171;
+  --admin-radius: 16px;
+  --admin-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Reset & Base ─── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--admin-bg);
+  color: var(--admin-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background gradient */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(232, 69, 122, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+  z-index: -1;
+}
+
+/* ─── Header ─── */
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--admin-card);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--admin-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-header__logo {
+  font-size: 1.5rem;
+}
+
+.admin-header__title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e8457a, #d4a5d8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.admin-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--admin-transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #e8457a, #c73568);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 16px var(--admin-accent-glow);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--admin-accent-glow);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--admin-text);
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn--danger {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: rgba(248, 113, 113, 0.3);
+  color: var(--admin-danger);
+}
+
+.btn--danger:hover {
+  background: rgba(248, 113, 113, 0.25);
+}
+
+.btn--sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* ─── Main Content ─── */
+.admin-main {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1.5rem 3rem;
+}
+
+/* ─── Section Cards ─── */
+.admin-section {
+  background: var(--admin-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  transition: var(--admin-transition);
+}
+
+.admin-section:hover {
+  border-color: rgba(255, 182, 193, 0.2);
+}
+
+.admin-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-section__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-section__badge {
+  background: var(--admin-accent);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+/* ─── Momento Form ─── */
+.moment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--admin-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--admin-text);
+  transition: var(--admin-transition);
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 3px var(--admin-accent-glow);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--admin-text-muted);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+}
+
+.emoji-select {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.emoji-select button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.emoji-select button:hover,
+.emoji-select button.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--admin-accent);
+  transform: scale(1.15);
+}
+
+/* ─── Moment Cards ─── */
+.moment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.moment-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: var(--admin-transition);
+  animation: fadeSlideIn 0.3s ease;
+}
+
+.moment-card:hover {
+  border-color: rgba(255, 182, 193, 0.25);
+}
+
+.moment-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.moment-card__emoji {
+  font-size: 1.8rem;
+  margin-right: 0.75rem;
+}
+
+.moment-card__info {
+  flex: 1;
+}
+
+.moment-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.moment-card__meta {
+  font-size: 0.75rem;
+  color: var(--admin-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.moment-card__content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(232, 213, 242, 0.85);
+  white-space: pre-line;
+}
+
+.moment-card__status {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  font-weight: 500;
+}
+
+.status-badge--active {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--admin-success);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.status-badge--seen {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--admin-warning);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.status-badge--inactive {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--admin-text-muted);
+  border: 1px solid var(--admin-border);
+}
+
+/* ─── Quick Stats ─── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--admin-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 1.25rem;
+  text-align: center;
+  transition: var(--admin-transition);
+}
+
+.stat-card:hover {
+  border-color: rgba(255, 182, 193, 0.25);
+  transform: translateY(-2px);
+}
+
+.stat-card__value {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e8457a, #d4a5d8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-card__label {
+  font-size: 0.75rem;
+  color: var(--admin-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.3rem;
+}
+
+/* ─── Empty State ─── */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--admin-text-muted);
+}
+
+.empty-state__emoji {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state__text {
+  font-size: 0.9rem;
+}
+
+/* ─── Toast Notifications ─── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  backdrop-filter: blur(16px);
+  z-index: 10000;
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+  max-width: 350px;
+}
+
+.toast--success {
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: var(--admin-success);
+}
+
+.toast--error {
+  background: rgba(248, 113, 113, 0.15);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: var(--admin-danger);
+}
+
+/* ─── Animations ─── */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .admin-header {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .admin-header__actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .admin-main {
+    padding: 0 1rem 2rem;
+    margin: 1rem auto;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

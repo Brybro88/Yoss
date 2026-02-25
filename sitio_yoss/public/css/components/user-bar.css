@@ -1,0 +1,233 @@
+/* ═══════════════════════════════════════════════════════════
+   USER BAR - Barra flotante de usuario autenticado
+   Saludo personalizado + Botón espacio compartido + Logout
+   ═══════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────── */
+/* CONTAINER                                                    */
+/* ────────────────────────────────────────────────────────── */
+.user-bar {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  background: rgba(26, 10, 46, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 182, 193, 0.15);
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 10001;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  pointer-events: none;
+}
+
+.user-bar.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* USER GREETING                                                */
+/* ────────────────────────────────────────────────────────── */
+.user-bar__greeting {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "Dancing Script", cursive;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f0e6ff;
+  white-space: nowrap;
+}
+
+.user-bar__avatar {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.user-bar__name {
+  background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* DIVIDER                                                      */
+/* ────────────────────────────────────────────────────────── */
+.user-bar__divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 182, 193, 0.2);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* SHARED SPACE BUTTON                                          */
+/* ────────────────────────────────────────────────────────── */
+.user-bar__space-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.8rem;
+  font-family: "Dancing Script", cursive;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0e6ff;
+  background: rgba(255, 105, 180, 0.15);
+  border: 1px solid rgba(255, 105, 180, 0.25);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.user-bar__space-btn:hover {
+  background: rgba(255, 105, 180, 0.3);
+  border-color: rgba(255, 105, 180, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+}
+
+/* Unread badge */
+.user-bar__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  background: #ff1493;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(255, 20, 147, 0.5);
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+.user-bar__badge.hidden {
+  display: none;
+}
+
+@keyframes badgePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* LOGOUT BUTTON                                                */
+/* ────────────────────────────────────────────────────────── */
+.user-bar__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: rgba(240, 230, 255, 0.5);
+}
+
+.user-bar__logout svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.user-bar__logout:hover {
+  background: rgba(255, 69, 100, 0.2);
+  border-color: rgba(255, 69, 100, 0.3);
+  color: #ff6b6b;
+  transform: scale(1.1);
+}
+
+.user-bar__logout:active {
+  transform: scale(0.95);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* LIGHT MODE OVERRIDES                                         */
+/* ────────────────────────────────────────────────────────── */
+body:not(.dark-mode) .user-bar {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 182, 193, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .user-bar__greeting {
+  color: #2a1f2d;
+}
+
+body:not(.dark-mode) .user-bar__name {
+  background: linear-gradient(135deg, #ff69b4, #c71585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body:not(.dark-mode) .user-bar__space-btn {
+  color: #2a1f2d;
+  background: rgba(255, 105, 180, 0.1);
+}
+
+body:not(.dark-mode) .user-bar__logout {
+  color: rgba(42, 31, 45, 0.4);
+}
+
+body:not(.dark-mode) .user-bar__logout:hover {
+  color: #e74c3c;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* RESPONSIVE                                                   */
+/* ────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .user-bar {
+    top: auto;
+    bottom: 80px; /* Above song player */
+    right: 10px;
+    padding: 0.4rem 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .user-bar__greeting {
+    font-size: 0.85rem;
+  }
+
+  .user-bar__space-btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .user-bar__space-btn span:last-child {
+    display: none; /* Hide text, keep emoji on mobile */
+  }
+}

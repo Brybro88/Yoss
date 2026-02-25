@@ -1,0 +1,172 @@
+/**
+ * moment-popup.css — Popup fullscreen romántico para Momentos Especiales
+ * 
+ * Se muestra a Yoss cuando hay un Momento activo que no ha visto.
+ * Estilo: fullscreen overlay con glassmorphism, animación de entrada,
+ * y botón para cerrar/marcar como visto.
+ */
+
+/* ─── Overlay ─── */
+.moment-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 2, 15, 0.92);
+  backdrop-filter: blur(24px);
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.moment-popup-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ─── Card ─── */
+.moment-popup {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  transform: scale(0.85) translateY(30px);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.moment-popup-overlay.visible .moment-popup {
+  transform: scale(1) translateY(0);
+}
+
+/* ─── Emoji hero ─── */
+.moment-popup__emoji {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(232, 69, 122, 0.5));
+}
+
+/* ─── Title ─── */
+.moment-popup__title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.25rem;
+  line-height: 1.3;
+  text-shadow: 0 2px 20px rgba(232, 69, 122, 0.4);
+}
+
+/* ─── Content ─── */
+.moment-popup__content {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: rgba(232, 213, 242, 0.9);
+  line-height: 1.8;
+  white-space: pre-line;
+  margin-bottom: 2rem;
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: 0 0.5rem;
+}
+
+/* Custom scrollbar */
+.moment-popup__content::-webkit-scrollbar {
+  width: 4px;
+}
+.moment-popup__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.moment-popup__content::-webkit-scrollbar-thumb {
+  background: rgba(232, 69, 122, 0.3);
+  border-radius: 4px;
+}
+
+/* ─── Divider ─── */
+.moment-popup__divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(232, 69, 122, 0.6), transparent);
+  margin: 0 auto 1.5rem;
+}
+
+/* ─── Close button ─── */
+.moment-popup__close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.8rem;
+  background: linear-gradient(135deg, rgba(232, 69, 122, 0.2), rgba(139, 92, 246, 0.2));
+  border: 1px solid rgba(255, 182, 193, 0.25);
+  border-radius: 50px;
+  color: white;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.moment-popup__close:hover {
+  background: linear-gradient(135deg, rgba(232, 69, 122, 0.35), rgba(139, 92, 246, 0.35));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(232, 69, 122, 0.2);
+}
+
+/* ─── Sparkle decoration ─── */
+.moment-popup__sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.moment-popup__sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 182, 193, 0.6);
+  border-radius: 50%;
+  animation: sparkleFloat 3s ease-in-out infinite;
+}
+
+.moment-popup__sparkle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.moment-popup__sparkle:nth-child(2) { left: 80%; top: 15%; animation-delay: 0.5s; }
+.moment-popup__sparkle:nth-child(3) { left: 20%; top: 70%; animation-delay: 1s; }
+.moment-popup__sparkle:nth-child(4) { left: 85%; top: 65%; animation-delay: 1.5s; }
+.moment-popup__sparkle:nth-child(5) { left: 50%; top: 85%; animation-delay: 2s; }
+
+/* ─── Animations ─── */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-15px) scale(1.5);
+  }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .moment-popup {
+    max-width: 100%;
+  }
+  
+  .moment-popup__emoji {
+    font-size: 3rem;
+  }
+  
+  .moment-popup__content {
+    max-height: 50vh;
+  }
+}

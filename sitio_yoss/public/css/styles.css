@@ -1187,7 +1187,7 @@ body.dark-mode .secret-word::before {
 .theme-toggle {
   position: fixed;
   top: var(--spacing-md);
-  right: var(--spacing-md);
+  left: var(--spacing-md);
   width: 50px;
   height: 50px;
   border-radius: 50%;
