@@ -5,7 +5,7 @@
 const { Router } = require('express');
 const { getLetters, createLetter, deleteLetter, updateLetter } = require('../controllers/letterController');
 const { protect } = require('../middlewares/authMiddleware');
-const requireAdmin = require('../middleware/requireAdmin');
+const { requireAdmin } = require('../middlewares/authMiddleware');
 
 const router = Router();
 

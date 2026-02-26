@@ -33,6 +33,10 @@ const sendTokenCookie = (res, userId) => {
 
 /**
  * POST /api/auth/login
+ * Envía credenciales y recibe cookie JWT de sesión si son correctas.
+ * @param {import('express').Request} req - Express Request object (body: username, password)
+ * @param {import('express').Response} res - Express Response object
+ * @param {import('express').NextFunction} next - Express Next function
  */
 const login = async (req, res, next) => {
   try {

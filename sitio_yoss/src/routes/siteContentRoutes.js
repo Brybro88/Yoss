@@ -7,7 +7,7 @@
 const express = require('express');
 const { getSiteContent, updateSiteContent } = require('../controllers/siteContentController');
 const { protect } = require('../middlewares/authMiddleware');
-const requireAdmin = require('../middleware/requireAdmin');
+const { requireAdmin } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 

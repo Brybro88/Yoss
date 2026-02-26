@@ -28,8 +28,17 @@ const app = express();
 // ─── Middlewares globales de seguridad y utilidad ───
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Desactivar CSP para permitir fonts/scripts externos
-  }),
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+        imgSrc: ["'self'", 'data:'],
+        connectSrc: ["'self'"]
+      }
+    }
+  })
 );
 app.use(
   cors({
