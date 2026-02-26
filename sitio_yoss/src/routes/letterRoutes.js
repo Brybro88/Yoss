@@ -3,8 +3,9 @@
  */
 
 const { Router } = require('express');
-const { getLetters, createLetter, markAsRead } = require('../controllers/letterController');
+const { getLetters, createLetter, deleteLetter, updateLetter } = require('../controllers/letterController');
 const { protect } = require('../middlewares/authMiddleware');
+const requireAdmin = require('../middleware/requireAdmin');
 
 const router = Router();
 
@@ -12,7 +13,8 @@ const router = Router();
 router.use(protect);
 
 router.get('/', getLetters);
-router.post('/', createLetter);
-router.patch('/:id', markAsRead);
+router.post('/', requireAdmin, createLetter);
+router.put('/:id', requireAdmin, updateLetter);
+router.delete('/:id', requireAdmin, deleteLetter);
 
 module.exports = router;

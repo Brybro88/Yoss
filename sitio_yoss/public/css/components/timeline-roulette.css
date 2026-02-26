@@ -1,0 +1,260 @@
+/**
+ * css/components/timeline-roulette.css
+ * Estilos para el Timeline de la historia y la Ruleta de citas
+ */
+
+/* ─── TIMELINE ─── */
+.timeline-section {
+  padding: 4rem 1rem;
+  background: linear-gradient(to bottom, rgba(26, 10, 46, 0.5), rgba(42, 18, 56, 0.8));
+}
+
+.timeline-intro {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  font-style: italic;
+}
+
+.timeline-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.timeline-track {
+  position: relative;
+}
+
+/* La línea central */
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background: rgba(255, 105, 180, 0.3);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+}
+
+.timeline-item--left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item--right {
+  left: 50%;
+  text-align: left;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 1.5rem;
+  width: 16px;
+  height: 16px;
+  background: var(--primary-color);
+  border: 4px solid var(--bg-dark);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--primary-color);
+  z-index: 1;
+}
+
+.timeline-item--left .timeline-dot {
+  right: -12px;
+}
+
+.timeline-item--right .timeline-dot {
+  left: -12px;
+}
+
+.timeline-content {
+  background: rgba(42, 18, 56, 0.6);
+  border: 1px solid rgba(255, 105, 180, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
+  border-color: rgba(255, 105, 180, 0.4);
+}
+
+.timeline-date {
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.timeline-title {
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.timeline-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.timeline-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* Responsividad Timeline */
+@media (max-width: 768px) {
+  .timeline-track::before {
+    left: 20px;
+  }
+  
+  .timeline-item {
+    width: 100%;
+    left: 0 !important;
+    padding-left: 50px;
+    padding-right: 0;
+    text-align: left;
+  }
+  
+  .timeline-dot {
+    left: 12px !important;
+    right: auto !important;
+  }
+}
+
+/* ─── RULETA DE CITAS ─── */
+.date-roulette {
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.roulette-intro {
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.roulette-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.roulette-wheel {
+  background: radial-gradient(circle at center, rgba(42, 18, 56, 0.9), rgba(26, 10, 46, 0.9));
+  border: 4px solid var(--primary-color);
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.2), inset 0 0 20px rgba(255, 105, 180, 0.1);
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.roulette-wheel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 105, 180, 0.1) 60deg,
+    transparent 120deg,
+    rgba(255, 105, 180, 0.1) 180deg,
+    transparent 240deg,
+    rgba(255, 105, 180, 0.1) 300deg
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.roulette-emoji {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+}
+
+.roulette-text {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* Animación de giro de ruleta */
+@keyframes spinRoulette {
+  0% { transform: scale(0.95) rotate(0deg); opacity: 0.8; }
+  50% { transform: scale(1.05) rotate(180deg); opacity: 0.5; filter: blur(2px); }
+  100% { transform: scale(1) rotate(360deg); opacity: 1; filter: blur(0); }
+}
+
+@keyframes spinText {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.roulette-text.spinning {
+  animation: spinText 0.3s infinite alternate;
+}
+
+.roulette-wheel:has(+ .roulette-btn:disabled) {
+  animation: spinRoulette 0.5s linear infinite;
+  border-color: #ff99cc;
+  box-shadow: 0 0 50px rgba(255, 105, 180, 0.5);
+}
+
+.roulette-btn {
+  font-size: 1.1rem;
+  padding: 1rem 3rem;
+  border-radius: 30px;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.roulette-btn:disabled {
+  background: #666;
+  box-shadow: none;
+  cursor: wait;
+}
+
+.roulette-add {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.roulette-add p {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}

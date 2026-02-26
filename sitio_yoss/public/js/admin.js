@@ -21,7 +21,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   await checkAdminSession();
   loadStats();
   loadMoments();
+  loadLetters();
+  loadCmsConfig();
   setupMomentForm();
+  setupLetterForm();
+  setupCmsForm();
   setupEmojiPicker();
   setupLogout();
 });
@@ -202,6 +206,241 @@ function setupMomentForm() {
 }
 
 // ═══════════════════════════════════════════════════
+// LETTERS (CAPSULES)
+// ═══════════════════════════════════════════════════
+async function loadLetters() {
+  const listEl = document.getElementById('letterList');
+  if (!listEl) return;
+
+  try {
+    const res = await fetch('/api/letters', { credentials: 'same-origin' });
+    const data = await res.json();
+
+    if (!data.letters || data.letters.length === 0) {
+      listEl.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state__emoji">💌</div>
+          <p class="empty-state__text">No hay cápsulas activas.<br>Escribe algo hermoso para el futuro.</p>
+        </div>
+      `;
+      return;
+    }
+
+    listEl.innerHTML = data.letters.map(l => renderLetterCard(l)).join('');
+  } catch (err) {
+    console.error('Error loading letters:', err);
+    listEl.innerHTML = '<p class="empty-state__text">Error al cargar cápsulas</p>';
+  }
+}
+
+function renderLetterCard(l) {
+  // Configuro la fecha para que sirva en el input datetime-local al editar (YYYY-MM-DDThh:mm)
+  const dateObj = new Date(l.unlockDate);
+  const pad = (n) => n.toString().padStart(2, '0');
+  const localDatetime = `${dateObj.getFullYear()}-${pad(dateObj.getMonth() + 1)}-${pad(dateObj.getDate())}T${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+
+  const displayDate = dateObj.toLocaleDateString('es-MX', {
+    day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+  });
+  
+  const isLocked = new Date() < dateObj;
+
+  let statusHTML = '';
+  if (isLocked) {
+    statusHTML = '<span class="status-badge status-badge--active">🔒 Bloqueada — Esperando fecha</span>';
+  } else {
+    statusHTML = `<span class="status-badge status-badge--seen">🔓 Desbloqueada y visible</span>`;
+  }
+
+  // Escapar datos de forma segura para los atributos data
+  const safeTitle = escapeHtml(l.title).replace(/'/g, "&#39;").replace(/"/g, "&quot;");
+  const safeBody = typeof l.body === 'string' ? escapeHtml(l.body).replace(/'/g, "&#39;").replace(/"/g, "&quot;") : '';
+
+  return `
+    <div class="moment-card" data-id="${l._id}">
+      <div class="moment-card__header">
+        <span class="moment-card__emoji">⏳</span>
+        <div class="moment-card__info">
+          <div class="moment-card__title">${escapeHtml(l.title)}</div>
+          <div class="moment-card__meta">
+            <span>📅 Apertura: ${displayDate}</span>
+          </div>
+        </div>
+      </div>
+      <div class="moment-card__content" style="max-height: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+        ${l.body ? escapeHtml(l.body) : '<i>[Contenido oculto o no disponible]</i>'}
+      </div>
+      <div class="moment-card__status" style="margin-top: 1rem;">
+        ${statusHTML}
+        <div>
+          <button class="btn btn--sm" style="background: rgba(255,255,255,0.1); margin-right: 5px;" 
+            onclick="YossAdmin.editLetter('${l._id}', '${safeTitle}', '${safeBody}', '${localDatetime}')">
+            ✏️ Editar
+          </button>
+          <button class="btn btn--danger btn--sm" onclick="YossAdmin.deleteLetter('${l._id}')">
+            🗑️ Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function setupLetterForm() {
+  const form = document.getElementById('letterForm');
+  const cancelBtn = document.getElementById('cancelEditLetterBtn');
+  if (!form) return;
+
+  cancelBtn.addEventListener('click', () => {
+    form.reset();
+    document.getElementById('editLetterId').value = '';
+    cancelBtn.style.display = 'none';
+    document.getElementById('saveLetterBtn').textContent = '⏳ Guardar Cápsula';
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const id = document.getElementById('editLetterId').value;
+    const title = document.getElementById('letterTitle').value.trim();
+    const body = document.getElementById('letterContent').value.trim();
+    const unlockDate = document.getElementById('letterUnlockDate').value; // YYYY-MM-DDThh:mm
+
+    if (!title || !body || !unlockDate) {
+      showToast('Completa todos los campos 💌', 'error');
+      return;
+    }
+
+    const submitBtn = document.getElementById('saveLetterBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = id ? 'Actualizando...' : 'Creando...';
+
+    try {
+      const url = id ? `/api/letters/${id}` : '/api/letters';
+      const method = id ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ title, body, unlockDate }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        showToast(data.message || 'Cápsula guardada ✨', 'success');
+        cancelBtn.click(); // Reset form logic
+        loadLetters();
+        loadStats();
+      } else {
+        showToast(data.message || 'Error al guardar cápsula', 'error');
+      }
+    } catch (err) {
+      showToast('Error de conexión', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      if (!id) submitBtn.textContent = '⏳ Guardar Cápsula';
+    }
+  });
+}
+
+function editLetter(id, title, body, localDatetime) {
+  document.getElementById('editLetterId').value = id;
+  document.getElementById('letterTitle').value = title;
+  document.getElementById('letterContent').value = body;
+  document.getElementById('letterUnlockDate').value = localDatetime;
+
+  document.getElementById('cancelEditLetterBtn').style.display = 'inline-block';
+  document.getElementById('saveLetterBtn').textContent = '💾 Actualizar Cápsula';
+  document.getElementById('letterSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function deleteLetter(id) {
+  if (!confirm('¿Eliminar esta cápsula del tiempo definitivamente?')) return;
+
+  try {
+    const res = await fetch(`/api/letters/${id}`, {
+      method: 'DELETE',
+      credentials: 'same-origin',
+    });
+
+    if (res.ok) {
+      showToast('Cápsula eliminada', 'success');
+      loadLetters();
+      loadStats();
+    } else {
+      showToast('Error al eliminar', 'error');
+    }
+  } catch {
+    showToast('Error de conexión', 'error');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// CMS (SITE CONTENT) CONFIGURATION
+// ═══════════════════════════════════════════════════
+async function loadCmsConfig() {
+  const welcomeInput = document.getElementById('welcomeMessage');
+  const dailyNoteInput = document.getElementById('dailyNote');
+  if (!welcomeInput || !dailyNoteInput) return;
+
+  try {
+    const res = await fetch('/api/site-content');
+    if (res.ok) {
+      const data = await res.json();
+      welcomeInput.value = data.welcomeMessage || '';
+      dailyNoteInput.value = data.dailyNote || '';
+    }
+  } catch (err) {
+    console.error('Error fetching CMS Config', err);
+  }
+}
+
+function setupCmsForm() {
+  const form = document.getElementById('cmsForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const welcomeMessage = document.getElementById('welcomeMessage').value.trim();
+    const dailyNote = document.getElementById('dailyNote').value.trim();
+
+    if (!welcomeMessage || !dailyNote) {
+      showToast('Completa los campos del CMS 📝', 'error');
+      return;
+    }
+
+    const submitBtn = document.getElementById('saveCmsBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Guardando...';
+
+    try {
+      const res = await fetch('/api/site-content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ welcomeMessage, dailyNote }),
+      });
+
+      if (res.ok) {
+        showToast('Configuración CMS actualizada ✨', 'success');
+        // Refresh local inputs to show exact server-saved state occasionally
+        loadCmsConfig();
+      } else {
+        showToast('Error de permisos o servidor', 'error');
+      }
+    } catch (err) {
+      showToast('Error de conexión', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '✨ Guardar Cambios';
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════
 // DELETE MOMENT
 // ═══════════════════════════════════════════════════
 async function deleteMoment(id) {
@@ -284,8 +523,58 @@ function showToast(message, type = 'success') {
 }
 
 // ═══════════════════════════════════════════════════
+// TEST CORE FEATURES
+// ═══════════════════════════════════════════════════
+function setupCoreTesters() {
+  const rouletteBtn = document.getElementById('testRouletteBtn');
+  const rouletteRes = document.getElementById('rouletteResult');
+  
+  if (rouletteBtn && rouletteRes) {
+    rouletteBtn.addEventListener('click', async () => {
+      rouletteBtn.textContent = 'Girando...';
+      try {
+        const res = await fetch('/api/dates/random');
+        const data = await res.json();
+        
+        if (data.success) {
+          rouletteRes.innerHTML = `<span style="font-size: 1.5rem;">✨</span> <b>${escapeHtml(data.idea.title)}</b> <br><small style="color: #888;">Categoría: ${data.idea.category}</small>`;
+        } else {
+          rouletteRes.textContent = data.message || 'Error: No ideas';
+        }
+      } catch (err) {
+        rouletteRes.textContent = 'Error de conexión';
+      } finally {
+        rouletteBtn.textContent = 'Volver a Tirar 🎡';
+      }
+    });
+  }
+
+  const timelineBtn = document.getElementById('testTimelineBtn');
+  const timelineRes = document.getElementById('timelineResult');
+  
+  if (timelineBtn && timelineRes) {
+    timelineBtn.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/timeline');
+        const data = await res.json();
+        timelineRes.innerHTML = `<pre style="white-space: pre-wrap; margin: 0;">${JSON.stringify(data, null, 2)}</pre>`;
+      } catch (err) {
+        timelineRes.textContent = 'Error de conexión';
+      }
+    });
+  }
+}
+
+// Llama al setup en INIT de los Testers core en caso de haber un error de DOM content load
+document.addEventListener('DOMContentLoaded', async () => {
+  setupCoreTesters(); // <---- NEW
+});
+
+// ═══════════════════════════════════════════════════
 // GLOBAL API (for inline handlers)
 // ═══════════════════════════════════════════════════
 window.YossAdmin = {
   deleteMoment,
+  editLetter,
+  deleteLetter,
 };

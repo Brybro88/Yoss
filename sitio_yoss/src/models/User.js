@@ -29,8 +29,18 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'user'],
-      default: 'user',
+      enum: ['admin', 'partner'],
+      default: 'partner',
+    },
+    currentMood: {
+      type: String,
+      default: 'Neutral',
+      trim: true,
+      maxlength: [50, 'El estado de ánimo no puede exceder 50 caracteres'],
+    },
+    lastMoodUpdate: {
+      type: Date,
+      default: Date.now,
     },
   },
   {

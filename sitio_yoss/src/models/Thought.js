@@ -24,6 +24,10 @@ const thoughtSchema = new mongoose.Schema(
       default: '💭',
       maxlength: 4,
     },
+    readBy: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    }],
   },
   {
     timestamps: true,

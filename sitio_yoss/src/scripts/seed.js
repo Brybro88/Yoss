@@ -24,7 +24,7 @@ const USERS = [
     username: 'yoss',
     password: 'Bryan2026!',
     displayName: 'Yoss',
-    role: 'user',
+    role: 'partner',
   },
 ];
 

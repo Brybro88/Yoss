@@ -45,6 +45,11 @@
         userNameEl.textContent = currentUser.displayName;
       }
 
+      const adminPanelBtn = document.getElementById('adminPanelBtn');
+      if (adminPanelBtn && currentUser.role === 'admin') {
+        adminPanelBtn.classList.remove('hidden');
+      }
+
       // Mostrar la barra con animación
       if (userBar) {
         setTimeout(() => {

@@ -1,0 +1,178 @@
+/**
+ * css/components/mood-tracker.css
+ * Estilos para el panel flotante de estados de ánimo.
+ */
+
+.mood-tracker {
+  position: absolute;
+  top: 70px; /* Debajo de la user-bar */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(30, 20, 50, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 105, 180, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  width: 90%;
+  max-width: 400px;
+}
+
+/* Modos oculto / activo de la barra (Si queremos esconderla cuando no haya scroll) */
+.mood-tracker.hidden {
+  display: none;
+}
+
+.mood-tracker__display {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+}
+
+.mood-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.mood-user__name {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 2px;
+}
+
+.mood-user__status {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mood-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 1.5rem;
+}
+
+.mood-tracker__action {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 5px;
+  transition: color 0.3s ease;
+}
+
+.mood-tracker__action:hover {
+  color: var(--primary-color);
+}
+
+/* Modal Selector de Mood */
+.mood-picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mood-picker-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mood-picker {
+  background: linear-gradient(135deg, rgba(42, 18, 56, 0.95), rgba(26, 10, 46, 0.95));
+  padding: 2rem;
+  border-radius: 16px;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  transform: translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 90%;
+  max-width: 320px;
+}
+
+.mood-picker-overlay.active .mood-picker {
+  transform: translateY(0);
+}
+
+.mood-picker h3 {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+}
+
+.mood-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.mood-option {
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mood-option:hover {
+  transform: scale(1.1);
+  background: rgba(255, 105, 180, 0.2);
+  border-color: var(--primary-color);
+}
+
+.mood-custom-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 105, 180, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.mood-custom-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+}
+
+@media (max-width: 768px) {
+  .mood-tracker {
+    top: 60px;
+    width: 95%;
+  }
+}

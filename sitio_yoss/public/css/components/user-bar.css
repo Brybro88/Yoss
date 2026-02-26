@@ -100,28 +100,26 @@
 
 /* Unread badge */
 .user-bar__badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  margin-left: 2px;
   font-family: "Inter", system-ui, sans-serif;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #fff;
   background: #ff1493;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   line-height: 1;
   box-shadow: 0 2px 6px rgba(255, 20, 147, 0.5);
   animation: badgePulse 2s ease-in-out infinite;
 }
 
 .user-bar__badge.hidden {
-  display: none;
+  display: none !important;
 }
 
 @keyframes badgePulse {
@@ -211,8 +209,8 @@ body:not(.dark-mode) .user-bar__logout:hover {
 /* ────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .user-bar {
-    top: auto;
-    bottom: 80px; /* Above song player */
+    top: 10px; /* Anchored securely to the top-right */
+    bottom: auto;
     right: 10px;
     padding: 0.4rem 0.8rem;
     gap: 0.4rem;

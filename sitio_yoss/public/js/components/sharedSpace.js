@@ -120,21 +120,31 @@
 
     const currentUser = window.YossSession?.getUser();
 
-    thoughtFeed.innerHTML = thoughts.map((t) => `
+    thoughtFeed.innerHTML = thoughts.map((t) => {
+      const isAuthor = currentUser && t.author?._id === currentUser.id;
+      const isReadByOther = t.readBy && t.readBy.length > 0;
+      const canMarkRead = currentUser && !isAuthor && !(t.readBy || []).includes(currentUser.id);
+      
+      return `
       <div class="thought-card" data-id="${t._id}">
         <span class="thought-card__emoji">${escapeHtml(t.emoji)}</span>
         <div class="thought-card__body">
           <div class="thought-card__meta">
             <span class="thought-card__author">${escapeHtml(t.author?.displayName || 'Anónimo')}</span>
-            <span class="thought-card__time">${timeAgo(t.createdAt)}</span>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <span class="thought-card__time">${timeAgo(t.createdAt)}</span>
+              ${isAuthor && isReadByOther ? '<span title="Leído" style="font-size:0.75rem">✔️ Leído</span>' : ''}
+            </div>
           </div>
           <p class="thought-card__content">${escapeHtml(t.content)}</p>
+          ${canMarkRead ? `<button class="thought-card__mark-read" onclick="YossSpace.markThoughtRead('${t._id}')" style="background: none; border: none; color: #ff69b4; font-size: 0.8rem; cursor: pointer; text-decoration: underline; padding: 0; margin-top: 5px;">Marcar como leído ✨</button>` : ''}
         </div>
-        ${currentUser && t.author?._id === currentUser.id
+        ${isAuthor
           ? `<button class="thought-card__delete" onclick="YossSpace.deleteThought('${t._id}')" title="Eliminar">✕</button>`
           : ''}
       </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   async function createThought() {
@@ -193,6 +203,21 @@
     }
   }
 
+  async function markThoughtRead(id) {
+    try {
+      const res = await fetch(`/api/thoughts/${id}/read`, {
+        method: 'PATCH',
+        credentials: 'same-origin',
+      });
+
+      if (res.ok) {
+        loadThoughts();
+      }
+    } catch (err) {
+      console.error('Error marcando pensamiento:', err);
+    }
+  }
+
   // Thought form submit
   if (thoughtForm) {
     thoughtForm.addEventListener('submit', (e) => {
@@ -241,40 +266,135 @@
       return;
     }
 
-    const currentUser = window.YossSession?.getUser();
+    // Ocultar el formulario de "escribir carta" de raíz para todos (ahora vive en Admin Dashboard)
+    const letterFormNode = document.getElementById('letterForm');
+    if (letterFormNode) {
+      letterFormNode.style.display = 'none';
+    }
 
     letterFeed.innerHTML = letters.map((l) => {
-      const isRecipient = currentUser && (l.to?._id === currentUser.id || l.to === currentUser.id);
-      const isUnread = !l.isRead && isRecipient;
-      const fromName = l.from?.displayName || 'Alguien especial';
+      const isUnread = false; // Se omite la vieja logica de isRead para el modelo TimeLock
+      
+      let letterContentHTML;
+      let extraClass = '';
+
+      if (l.isLocked) {
+        letterContentHTML = `<div style="text-align: center; color: var(--text-muted); font-style: italic; padding: 2rem 1rem;">
+          <span style="font-size: 3rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(232, 69, 122, 0.4));">🔒</span>
+          <p style="margin: 0; font-size: 1.1rem; margin-bottom: 1rem;">Aún no es momento de abrir esta cápsula.</p>
+          <div class="letter-countdown" data-unlock="${l.unlockDate}" style="
+            font-size: 1.25rem; 
+            font-weight: bold; 
+            color: var(--accent-color); 
+            background: rgba(0,0,0,0.3); 
+            padding: 10px 15px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(232, 69, 122, 0.3);
+            display: inline-block;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+          ">Calculando tiempo restante... ⏳</div>
+          <br>
+          <small style="opacity: 0.6;">El destino la revelará a su debido tiempo.</small>
+        </div>`;
+        extraClass = 'locked-card';
+      } else {
+        // Formateo expansivo para una carta de amor moderna y abierta
+        const formattedBody = escapeHtml(l.body).replace(/\n/g, '<br>');
+        letterContentHTML = `
+          <div class="letter-card__content" style="
+            font-size: 1.15rem; 
+            line-height: 1.8; 
+            color: rgba(255,255,255,0.9);
+            padding: 1.5rem 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 3px solid var(--accent-color);
+          ">
+            ${formattedBody}
+          </div>
+        `;
+      }
 
       return `
-        <div class="letter-card ${isUnread ? 'unread' : ''}" data-id="${l._id}">
-          <div class="letter-card__header">
-            <span class="letter-card__from">De: ${escapeHtml(fromName)}</span>
-            <span class="letter-card__time">${formatDate(l.createdAt)}</span>
+        <div class="letter-card ${extraClass}" data-id="${l._id}" style="
+          ${!l.isLocked ? 'background: linear-gradient(145deg, rgba(232, 69, 122, 0.1), rgba(20, 10, 30, 0.6)); border: 1px solid rgba(232, 69, 122, 0.3); transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.5);' : ''}
+        ">
+          <div class="letter-card__header" style="${!l.isLocked ? 'border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;' : ''}">
+            <span class="letter-card__from" style="${!l.isLocked ? 'font-size: 1.4rem; color: #fff; font-weight: bold;' : ''}">
+              ${escapeHtml(l.title)}
+            </span>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-direction: column; align-items: flex-end;">
+              <span class="letter-card__time" style="${!l.isLocked ? 'color: var(--accent-color); font-weight: 500;' : ''}">
+                ${l.isLocked ? `Abre en: ${formatDate(l.unlockDate)}` : `Abierta el: ${formatDate(l.unlockDate)}`}
+              </span>
+              ${!l.isLocked ? '<span style="font-size: 0.75rem; background: var(--accent-color); color: white; padding: 2px 8px; border-radius: 12px;">Cápsula Desbloqueada 🔓</span>' : ''}
+            </div>
           </div>
-          <div class="letter-card__content">${escapeHtml(l.content)}</div>
-          ${isUnread
-            ? `<button class="letter-card__mark-read" onclick="YossSpace.markLetterRead('${l._id}')">Marcar como leída ✨</button>`
-            : ''}
+          ${letterContentHTML}
         </div>
       `;
     }).join('');
+
+    // Iniciar contadores
+    startLetterCountdowns();
   }
 
+  let letterCountdownInterval = null;
+
+  function startLetterCountdowns() {
+    if (letterCountdownInterval) clearInterval(letterCountdownInterval);
+    
+    const updateCounters = () => {
+      const counters = document.querySelectorAll('.letter-countdown');
+      if (counters.length === 0) {
+        if (letterCountdownInterval) clearInterval(letterCountdownInterval);
+        return;
+      }
+
+      const now = new Date().getTime();
+
+      counters.forEach(counter => {
+        const unlockDateIso = counter.getAttribute('data-unlock');
+        if (!unlockDateIso) return;
+        
+        const unlockTime = new Date(unlockDateIso).getTime();
+        const distance = unlockTime - now;
+
+        if (distance <= 0) {
+          counter.innerHTML = "¡El tiempo se ha cumplido! Recarga la página para abrirla. ✨";
+          counter.style.color = "#4ade80";
+          counter.style.borderColor = "#4ade80";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        let html = '';
+        if (days > 0) html += `${days}d `;
+        html += `${hours.toString().padStart(2, '0')}h `;
+        html += `${minutes.toString().padStart(2, '0')}m `;
+        html += `${seconds.toString().padStart(2, '0')}s`;
+
+        counter.innerHTML = `Faltan: ${html} ⏳`;
+      });
+    };
+
+    updateCounters();
+    letterCountdownInterval = setInterval(updateCounters, 1000);
+  }
   function updateUnreadCount(letters) {
-    const currentUser = window.YossSession?.getUser();
-    if (!currentUser) return;
-
-    const unread = letters.filter(
-      (l) => !l.isRead && (l.to?._id === currentUser.id || l.to === currentUser.id)
-    );
-
-    // Update tab badge
+    // Update tab badge based on unlockable letters instead of unread explicitly
+    const unlockable = letters.filter(l => !l.isLocked);
+    
+    // Si queremos mostrar el numero de cartas desbloqueadas en vez de las 'no leidas'
     if (letterTabBadge) {
-      if (unread.length > 0) {
-        letterTabBadge.textContent = unread.length;
+      if (unlockable.length > 0) {
+        letterTabBadge.textContent = unlockable.length;
         letterTabBadge.classList.remove('hidden');
       } else {
         letterTabBadge.classList.add('hidden');
@@ -284,8 +404,8 @@
     // Update user bar badge
     const userBarBadge = document.getElementById('unreadBadge');
     if (userBarBadge) {
-      if (unread.length > 0) {
-        userBarBadge.textContent = unread.length;
+      if (unlockable.length > 0) {
+        userBarBadge.textContent = unlockable.length;
         userBarBadge.classList.remove('hidden');
       } else {
         userBarBadge.classList.add('hidden');
@@ -296,8 +416,16 @@
   async function createLetter() {
     if (!letterInput) return;
 
-    const content = letterInput.value.trim();
-    if (!content) return;
+    // Para evitar complejidad modal ahora, un prompt basico asume titulo, body y fecha futura
+    const title = prompt("Título de la cápsula:");
+    if (!title) return;
+    
+    const body = letterInput.value.trim();
+    if (!body) return;
+
+    // Pedimos fecha en formator YYYY-MM-DD
+    const unlockDateStr = prompt("Fecha de desbloqueo (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
+    if (!unlockDateStr) return;
 
     const sendBtn = letterForm?.querySelector('.compose-form__send');
     if (sendBtn) sendBtn.disabled = true;
@@ -306,7 +434,7 @@
       const res = await fetch('/api/letters', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ title, body, unlockDate: unlockDateStr }),
         credentials: 'same-origin',
       });
 
@@ -392,5 +520,6 @@
     close: closeModal,
     deleteThought,
     markLetterRead,
+    markThoughtRead,
   };
 })();

@@ -1,0 +1,116 @@
+/**
+ * css/components/magic-keyboard.css
+ * Estilos para el teclado flotante de palabras mágicas en móvil.
+ */
+
+.floating-kb-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(42, 18, 56, 0.8);
+  border: 1px solid rgba(255, 105, 180, 0.5);
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+  font-size: 1.5rem;
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  min-width: unset;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.floating-kb-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.6);
+}
+
+.magic-keyboard {
+  position: fixed;
+  bottom: -400px;
+  left: 0;
+  width: 100%;
+  background: rgba(20, 10, 30, 0.95);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255, 105, 180, 0.3);
+  z-index: 950;
+  padding: 10px 5px 25px 5px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.magic-keyboard.active {
+  bottom: 0;
+}
+
+.magic-keyboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px 10px 15px;
+}
+
+.close-kb-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.2rem;
+  padding: 0;
+  margin: 0;
+  min-width: unset;
+  box-shadow: none;
+  width: auto;
+}
+
+.magic-keyboard-keys {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.kb-key {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 6px;
+  min-width: unset;
+  width: clamp(28px, 9vw, 40px);
+  height: clamp(35px, 12vw, 45px);
+  padding: 0;
+  font-size: 1.2rem;
+  text-transform: lowercase;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kb-key:active {
+  background: rgba(255, 105, 180, 0.5);
+  transform: scale(0.9);
+}
+
+/* Ocultar botón flotante en desktop si lo preferimos */
+@media (min-width: 1000px) {
+  .floating-kb-btn {
+    display: none;
+  }
+}

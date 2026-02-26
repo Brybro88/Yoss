@@ -1,534 +1,776 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Volvimos a encontrarnos 💖</title>
-  
-  <!-- Meta tags for sharing -->
-  <meta name="description" content="A veces la vida separa caminos, pero cuando dos personas se reencuentran, es porque algo nunca dejó de existir.">
-  <meta property="og:title" content="Volvimos a encontrarnos 💖">
-  <meta property="og:description" content="Una historia de reencuentro y nuevos comienzos.">
-  
-  <!-- Favicon - Gerbera emoji -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
-  
-  <!-- Google Fonts - Handwriting -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/components/romantic-animations.css">
-  <link rel="stylesheet" href="/css/components/love-letter.css">
-  <link rel="stylesheet" href="/css/components/memory-cards.css">
-  <link rel="stylesheet" href="/css/components/navigation.css">
-  <link rel="stylesheet" href="/css/components/user-bar.css">
-  <link rel="stylesheet" href="/css/components/shared-space.css">
-  <link rel="stylesheet" href="/css/components/moment-popup.css">
-</head>
-<body class="dark-mode">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Volvimos a encontrarnos 💖</title>
 
-  <!-- User Bar - Saludo + Espacio Compartido + Logout -->
-  <div class="user-bar" id="userBar">
-    <div class="user-bar__greeting">
-      <span class="user-bar__avatar">🌸</span>
-      <span>Hola, <span class="user-bar__name" id="userName">...</span> 💖</span>
-    </div>
-    <div class="user-bar__divider"></div>
-    <button class="user-bar__space-btn" id="sharedSpaceBtn">
-      <span>🌌</span>
-      <span>Nuestro Espacio</span>
-      <span class="user-bar__badge hidden" id="unreadBadge">0</span>
-    </button>
-    <button class="user-bar__logout" id="logoutBtn" title="Cerrar sesión">
-      <svg viewBox="0 0 24 24">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-        <polyline points="16 17 21 12 16 7"/>
-        <line x1="21" y1="12" x2="9" y2="12"/>
-      </svg>
-    </button>
-  </div>
+    <!-- Meta tags for sharing -->
+    <meta
+      name="description"
+      content="A veces la vida separa caminos, pero cuando dos personas se reencuentran, es porque algo nunca dejó de existir."
+    />
+    <meta property="og:title" content="Volvimos a encontrarnos 💖" />
+    <meta
+      property="og:description"
+      content="Una historia de reencuentro y nuevos comienzos."
+    />
 
-  <!-- Reading Progress Bar -->
-  <div class="reading-progress">
-    <div class="reading-progress-fill"></div>
-  </div>
+    <!-- Favicon - Gerbera emoji -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>"
+    />
 
+    <!-- Google Fonts - Handwriting -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-
-  <!-- Scroll to Top Button -->
-  <button class="scroll-to-top" id="scrollToTop" aria-label="Volver arriba">
-    ↑
-  </button>
-
-  <!-- Floating Hearts Container -->
-  <div class="floating-hearts-container" id="floatingHearts"></div>
-
-  <!-- Star Field Container -->
-  <div class="star-field-container" id="starField"></div>
-
-  <!-- Constellation Canvas Background -->
-  <canvas id="constellation-canvas"></canvas>
-  
-  <!-- Dark Mode Toggle -->
-  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
-    <svg class="sun-icon" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="5"/>
-      <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-    </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-    </svg>
-  </button>
-
-  <main>
-
-    <!-- HERO / REENCUENTRO -->
-    <section class="section hero">
-      <h1>Volvimos a encontrarnos</h1>
-      <p>
-        A veces la vida separa caminos…<br>
-        pero cuando dos personas se reencuentran,<br>
-        es porque algo nunca dejó de existir.
-      </p>
-      <button id="startBtn">Sigue leyendo 💖</button>
-    </section>
-
-    <!-- HISTORIA -->
-    <section class="section history">
-      <div class="card">🕰️ Hace más de 2 años… el destino nos llevó por rumbos distintos.</div>
-      <div class="card">💬 Volvimos a hablar todo volvió a tener sentido.
-    </div>
-      <div class="card">🌸 Hoy… algo genuino sigue aquí, más fuerte que antes.</div>
-      
-      <!-- Contador de tiempo vivo -->
-      <div class="time-counter">
-        <span class="time-counter-label">💕 Desde que reconectamos han pasado:</span>
-        <span class="time-counter-value" id="timeCounter">Cargando...</span>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/components/romantic-animations.css" />
+    <link rel="stylesheet" href="/css/components/love-letter.css" />
+    <link rel="stylesheet" href="/css/components/memory-cards.css" />
+    <link rel="stylesheet" href="/css/components/navigation.css" />
+    <link rel="stylesheet" href="/css/components/user-bar.css" />
+    <link rel="stylesheet" href="/css/components/shared-space.css" />
+    <link rel="stylesheet" href="/css/components/moment-popup.css" />
+    <link rel="stylesheet" href="/css/components/timeline-roulette.css" />
+    <link rel="stylesheet" href="/css/components/mood-tracker.css" />
+    <link rel="stylesheet" href="/css/components/magic-keyboard.css" />
+  </head>
+  <body class="dark-mode">
+    <!-- User Bar - Saludo + Espacio Compartido + Logout -->
+    <div class="user-bar" id="userBar">
+      <div class="user-bar__greeting">
+        <span class="user-bar__avatar">🌸</span>
+        <span
+          >Hola, <span class="user-bar__name" id="userName">...</span> 💖</span
+        >
       </div>
-    </section>
-
-    <!-- LOVE LETTER SECTION - Nueva -->
-    <section class="section love-letter-intro" id="letter">
-      <h2>Tengo algo especial para ti 💌</h2>
-      <p>
-        He guardado estas palabras por tanto tiempo...<br>
-        Creo que es momento de que las leas.
-      </p>
-      <button id="openLetterBtn" class="letter-cta">
-        Ábrelo solo si aún crees en nosotros ✨
+      <div class="user-bar__divider"></div>
+      <a
+        href="/admin"
+        class="user-bar__space-btn hidden"
+        id="adminPanelBtn"
+        title="Panel de Admin"
+        style="text-decoration: none"
+      >
+        <span>🛠️</span>
+        <span>Panel</span>
+      </a>
+      <button class="user-bar__space-btn" id="sharedSpaceBtn">
+        <span>🌌</span>
+        <span>Nuestro Espacio</span>
+        <span class="user-bar__badge hidden" id="unreadBadge">0</span>
       </button>
-    </section>
-
-    <!-- MEMORY CARDS SECTION - Descubre nuestros recuerdos -->
-    <section class="section memory-game" id="memory-game">
-      <h2>Descubre nuestros recuerdos 🌌</h2>
-      <p class="memory-game-intro">
-        Voltea las cartas para revelar momentos especiales...
-      </p>
-      
-      <div class="memory-cards-grid">
-        <div class="memory-card" data-message="La primera vez que te vi, supe que eras especial. El tiempo solo lo confirmó.">
-          <div class="memory-card-inner">
-            <div class="memory-card-front">
-              <span class="card-icon">💕</span>
-            </div>
-            <div class="memory-card-back">
-              <p class="card-message"></p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="memory-card" data-message="Tu risa es mi sonido favorito en todo el mundo. Me hace creer que todo va a estar bien.">
-          <div class="memory-card-inner">
-            <div class="memory-card-front">
-              <span class="card-icon">💖</span>
-            </div>
-            <div class="memory-card-back">
-              <p class="card-message"></p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="memory-card" data-message="Admiro tu fortaleza para perseguir tus sueños. Me inspiras a ser mejor cada día.">
-          <div class="memory-card-inner">
-            <div class="memory-card-front">
-              <span class="card-icon">💗</span>
-            </div>
-            <div class="memory-card-back">
-              <p class="card-message"></p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="memory-card" data-message="Cada conversación contigo se siente como volver a casa después de un largo viaje.">
-          <div class="memory-card-inner">
-            <div class="memory-card-front">
-              <span class="card-icon">💝</span>
-            </div>
-            <div class="memory-card-back">
-              <p class="card-message"></p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="memory-card" data-message="Pienso en ti cuando veo algo bonito y pienso: 'Le gustaría ver esto'.">
-          <div class="memory-card-inner">
-            <div class="memory-card-front">
-              <span class="card-icon">💘</span>
-            </div>
-            <div class="memory-card-back">
-              <p class="card-message"></p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="memory-card" data-message="Quiero ser la persona que esté ahí para ti en tus peores días y celebrar contigo en los mejores.">
-          <div class="memory-card-inner">
-            <div class="memory-card-front">
-              <span class="card-icon">💞</span>
-            </div>
-            <div class="memory-card-back">
-              <p class="card-message"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ADMIRACIÓN -->
-    <section class="section admire">
-      <h2>Admiro profundamente quién eres</h2>
-      <p>
-        Tu disciplina.<br>
-        Tu esfuerzo incansable.<br>
-        La pasión con la que recorres este camino hacia la <span class="secret-word" data-message="Vas a cambiar vidas, empezando por la mía">medicina</span> 🩺<br>
-        <br>
-        Verte perseguir tus sueños hace que yo también quiera ser mejor.
-      </p>
-    </section>
-    
-    <!-- POR QUÉ ERES ESPECIAL - 6 Razones -->
-    <section class="section reasons">
-      <h2>Por qué eres especial para mí</h2>
-      
-      <div class="reasons-grid">
-        <div class="reason-card">
-          <span class="reason-emoji">🌟</span>                                                                                   
-          <p class="reason-text">
-            Tu <span class="secret-word" data-message="Lo más hermoso de ti es que nunca finges">autenticidad</span>. Eres genuina, real, sin máscaras. Eso me hace sentir que puedo ser yo mismo contigo.
-          </p>
-        </div>
-        
-        <div class="reason-card">
-          <span class="reason-emoji">🩺</span>
-          <p class="reason-text">
-            Tu dedicación a la medicina. Verte luchar por tus sueños con esa pasión me inspira a ser mejor cada día.
-          </p>
-        </div>
-        
-        <div class="reason-card">
-          <span class="reason-emoji">💬</span>
-          <p class="reason-text">
-            La forma en que me haces sentir cuando hablamos. Cada conversación se siente como volver a casa.
-          </p>
-        </div>
-        
-        <div class="reason-card">
-          <span class="reason-emoji">✨</span>
-          <p class="reason-text">
-            La conexión que nunca desapareció. Dos años sin hablar y cuando regresaste, todo seguía ahí, intacto.
-          </p>
-        </div>
-        
-        <div class="reason-card">
-          <span class="reason-emoji">🎯</span>
-          <p class="reason-text">
-            Tu fortaleza. Estás cursando el cero, esforzándote cada día, y no te rindes. Eso habla de quién eres.
-          </p>
-        </div>
-        
-        <div class="reason-card">
-          <span class="reason-emoji">💫</span>
-          <p class="reason-text">
-            Porque cuando pienso en el <span class="secret-word" data-message="Un futuro donde cada día sea una aventura juntos">futuro</span>, en construir algo bonito, en crear momentos que importen... te imagino ahí.
-          </p>
-        </div>
-      </div>
-    </section>
-    
-    <!-- RECUERDOS - Photo Gallery -->
-    <section class="section memories">
-      <h2>Nuestros recuerdos 📸</h2>
-      <p class="memories-intro">
-        Son pocas las fotos que guardamos... pero cada una cuenta una historia,<br>
-        un momento que fue real, que fue nuestro.
-      </p>
-      
-      <div class="photo-grid">
-        <!-- Polaroid 1 -->
-        <div class="polaroid">
-          <div class="polaroid-image">
-            <!-- Reemplaza con: <img src="/images/foto1.jpg" alt="Nosotros"> -->
-            <span class="polaroid-placeholder">📸</span>
-          </div>
-          <div class="polaroid-caption">Ese día que todo empezó...</div>
-        </div>
-        
-        <!-- Polaroid 2 -->
-        <div class="polaroid">
-          <div class="polaroid-image">
-            <!-- Reemplaza con: <img src="/images/foto2.jpg" alt="Nosotros"> -->
-            <span class="polaroid-placeholder">💕</span>
-          </div>
-          <div class="polaroid-caption"></div>
-        </div>
-        
-        <!-- Polaroid 3 -->
-        <div class="polaroid">
-          <div class="polaroid-image">
-            <!-- Reemplaza con: <img src="/images/foto3.jpg" alt="Nosotros"> -->
-            <span class="polaroid-placeholder">🌸</span>
-          </div>
-          <div class="polaroid-caption"></div>
-        </div>
-      </div>
-      
-      <!-- Memory Invitation -->
-      <div class="memory-invitation">
-        <p>
-          Estas son <span class="highlight">las pocas que tenemos</span>...<br>
-          pero me encantaría que juntos <span class="highlight">creemos miles más</span>.<br>
-          <br>
-          Momentos reales. Sonrisas genuinas. <span class="highlight">Recuerdos que valgan la pena guardar</span>.
-        </p>
-      </div>
-    </section>
-    
-    <!-- INTERACCIÓN -->
-    <section class="section heart">
-      <div id="heart" title="Haz clic aquí 💖" role="button" tabindex="0">💗</div>
-      <p id="heartMsg" class="hidden">
-        Esto es lo que siento cada vez que hablo contigo.<br>
-        Un corazón que late más fuerte, una sonrisa inevitable,<br>
-        y la certeza de que contigo, todo es diferente.
-      </p>
-    </section>
-    
-    <!-- PROMESAS - Flip Cards -->
-    <section class="section promises">
-      <h2>Promesas para nuestro futuro 💝</h2>
-      <p class="promises-intro">
-        Cosas que quiero que vivamos juntos...<br>
-        Haz clic en cada tarjeta para descubrir.
-      </p>
-      
-      <div class="promises-grid">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <h3>⛪ Promesa #1</h3>
-              <p>Toca para revelar...</p>
-            </div>
-            <div class="flip-card-back">
-              <p>"Ir a misa en diferentes países y ciudades, compartiendo nuestra fe y descubriendo el mundo juntos."</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <h3>✈️ Promesa #2</h3>
-              <p>Toca para revelar...</p>
-            </div>
-            <div class="flip-card-back">
-              <p>"Llevarte a conocer lugares que nunca has visto. Cada viaje será una aventura que recordaremos siempre."</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <h3>🍳 Promesa #3</h3>
-              <p>Toca para revelar...</p>
-            </div>
-            <div class="flip-card-back">
-              <p>"Cocinar juntos algo que nos salga terrible y reírnos del resultado. Los mejores recuerdos no son perfectos."</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <h3>🌟 Promesa #4</h3>
-              <p>Toca para revelar...</p>
-            </div>
-            <div class="flip-card-back">
-              <p>"Que mi ambición te inspire, así como la tuya me impulsa. Crecer juntos, no separados."</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    
-    <!-- QUIZ INTERACTIVO -->
-    <section class="section quiz">
-      <h2>¿Qué tanto nos conocemos? 🎯</h2>
-      
-      <div class="quiz-container">
-        <div id="quizWelcome">
-          <p class="quiz-question">
-            Un pequeño juego para ver si prestaste atención a todos los detalles de este sitio... 😊
-          </p>
-          <button id="quizStart" class="btn quiz-start">¡Empezar! 🎮</button>
-        </div>
-        
-        <div id="quizQuestion" class="quiz-hidden">
-          <p id="questionText" class="quiz-question"></p>
-          <div id="quizOptions" class="quiz-options"></div>
-        </div>
-        
-        <div id="quizResult" class="quiz-hidden">
-          <p id="quizScore" class="quiz-score"></p>
-          <button id="quizRestart" class="btn quiz-restart">Jugar de nuevo 🔄</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- CIERRE -->
-    <section class="section close">
-      <p>
-        No sé exactamente qué venga después…<br>
-        pero sé que me gustaría construirlo contigo,<br>
-        paso a paso, sonrisa a sonrisa.<br>
-        <br>
-        🌸 Con cariño, admiración, y toda la ilusión del mundo 🌸
-      </p>
-    </section>
-
-  </main>
-  
-  <!-- LOVE LETTER MODAL -->
-  <div id="loveLetterModal" class="love-letter-modal">
-    <div class="envelope-container">
-      <div class="envelope">
-        <div class="envelope-flap"></div>
-        <div class="envelope-body"></div>
-      </div>
-      <div class="letter-content">
-        <div class="letter-paper">
-          <p class="letter-text" id="letterText"></p>
-        </div>
-        <button class="close-letter">Cerrar 💖</button>
-      </div>
+      <button class="user-bar__logout" id="logoutBtn" title="Cerrar sesión">
+        <svg viewBox="0 0 24 24">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+      </button>
     </div>
-    <div class="petals-container" id="petalsContainer"></div>
-  </div>
-  
-  <!-- LIGHTBOX MODAL for Photos -->
-  <div id="lightbox" class="lightbox">
-    <div class="lightbox-content">
-      <button class="lightbox-close" aria-label="Cerrar">×</button>
-      <img id="lightboxImage" class="lightbox-image" src="" alt="">
-      <div id="lightboxCaption" class="lightbox-caption"></div>
+
+    <!-- MOOD TRACKER WIDGET -->
+    <div class="mood-tracker hidden" id="moodTracker">
+      <div class="mood-tracker__display" id="moodDisplay"></div>
+      <button class="mood-tracker__action" id="updateMoodBtn">¿Cómo te sientes hoy?</button>
     </div>
-  </div>
-  
-  <!-- FOOTER -->
-  <footer>
-    <p>
-      <span class="footer-date">14 de febrero de 2026</span>
-      <span class="footer-message">🌸</span>
-    </p>
-  </footer>
-  
-  <!-- Song Player -->
-  <div class="song-player">
-    <button id="playBtn" class="play-button" aria-label="Play/Pause">
-      <svg viewBox="0 0 24 24">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress">
+      <div class="reading-progress-fill"></div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Volver arriba">
+      ↑
     </button>
-    <div class="song-info">
-      <div class="song-title">The Night We Met</div>
-      <div class="song-artist">Lord Huron 💕</div>
-    </div>
-  </div>
-  
-  <!-- Audio Element -->
-  <audio id="romanticSong" preload="auto">
-    <source src="/audio/ytmp3free.cc_lord-huron-the-night-we-met-official-audio-youtubemp3free.org.mp3" type="audio/mpeg">
-  </audio>
 
-  <!-- ═══ SHARED SPACE MODAL ═══ -->
-  <div class="shared-space-overlay" id="sharedSpaceOverlay">
-    <div class="shared-space">
-      <div class="shared-space__header">
-        <span class="shared-space__title">🌌 Nuestro Espacio</span>
-        <button class="shared-space__close" id="sharedSpaceClose">✕</button>
-      </div>
+    <!-- Floating Hearts Container -->
+    <div class="floating-hearts-container" id="floatingHearts"></div>
 
-      <div class="shared-space__tabs">
-        <button class="shared-space__tab active" data-tab="panelThoughts">💭 Pensamientos</button>
-        <button class="shared-space__tab" data-tab="panelLetters">💌 Cartas <span class="shared-space__tab-badge hidden" id="letterTabBadge">0</span></button>
-      </div>
+    <!-- Star Field Container -->
+    <div class="star-field-container" id="starField"></div>
 
-      <div class="shared-space__content">
-        <!-- THOUGHTS PANEL -->
-        <div class="shared-space__panel active" id="panelThoughts">
-          <form class="compose-form" id="thoughtForm">
-            <button type="button" class="compose-form__emoji-btn" id="thoughtEmojiBtn" title="Cambiar emoji">💭</button>
-            <input class="compose-form__input" id="thoughtInput" placeholder="¿Qué estás pensando? 💖" maxlength="500" autocomplete="off" />
-            <button type="submit" class="compose-form__send">Compartir</button>
-          </form>
-          <div id="thoughtFeed"></div>
+    <!-- Constellation Canvas Background -->
+    <canvas id="constellation-canvas"></canvas>
+
+
+
+    <main>
+      <!-- HERO / REENCUENTRO -->
+      <section class="section hero">
+        
+        <!-- Controles Superiores (No fijos) -->
+        <div class="top-controls" style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(15px, 3vw, 30px); align-items: center; margin-top: clamp(80px, 15vh, 120px); margin-bottom: var(--spacing-md); z-index: 10; width: 100%;">
+          <!-- Dark Mode Toggle -->
+          <button id="themeToggle" class="theme-toggle relative-toggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+
+          <!-- Song Player (Fijo en el diseño) -->
+          <div class="song-player">
+            <button id="playBtn" class="play-button" aria-label="Play/Pause">
+              <svg viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+            <div class="song-info">
+              <div class="song-title">The Night We Met</div>
+              <div class="song-artist">Lord Huron 💕</div>
+            </div>
+          </div>
         </div>
 
-        <!-- LETTERS PANEL -->
-        <div class="shared-space__panel" id="panelLetters">
-          <form class="compose-form compose-form--letter" id="letterForm">
-            <textarea class="compose-form__input" id="letterInput" placeholder="Escribe una carta especial... 💌" maxlength="5000" rows="4"></textarea>
-            <button type="submit" class="compose-form__send">Enviar carta 💌</button>
+        <h1 id="heroWelcome">Volvimos a encontrarnos</h1>
+        <p id="heroMessage">
+          A veces la vida separa caminos…<br />
+          pero cuando dos personas se reencuentran,<br />
+          es porque algo nunca dejó de existir.
+        </p>
+        <button id="startBtn">Sigue leyendo 💖</button>
+      </section>
+
+      <!-- HISTORIA -->
+      <section class="section history">
+        <div class="card">
+          🕰️ Hace más de 2 años… el destino nos llevó por rumbos distintos formando un puente al <span style="position:relative; cursor:help;" title="(escribe esto: infinito)"><em>infinito</em></span>.
+        </div>
+        <div class="card">
+          💬 Volvimos a hablar, todo volvió a tener sentido como estrellas en el cielo <span style="position:relative; cursor:help;" title="(secreto: teclea 'estrellas')"><em>✨</em></span>.
+        </div>
+        <div class="card">
+          🌸 Hoy… algo genuino sigue aquí, esperando el próximo <span style="position:relative; cursor:help;" title="(¿intenta escribir beso?)"><em>beso</em></span> de la vida.
+        </div>
+
+        <!-- Contador de tiempo vivo -->
+        <div class="time-counter">
+          <span class="time-counter-label"
+            >💕 Desde que reconectamos han pasado:</span
+          >
+          <span class="time-counter-value" id="timeCounter">Cargando...</span>
+        </div>
+      </section>
+
+      <!-- TIMELINE DE NUESTRA HISTORIA -->
+      <section class="section timeline-section" id="timeline">
+        <h2>Nuestra Historia Cronológica ⏳</h2>
+        <p class="timeline-intro">
+          Cada momento que nos trajo hasta aquí, guardado para siempre...
+        </p>
+        
+        <div class="timeline-container" id="timelineContainer">
+          <div class="timeline-loading">Cargando nuestra historia... 💖</div>
+        </div>
+      </section>
+
+      <!-- LOVE LETTER SECTION - Nueva -->
+      <section class="section love-letter-intro" id="letter">
+        <h2>Tengo algo especial para ti 💌</h2>
+        <p>
+          He guardado estas palabras por tanto tiempo...<br />
+          Creo que es momento de que las leas.
+        </p>
+        <button id="openLetterBtn" class="letter-cta">
+          Ábrelo solo si aún crees en nosotros ✨
+        </button>
+      </section>
+
+      <!-- MEMORY CARDS SECTION - Descubre nuestros recuerdos -->
+      <section class="section memory-game" id="memory-game">
+        <h2>Descubre nuestros recuerdos 🌌</h2>
+        <p class="memory-game-intro">
+          Voltea las cartas para revelar momentos especiales...
+        </p>
+
+        <div class="memory-cards-grid">
+          <div
+            class="memory-card"
+            data-message="La primera vez que te vi, supe que eras especial. El tiempo solo lo confirmó."
+          >
+            <div class="memory-card-inner">
+              <div class="memory-card-front">
+                <span class="card-icon">💕</span>
+              </div>
+              <div class="memory-card-back">
+                <p class="card-message"></p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="memory-card"
+            data-message="Tu risa es mi sonido favorito en todo el mundo. Me hace creer que todo va a estar bien."
+          >
+            <div class="memory-card-inner">
+              <div class="memory-card-front">
+                <span class="card-icon">💖</span>
+              </div>
+              <div class="memory-card-back">
+                <p class="card-message"></p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="memory-card"
+            data-message="Admiro tu fortaleza para perseguir tus sueños. Me inspiras a ser mejor cada día."
+          >
+            <div class="memory-card-inner">
+              <div class="memory-card-front">
+                <span class="card-icon">💗</span>
+              </div>
+              <div class="memory-card-back">
+                <p class="card-message"></p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="memory-card"
+            data-message="Cada conversación contigo se siente como volver a casa después de un largo viaje."
+          >
+            <div class="memory-card-inner">
+              <div class="memory-card-front">
+                <span class="card-icon">💝</span>
+              </div>
+              <div class="memory-card-back">
+                <p class="card-message"></p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="memory-card"
+            data-message="Pienso en ti cuando veo algo bonito y pienso: 'Le gustaría ver esto'."
+          >
+            <div class="memory-card-inner">
+              <div class="memory-card-front">
+                <span class="card-icon">💘</span>
+              </div>
+              <div class="memory-card-back">
+                <p class="card-message"></p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="memory-card"
+            data-message="Quiero ser la persona que esté ahí para ti en tus peores días y celebrar contigo en los mejores."
+          >
+            <div class="memory-card-inner">
+              <div class="memory-card-front">
+                <span class="card-icon">💞</span>
+              </div>
+              <div class="memory-card-back">
+                <p class="card-message"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIRACIÓN -->
+      <section class="section admire">
+        <h2>Admiro profundamente quién eres</h2>
+        <p>
+          Tu disciplina.<br />
+          Tu esfuerzo incansable.<br />
+          La pasión con la que recorres este camino hacia la
+          <span
+            class="secret-word"
+            data-message="Vas a cambiar vidas, empezando por la mía"
+            >medicina</span
+          >
+          🩺<br />
+          <br />
+          Verte perseguir tus sueños hace que yo también quiera ser mejor, <span style="position:relative; cursor:help;" title="(pss... intenta teclear: magia)">creando verdadera <em>magia</em></span> al estar 
+          <span style="position:relative; cursor:help;" title="(secreto: juntos)"><em>juntos</em></span>.
+        </p>
+      </section>
+
+      <!-- POR QUÉ ERES ESPECIAL - 6 Razones -->
+      <section class="section reasons">
+        <h2>Por qué eres especial para mí</h2>
+
+        <div class="reasons-grid">
+          <div class="reason-card">
+            <span class="reason-emoji">🌟</span>
+            <p class="reason-text">
+              Tu
+              <span
+                class="secret-word"
+                data-message="Lo más hermoso de ti es que nunca finges"
+                >autenticidad</span
+              >. Eres genuina, real, sin máscaras. Eso me hace sentir que puedo
+              ser yo mismo contigo.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <span class="reason-emoji">🩺</span>
+            <p class="reason-text">
+              Tu dedicación a la medicina. Verte luchar por tus sueños con esa
+              pasión me inspira a ser mejor cada día.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <span class="reason-emoji">💬</span>
+            <p class="reason-text">
+              La forma en que me haces sentir cuando hablamos. Cada conversación
+              se siente como volver a casa.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <span class="reason-emoji">✨</span>
+            <p class="reason-text">
+              La conexión que nunca desapareció. Dos años sin hablar y cuando
+              regresaste, todo seguía ahí, intacto.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <span class="reason-emoji">🎯</span>
+            <p class="reason-text">
+              Tu fortaleza. Estás cursando el cero, esforzándote cada día, y no
+              te rindes. Eso habla de quién eres.
+            </p>
+          </div>
+
+          <div class="reason-card">
+            <span class="reason-emoji">💫</span>
+            <p class="reason-text">
+              Porque cuando pienso en el
+              <span
+                class="secret-word"
+                data-message="Un futuro donde cada día sea una aventura juntos"
+                >futuro</span
+              >, en construir algo bonito, en crear momentos que importen... te
+              imagino ahí.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RECUERDOS - Photo Gallery -->
+      <section class="section memories">
+        <h2>Nuestros recuerdos 📸</h2>
+        <p class="memories-intro">
+          Son pocas las fotos que guardamos... pero cada una cuenta una
+          historia,<br />
+          un momento que fue real, que fue nuestro.
+        </p>
+
+        <div class="photo-grid">
+          <!-- Polaroid 1 -->
+          <div class="polaroid">
+            <div class="polaroid-image">
+              <!-- Reemplaza con: <img src="/images/foto1.jpg" alt="Nosotros"> -->
+              <span class="polaroid-placeholder">📸</span>
+            </div>
+            <div class="polaroid-caption">Ese día que todo empezó...</div>
+          </div>
+
+          <!-- Polaroid 2 -->
+          <div class="polaroid">
+            <div class="polaroid-image">
+              <!-- Reemplaza con: <img src="/images/foto2.jpg" alt="Nosotros"> -->
+              <span class="polaroid-placeholder">💕</span>
+            </div>
+            <div class="polaroid-caption"></div>
+          </div>
+
+          <!-- Polaroid 3 -->
+          <div class="polaroid">
+            <div class="polaroid-image">
+              <!-- Reemplaza con: <img src="/images/foto3.jpg" alt="Nosotros"> -->
+              <span class="polaroid-placeholder">🌸</span>
+            </div>
+            <div class="polaroid-caption"></div>
+          </div>
+        </div>
+
+        <!-- Memory Invitation -->
+        <div class="memory-invitation">
+          <p>
+            Estas son
+            <span class="highlight">las pocas que tenemos</span>...<br />
+            pero me encantaría que juntos
+            <span class="highlight">creemos miles más</span>.<br />
+            <br />
+            Momentos reales. Sonrisas genuinas.
+            <span class="highlight">Recuerdos que valgan la pena guardar</span>.
+          </p>
+        </div>
+      </section>
+
+      <!-- INTERACCIÓN -->
+      <section class="section heart">
+        <div id="heart" title="Haz clic aquí 💖" role="button" tabindex="0">
+          💗
+        </div>
+        <p id="heartMsg" class="hidden">
+          Esto es lo que siento cada vez que hablo contigo.<br />
+          Un corazón que late más fuerte, una sonrisa inevitable,<br />
+          y la certeza de que contigo, todo es diferente.
+        </p>
+      </section>
+
+      <!-- PROMESAS - Flip Cards -->
+      <section class="section promises">
+        <h2>Promesas para nuestro futuro 💝</h2>
+        <p class="promises-intro">
+          Cosas que quiero que vivamos juntos...<br />
+          Haz clic en cada tarjeta para descubrir la <span style="position:relative; cursor:help;" title="(intenta escribir la palabra: magia)"><em>magia</em></span>...
+        </p>
+
+        <div class="promises-grid">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <h3>⛪ Promesa #1</h3>
+                <p>Toca para revelar...</p>
+              </div>
+              <div class="flip-card-back">
+                <p>
+                  "Ir a misa en diferentes países y ciudades, compartiendo
+                  nuestra fe y descubriendo el mundo <span style="position:relative; cursor:help;" title="(código mágico: juntos)"><em>juntos</em></span>."
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <h3>✈️ Promesa #2</h3>
+                <p>Toca para revelar...</p>
+              </div>
+              <div class="flip-card-back">
+                <p>
+                  "Llevarte a conocer lugares que nunca has visto. Cada viaje
+                  será una aventura que recordaremos para <span style="position:relative; cursor:help;" title="(escribe esto en tu teclado: siempre)"><em>siempre</em></span>."
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <h3>🍳 Promesa #3</h3>
+                <p>Toca para revelar...</p>
+              </div>
+              <div class="flip-card-back">
+                <p>
+                  "Cocinar juntos algo que nos salga terrible y reírnos del
+                  resultado. Un amor ligero como una <span style="position:relative; cursor:help;" title="(pss... teclea: mariposa)"><em>mariposa</em></span>."
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <h3>🌟 Promesa #4</h3>
+                <p>Toca para revelar...</p>
+              </div>
+              <div class="flip-card-back">
+                <p>
+                  "Que mi ambición te inspire, así como la tuya me impulsa a brillar como el <span style="position:relative; cursor:help;" title="(¿Y si tecleas la palabra: sol?)"><em>sol</em></span>."
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RULETA DE CITAS -->
+      <section class="section date-roulette" id="roulette">
+        <h2>La Ruleta de Citas 🎡</h2>
+        <p class="roulette-intro">
+          ¿No sabemos qué hacer hoy? Deja que el destino (o nuestras ideas guardadas) decida por nosotros.
+        </p>
+
+        <div class="roulette-container">
+          <div class="roulette-wheel" id="rouletteWheel">
+            <div class="roulette-emoji">🎲</div>
+            <div class="roulette-text" id="rouletteText">¿Qué haremos hoy?</div>
+          </div>
+          <button class="btn btn--primary roulette-btn" id="spinRouletteBtn">Girar Ruleta ✨</button>
+        </div>
+
+        <div class="roulette-add">
+          <p>¿Tienes una nueva idea? ¡Agrégala!</p>
+          <form class="compose-form" id="addDateForm" style="max-width: 400px; margin: 0 auto;">
+            <input class="compose-form__input" id="dateIdeaInput" placeholder="Ej. Ir por un helado..." maxlength="100" required>
+            <select class="compose-form__input" id="dateCategoryInput" style="margin-left: 10px; width: auto; padding: 0.5rem;">
+              <option value="comida">🍔 Comida</option>
+              <option value="salida">🚶‍♀️ Salida</option>
+              <option value="casa">🏠 Casa</option>
+              <option value="aventura">🏕️ Aventura</option>
+              <option value="relajacion">💆 Relajación</option>
+              <option value="otro">✨ Otro</option>
+            </select>
+            <button type="submit" class="compose-form__send" style="margin-left: 10px;">Añadir</button>
           </form>
-          <div id="letterFeed"></div>
+          <div id="addDateMsg" style="font-size: 0.8rem; margin-top: 5px; color: #ff69b4;"></div>
+        </div>
+      </section>
+
+      <!-- QUIZ INTERACTIVO -->
+      <section class="section quiz">
+        <h2>¿Qué tanto nos conocemos? 🎯</h2>
+
+        <div class="quiz-container">
+          <div id="quizWelcome">
+            <p class="quiz-question">
+              Un pequeño juego para ver si prestaste atención a todos los
+              detalles de este sitio... 😊
+            </p>
+            <button id="quizStart" class="btn quiz-start">¡Empezar! 🎮</button>
+          </div>
+
+          <div id="quizQuestion" class="quiz-hidden">
+            <p id="questionText" class="quiz-question"></p>
+            <div id="quizOptions" class="quiz-options"></div>
+          </div>
+
+          <div id="quizResult" class="quiz-hidden">
+            <p id="quizScore" class="quiz-score"></p>
+            <button id="quizRestart" class="btn quiz-restart">
+              Jugar de nuevo 🔄
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CIERRE -->
+      <section class="section close">
+        <p>
+          No sé exactamente qué venga después…<br />
+          pero sé que me gustaría construirlo contigo,<br />
+          paso a paso, sonrisa a sonrisa.<br />
+          <br />
+          🌸 Con cariño, admiración, y toda la ilusión del mundo 🌸
+        </p>
+      </section>
+    </main>
+
+    <!-- LOVE LETTER MODAL -->
+    <div id="loveLetterModal" class="love-letter-modal">
+      <div class="envelope-container">
+        <div class="envelope">
+          <div class="envelope-flap"></div>
+          <div class="envelope-body"></div>
+        </div>
+        <div class="letter-content">
+          <div class="letter-paper">
+            <p class="letter-text" id="letterText"></p>
+          </div>
+          <button class="close-letter">Cerrar 💖</button>
+        </div>
+      </div>
+      <div class="petals-container" id="petalsContainer"></div>
+    </div>
+
+    <!-- LIGHTBOX MODAL for Photos -->
+    <div id="lightbox" class="lightbox">
+      <div class="lightbox-content">
+        <button class="lightbox-close" aria-label="Cerrar">×</button>
+        <img id="lightboxImage" class="lightbox-image" src="" alt="" />
+        <div id="lightboxCaption" class="lightbox-caption"></div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>
+        <span class="footer-date">febrero de 2026</span>
+        <span class="footer-message" id="dailyNoteMessage">🌸</span>
+      </p>
+    </footer>
+
+    <!-- Audio Element -->
+    <audio id="romanticSong" preload="auto">
+      <source
+        src="/audio/ytmp3free.cc_lord-huron-the-night-we-met-official-audio-youtubemp3free.org.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- ═══ SHARED SPACE MODAL ═══ -->
+    <div class="shared-space-overlay" id="sharedSpaceOverlay">
+      <div class="shared-space">
+        <div class="shared-space__header">
+          <span class="shared-space__title">🌌 Nuestro Espacio</span>
+          <button class="shared-space__close" id="sharedSpaceClose">✕</button>
+        </div>
+
+        <div class="shared-space__tabs">
+          <button class="shared-space__tab active" data-tab="panelThoughts">
+            💭 Pensamientos
+          </button>
+          <button class="shared-space__tab" data-tab="panelLetters">
+            💌 Cartas
+            <span class="shared-space__tab-badge hidden" id="letterTabBadge"
+              >0</span
+            >
+          </button>
+        </div>
+
+        <div class="shared-space__content">
+          <!-- THOUGHTS PANEL -->
+          <div class="shared-space__panel active" id="panelThoughts">
+            <form class="compose-form" id="thoughtForm">
+              <button
+                type="button"
+                class="compose-form__emoji-btn"
+                id="thoughtEmojiBtn"
+                title="Cambiar emoji"
+              >
+                💭
+              </button>
+              <input
+                class="compose-form__input"
+                id="thoughtInput"
+                placeholder="¿Qué estás pensando? 💖"
+                maxlength="500"
+                autocomplete="off"
+              />
+              <button type="submit" class="compose-form__send">
+                Compartir
+              </button>
+            </form>
+            <div id="thoughtFeed"></div>
+          </div>
+
+          <!-- LETTERS PANEL -->
+          <div class="shared-space__panel" id="panelLetters">
+            <form class="compose-form compose-form--letter" id="letterForm">
+              <textarea
+                class="compose-form__input"
+                id="letterInput"
+                placeholder="Escribe una carta especial... 💌"
+                maxlength="5000"
+                rows="4"
+              ></textarea>
+              <button type="submit" class="compose-form__send">
+                Enviar carta 💌
+              </button>
+            </form>
+            <div id="letterFeed"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ═══ MOMENTO ESPECIAL POPUP ═══ -->
-  <div class="moment-popup-overlay" id="momentPopupOverlay">
-    <div class="moment-popup__sparkles">
-      <div class="moment-popup__sparkle"></div>
-      <div class="moment-popup__sparkle"></div>
-      <div class="moment-popup__sparkle"></div>
-      <div class="moment-popup__sparkle"></div>
-      <div class="moment-popup__sparkle"></div>
+    <!-- ═══ MOMENTO ESPECIAL POPUP ═══ -->
+    <div class="moment-popup-overlay" id="momentPopupOverlay">
+      <div class="moment-popup__sparkles">
+        <div class="moment-popup__sparkle"></div>
+        <div class="moment-popup__sparkle"></div>
+        <div class="moment-popup__sparkle"></div>
+        <div class="moment-popup__sparkle"></div>
+        <div class="moment-popup__sparkle"></div>
+      </div>
+      <div class="moment-popup">
+        <div class="moment-popup__emoji" id="momentPopupEmoji">💖</div>
+        <h2 class="moment-popup__title" id="momentPopupTitle"></h2>
+        <div class="moment-popup__divider"></div>
+        <div class="moment-popup__content" id="momentPopupContent"></div>
+        <button class="moment-popup__close" id="momentPopupClose">
+          💖 He leído tu sorpresa
+        </button>
+      </div>
     </div>
-    <div class="moment-popup">
-      <div class="moment-popup__emoji" id="momentPopupEmoji">💖</div>
-      <h2 class="moment-popup__title" id="momentPopupTitle"></h2>
-      <div class="moment-popup__divider"></div>
-      <div class="moment-popup__content" id="momentPopupContent"></div>
-      <button class="moment-popup__close" id="momentPopupClose">💖 He leído tu sorpresa</button>
+
+    <!-- ═══ MOOD PICKER MODAL ═══ -->
+    <div class="mood-picker-overlay" id="moodPickerOverlay">
+      <div class="mood-picker">
+        <h3>Tu Estado de Ánimo ✨</h3>
+        <p style="color:var(--text-muted); margin-bottom:1rem; font-size:0.9rem;">Selecciona cómo te sientes ahora o escríbelo abajo.</p>
+        
+        <div class="mood-options">
+          <span class="mood-option" data-mood="Feliz 😊" title="Feliz">😊</span>
+          <span class="mood-option" data-mood="Motivado 🔥" title="Motivado">🔥</span>
+          <span class="mood-option" data-mood="Relajado 💆🏽‍♀️" title="Relajado">💆🏽‍♀️</span>
+          <span class="mood-option" data-mood="Cansado 🥱" title="Cansado">🥱</span>
+          <span class="mood-option" data-mood="Estresado 🤯" title="Estresado">🤯</span>
+          <span class="mood-option" data-mood="Romántico 💖" title="Romántico">💖</span>
+          <span class="mood-option" data-mood="En modo estudio 📚" title="Estudiando">📚</span>
+        </div>
+        
+        <input type="text" class="mood-custom-input" id="moodCustomInput" placeholder="O escribe otro mood aquí..." maxlength="40">
+        
+        <div style="display:flex; justify-content:space-between; gap:10px;">
+          <button class="btn btn--ghost" id="moodPickerClose" style="flex:1;">Cerrar</button>
+          <button class="btn btn--primary" id="saveMoodBtn" style="flex:1;">Actualizar ✨</button>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Session (must load first) -->
-  <script src="/js/components/userSession.js"></script>
-  <script src="/js/components/sharedSpace.js"></script>
+    <!-- ═══ MAGIC MOBILE KEYBOARD ═══ -->
+    <div class="magic-keyboard" id="magicKeyboard">
+      <div class="magic-keyboard-header">
+        <span style="font-size:0.8rem; color:var(--text-muted);">Teclado Mágico ✨</span>
+        <button id="closeKeyboardBtn" class="close-kb-btn">✕</button>
+      </div>
+      <div class="magic-keyboard-keys">
+        <div class="kb-row">
+          <button class="kb-key">q</button><button class="kb-key">w</button><button class="kb-key">e</button>
+          <button class="kb-key">r</button><button class="kb-key">t</button><button class="kb-key">y</button>
+          <button class="kb-key">u</button><button class="kb-key">i</button><button class="kb-key">o</button><button class="kb-key">p</button>
+        </div>
+        <div class="kb-row">
+          <button class="kb-key">a</button><button class="kb-key">s</button><button class="kb-key">d</button>
+          <button class="kb-key">f</button><button class="kb-key">g</button><button class="kb-key">h</button>
+          <button class="kb-key">j</button><button class="kb-key">k</button><button class="kb-key">l</button>
+        </div>
+        <div class="kb-row">
+          <button class="kb-key">z</button><button class="kb-key">x</button><button class="kb-key">c</button>
+          <button class="kb-key">v</button><button class="kb-key">b</button><button class="kb-key">n</button><button class="kb-key">m</button>
+        </div>
+      </div>
+    </div>
+    <button id="openMobileKeyboardBtn" class="floating-kb-btn" title="Abrir Teclado Mágico">⌨️</button>
 
-  <!-- Component Scripts -->
-  <script src="/js/components/romanticAnimations.js"></script>
-  <script src="/js/components/loveLetter.js"></script>
-  <script src="/js/components/memoryCards.js"></script>
-  <script src="/js/components/navigation.js"></script>
-  
-  <!-- Main orchestrator -->
-  <script src="/js/main.js"></script>
-</body>
+    <!-- Session (must load first) -->
+    <script src="/js/components/userSession.js"></script>
+    <script src="/js/components/sharedSpace.js"></script>
+
+    <!-- Core Scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/siteContent.js"></script>
+    <script src="/js/main.js"></script>
+
+    <!-- Component Scripts -->
+    <script src="/js/components/romanticAnimations.js"></script>
+    <script src="/js/components/loveLetter.js"></script>
+    <script src="/js/components/memoryCards.js"></script>
+    <script src="/js/components/navigation.js"></script>
+    <script src="/js/components/easterEggs.js"></script>
+    <script src="/js/components/timelineAndRoulette.js"></script>
+    <script src="/js/components/moodTracker.js"></script>
+    
+    <!-- Main orchestrator -->
+    <script src="/js/main.js"></script>
+  </body>
 </html>

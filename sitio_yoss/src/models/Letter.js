@@ -1,36 +1,34 @@
 /**
- * src/models/Letter.js — Schema de "cartas privadas"
+ * src/models/Letter.js — Schema de Cartas "Cápsula de Tiempo"
  * 
- * Cartas entre los dos usuarios con seguimiento de lectura.
+ * Permite dejar una carta bloqueada con una fecha de revelación.
+ * El contenido permanecerá oculto hasta la fecha especificada (`unlockDate`).
  */
 
 const mongoose = require('mongoose');
 
 const letterSchema = new mongoose.Schema(
   {
-    from: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: [true, 'El remitente es obligatorio'],
-    },
-    to: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: [true, 'El destinatario es obligatorio'],
-    },
-    content: {
+    title: {
       type: String,
-      required: [true, 'El contenido de la carta es obligatorio'],
+      required: [true, 'El título de la carta es obligatorio'],
       trim: true,
-      maxlength: [5000, 'La carta no puede exceder 5000 caracteres'],
+      maxlength: [100, 'El título no puede exceder 100 caracteres'],
     },
-    isRead: {
-      type: Boolean,
-      default: false,
+    body: {
+      type: String,
+      required: [true, 'El contenido (body) de la carta es obligatorio'],
+      trim: true,
+      maxlength: [10000, 'La carta no puede exceder 10000 caracteres'],
     },
-  },
-  {
-    timestamps: true,
+    unlockDate: {
+      type: Date,
+      required: [true, 'La fecha de revelación (unlockDate) es obligatoria'],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    }
   }
 );
 

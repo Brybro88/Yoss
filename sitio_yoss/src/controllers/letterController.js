@@ -1,32 +1,55 @@
 /**
- * src/controllers/letterController.js — CRUD de cartas privadas
+ * src/controllers/letterController.js — CRUD "Time-Locked Letters"
  * 
  * Endpoints:
- *   GET   /api/letters      — Listar cartas del usuario
- *   POST  /api/letters      — Enviar carta al otro usuario
- *   PATCH /api/letters/:id  — Marcar como leída
+ *   GET   /api/letters      — Listar cartas (con contenido oculto si están bloqueadas)
+ *   POST  /api/letters      — Crear una carta cápsula del tiempo (Admin)
+ *   DELETE /api/letters/:id — Borrar carta (Admin)
  */
 
 const Letter = require('../models/Letter');
-const User = require('../models/User');
 
 /**
- * GET /api/letters — Listar cartas donde el usuario es remitente o destinatario
+ * GET /api/letters — Listar todas las cartas. 
+ * Si el usuario es 'partner', oculta el body de las cartas cuyo unlockDate no ha llegado.
  */
 const getLetters = async (req, res, next) => {
   try {
-    const letters = await Letter.find({
-      $or: [{ from: req.user.id }, { to: req.user.id }],
-    })
-      .populate('from', 'displayName username')
-      .populate('to', 'displayName username')
-      .sort({ createdAt: -1 })
-      .limit(100);
+    const letters = await Letter.find().sort({ unlockDate: 1 });
+
+    const now = new Date();
+
+    // Map time-lock logic
+    const safeLetters = letters.map((letter) => {
+      const isLocked = now < letter.unlockDate;
+      const isAdmin = req.user.role === 'admin';
+
+      const publicLetter = letter.toObject();
+
+      if (isAdmin) {
+        publicLetter.isLocked = false;
+        return publicLetter;
+      }
+
+      // Si es partner
+      if (!isLocked) {
+        publicLetter.isLocked = false;
+        return publicLetter;
+      } else {
+        // Carta bloqueada: devolver estrictamente campos permitidos (ocultar content/body por la red)
+        return {
+          _id: publicLetter._id,
+          title: publicLetter.title,
+          unlockDate: publicLetter.unlockDate,
+          isLocked: true
+        };
+      }
+    });
 
     res.status(200).json({
       success: true,
-      count: letters.length,
-      letters,
+      count: safeLetters.length,
+      letters: safeLetters,
     });
   } catch (error) {
     next(error);
@@ -34,46 +57,29 @@ const getLetters = async (req, res, next) => {
 };
 
 /**
- * POST /api/letters — Enviar carta al otro usuario
- * 
- * Solo hay 2 usuarios, así que el destinatario es automáticamente
- * el otro usuario del sistema.
+ * POST /api/letters — Crear carta con bloqueo de tiempo
+ * Solamente el admin puede publicar cartas.
  */
 const createLetter = async (req, res, next) => {
   try {
-    const { content } = req.body;
+    const { title, body, unlockDate } = req.body;
 
-    if (!content || !content.trim()) {
+    if (!title || !body || !unlockDate) {
       return res.status(400).json({
         success: false,
-        message: 'Escribe algo en tu carta 💌',
-      });
-    }
-
-    // Encontrar al otro usuario automáticamente
-    const otherUser = await User.findOne({
-      _id: { $ne: req.user.id },
-    });
-
-    if (!otherUser) {
-      return res.status(404).json({
-        success: false,
-        message: 'No se encontró al destinatario',
+        message: 'Título, contenido y fecha de desbloqueo son obligatorios 💌',
       });
     }
 
     const letter = await Letter.create({
-      from: req.user.id,
-      to: otherUser._id,
-      content: content.trim(),
+      title: title.trim(),
+      body: body.trim(),
+      unlockDate: new Date(unlockDate)
     });
-
-    await letter.populate('from', 'displayName username');
-    await letter.populate('to', 'displayName username');
 
     res.status(201).json({
       success: true,
-      message: `Carta enviada a ${otherUser.displayName} 💌`,
+      message: 'Carta cápsula de tiempo creada con éxito 📜⏳',
       letter,
     });
   } catch (error) {
@@ -82,10 +88,9 @@ const createLetter = async (req, res, next) => {
 };
 
 /**
- * PATCH /api/letters/:id — Marcar carta como leída
- * Solo el destinatario puede marcarla como leída.
+ * DELETE /api/letters/:id — Eliminar una carta
  */
-const markAsRead = async (req, res, next) => {
+const deleteLetter = async (req, res, next) => {
   try {
     const letter = await Letter.findById(req.params.id);
 
@@ -96,24 +101,46 @@ const markAsRead = async (req, res, next) => {
       });
     }
 
-    // Solo el destinatario puede marcarla como leída
-    if (letter.to.toString() !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: 'Solo el destinatario puede marcar como leída',
-      });
-    }
-
-    letter.isRead = true;
-    await letter.save();
+    await letter.deleteOne();
 
     res.status(200).json({
       success: true,
-      message: 'Carta marcada como leída',
+      message: 'Carta eliminada correctamente 🗑️',
     });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getLetters, createLetter, markAsRead };
+/**
+ * PUT /api/letters/:id — Actualizar una carta existente (Admin)
+ */
+const updateLetter = async (req, res, next) => {
+  try {
+    const { title, body, unlockDate } = req.body;
+    const letter = await Letter.findById(req.params.id);
+
+    if (!letter) {
+      return res.status(404).json({
+        success: false,
+        message: 'Carta no encontrada',
+      });
+    }
+
+    if (title) letter.title = title.trim();
+    if (body) letter.body = body.trim();
+    if (unlockDate) letter.unlockDate = new Date(unlockDate);
+
+    await letter.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Carta actualizada con éxito ✏️',
+      letter,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getLetters, createLetter, deleteLetter, updateLetter };

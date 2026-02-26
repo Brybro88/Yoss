@@ -295,19 +295,19 @@ body::before {
 /* ────────────────────────────────────────────────────────── */
 button {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 2.5vw, 1.1rem);
-  font-weight: 600;
-  padding: clamp(0.9rem, 3vw, 1.2rem) clamp(2rem, 6vw, 3rem);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 500;
+  padding: clamp(0.7rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
   background: var(--gradient-button);
   color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 button::before {
@@ -329,12 +329,12 @@ button:hover::before {
 }
 
 button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 36px rgba(255, 107, 157, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
 }
 
 button:active {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* ────────────────────────────────────────────────────────── */
@@ -1120,20 +1120,25 @@ body.dark-mode .secret-word::before {
 /* 23. SONG PLAYER - Audio Controls                           */
 /* ────────────────────────────────────────────────────────── */
 .song-player {
-  position: fixed;
-  bottom: var(--spacing-md);
-  right: var(--spacing-md);
+  position: relative;
   background: var(--gradient-card);
   backdrop-filter: var(--blur-glass);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 60px;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1rem;
   box-shadow: var(--shadow-medium);
   display: flex;
   align-items: center;
   gap: 1rem;
-  z-index: 9999;
+  z-index: 10;
   transition: var(--transition-smooth);
+  max-width: fit-content;
+}
+
+@media (max-width: 768px) {
+  .song-player {
+    padding: 0.5rem 1rem;
+  }
 }
 
 .song-player:hover {
@@ -1185,9 +1190,7 @@ body.dark-mode .secret-word::before {
 /* 24. DARK MODE TOGGLE - Sun/Moon Button                     */
 /* ────────────────────────────────────────────────────────── */
 .theme-toggle {
-  position: fixed;
-  top: var(--spacing-md);
-  left: var(--spacing-md);
+  position: relative;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -1198,9 +1201,10 @@ body.dark-mode .secret-word::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 10;
   transition: var(--transition-smooth);
   box-shadow: var(--shadow-soft);
+  flex-shrink: 0;
 }
 
 .theme-toggle:hover {

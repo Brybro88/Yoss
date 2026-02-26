@@ -127,36 +127,38 @@ body.dark-mode .nav-links a:hover {
 /* ────────────────────────────────────────────────────────── */
 .scroll-to-top {
   position: fixed;
-  bottom: calc(var(--spacing-md) + 80px); /* Above music player */
+  bottom: calc(var(--spacing-md) + 20px);
   right: var(--spacing-md);
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--gradient-button);
-  border: none;
+  background: var(--color-primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: white;
-  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
   z-index: 9998;
   opacity: 0;
   transform: translateY(20px) scale(0.8);
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   pointer-events: none;
+  backdrop-filter: blur(5px);
 }
 
 .scroll-to-top.visible {
-  opacity: 1;
+  opacity: 0.5;
   transform: translateY(0) scale(1);
   pointer-events: auto;
 }
 
 .scroll-to-top:hover {
   transform: translateY(-4px) scale(1.1);
-  box-shadow: 0 12px 36px rgba(255, 107, 157, 0.5);
+  opacity: 0.9;
+  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
 }
 
 .scroll-to-top:active {
@@ -255,10 +257,10 @@ body.dark-mode .nav-links a:hover {
   }
   
   .scroll-to-top {
-    bottom: calc(var(--spacing-md) + 120px); /* Above navbar and player */
-    width: 45px;
-    height: 45px;
-    font-size: 1.3rem;
+    bottom: calc(var(--spacing-md) + 20px);
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
   }
 }
 

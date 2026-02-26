@@ -95,4 +95,34 @@ const deleteThought = async (req, res, next) => {
   }
 };
 
-module.exports = { getThoughts, createThought, deleteThought };
+/**
+ * PATCH /api/thoughts/:id/read — Marcar un pensamiento como visto por el otro usuario
+ */
+const markAsRead = async (req, res, next) => {
+  try {
+    const thought = await Thought.findById(req.params.id);
+
+    if (!thought) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pensamiento no encontrado',
+      });
+    }
+
+    // No marcar mis propios pensamientos
+    if (thought.author.toString() === req.user.id) {
+      return res.status(200).json({ success: true, message: 'Es tu propio pensamiento' });
+    }
+
+    if (!thought.readBy.includes(req.user.id)) {
+      thought.readBy.push(req.user.id);
+      await thought.save();
+    }
+
+    res.status(200).json({ success: true, message: 'Pensamiento marcado como leído' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getThoughts, createThought, deleteThought, markAsRead };

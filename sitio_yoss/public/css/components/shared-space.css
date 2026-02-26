@@ -427,6 +427,18 @@
   border-left: 3px solid rgba(255, 105, 180, 0.2);
 }
 
+.locked-card {
+  opacity: 0.6;
+  border-color: rgba(150, 150, 180, 0.2);
+  background: repeating-linear-gradient(45deg, rgba(20, 20, 30, 0.3), rgba(20, 20, 30, 0.3) 10px, rgba(30, 30, 45, 0.3) 10px, rgba(30, 30, 45, 0.3) 20px);
+}
+.locked-card .letter-card__header {
+  opacity: 0.5;
+}
+.locked-card:hover {
+  opacity: 0.8;
+}
+
 .letter-card__mark-read {
   display: inline-block;
   margin-top: 0.8rem;
