@@ -7,7 +7,9 @@
  * Las contraseñas se hashean con bcrypt (12 rounds).
  */
 
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
