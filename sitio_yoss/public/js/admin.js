@@ -383,14 +383,16 @@ async function deleteLetter(id) {
 async function loadCmsConfig() {
   const welcomeInput = document.getElementById('welcomeMessage');
   const dailyNoteInput = document.getElementById('dailyNote');
+  const partnerHeadingInput = document.getElementById('partnerHeading');
   if (!welcomeInput || !dailyNoteInput) return;
 
   try {
     const res = await fetch('/api/site-content');
     if (res.ok) {
-      const data = await res.json();
+      const { data } = await res.json();
       welcomeInput.value = data.welcomeMessage || '';
       dailyNoteInput.value = data.dailyNote || '';
+      if (partnerHeadingInput) partnerHeadingInput.value = data.partnerHeading || '';
     }
   } catch (err) {
     console.error('Error fetching CMS Config', err);
@@ -406,6 +408,7 @@ function setupCmsForm() {
 
     const welcomeMessage = document.getElementById('welcomeMessage').value.trim();
     const dailyNote = document.getElementById('dailyNote').value.trim();
+    const partnerHeading = document.getElementById('partnerHeading')?.value.trim() || '';
 
     if (!welcomeMessage || !dailyNote) {
       showToast('Completa los campos del CMS 📝', 'error');
@@ -421,7 +424,7 @@ function setupCmsForm() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
-        body: JSON.stringify({ welcomeMessage, dailyNote }),
+        body: JSON.stringify({ welcomeMessage, dailyNote, partnerHeading }),
       });
 
       if (res.ok) {

@@ -28,6 +28,12 @@ const siteContentSchema = new mongoose.Schema(
       default: 'Te amo infinito, yoss.', 
       maxlength: [500, 'La nota diaria no puede exceder 500 caracteres'],
     },
+    partnerHeading: {
+      type: String,
+      trim: true,
+      default: 'Tu espacio seguro, hermosa ✨',
+      maxlength: [200, 'El título para partner no puede exceder 200 caracteres'],
+    },
     // Aquí podemos agregar más campos en el futuro
     // ej. ourAnniversaryDate, counterTitle, etc.
   },

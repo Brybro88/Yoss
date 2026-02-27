@@ -41,9 +41,9 @@ function applyRolePermissions(role) {
     const adminOnlyElements = document.querySelectorAll('.admin-only');
     adminOnlyElements.forEach(el => el.style.display = 'none');
 
-    // Títulos cálidos para la partner
+    // Títulos cálidos para la partner (placeholder, CMS lo sobreescribe)
     const heroWelcome = document.getElementById('heroWelcome');
-    if (heroWelcome) heroWelcome.textContent = 'Tu espacio seguro, hermosa ✨';
+    if (heroWelcome) heroWelcome.textContent = 'Cargando... ✨';
 
     document.title = 'Nuestro Universo 💖';
   } else if (role === 'admin') {
@@ -67,5 +67,11 @@ function injectDynamicContent(data) {
 
   if (dailyNoteMessage && data.dailyNote) {
     dailyNoteMessage.innerHTML = `${data.dailyNote} 🌸`;
+  }
+
+  // Partner heading (only applied if user is partner)
+  if (data.partnerHeading && window.USER_ROLE === 'partner') {
+    const partnerEl = document.getElementById('heroWelcome');
+    if (partnerEl) partnerEl.textContent = data.partnerHeading;
   }
 }

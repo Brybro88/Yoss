@@ -255,6 +255,51 @@
           </div>
         </div>
       </section>
+
+      <!-- ═══ CONFIGURACIÓN DEL SITIO (CMS) ═══ -->
+      <section class="admin-section" id="cmsSection">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title">⚙️ Configuración del Sitio</h2>
+          <span
+            class="admin-section__badge"
+            style="background: rgba(100, 200, 255, 0.2); color: #64c8ff"
+            >CMS</span
+          >
+        </div>
+        <form id="cmsForm" class="admin-form">
+          <div class="form-group">
+            <label for="partnerHeading">💕 Título para Yoss (Hero)</label>
+            <input
+              type="text"
+              id="partnerHeading"
+              placeholder="Tu espacio seguro, hermosa ✨"
+              maxlength="200"
+            />
+            <small style="color: rgba(255,255,255,0.4)">Este es el título principal que Yoss ve al entrar</small>
+          </div>
+          <div class="form-group">
+            <label for="welcomeMessage">📝 Mensaje de Bienvenida</label>
+            <textarea
+              id="welcomeMessage"
+              rows="3"
+              placeholder="El párrafo principal debajo del título..."
+              maxlength="1000"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="dailyNote">🌸 Nota del Día (Footer)</label>
+            <input
+              type="text"
+              id="dailyNote"
+              placeholder="Te amo infinito, yoss."
+              maxlength="500"
+            />
+          </div>
+          <button type="submit" class="btn btn--primary" id="saveCmsBtn">
+            ✨ Guardar Cambios
+          </button>
+        </form>
+      </section>
     </main>
 
     <script src="/js/admin.js"></script>
