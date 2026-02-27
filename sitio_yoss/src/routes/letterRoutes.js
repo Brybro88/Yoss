@@ -3,9 +3,8 @@
  */
 
 const { Router } = require('express');
-const { getLetters, createLetter, deleteLetter, updateLetter } = require('../controllers/letterController');
-const { protect } = require('../middlewares/authMiddleware');
-const { requireAdmin } = require('../middlewares/authMiddleware');
+const { getLetters, createLetter, deleteLetter, updateLetter, markLetterRead } = require('../controllers/letterController');
+const { protect, requireAdmin } = require('../middlewares/authMiddleware');
 
 const router = Router();
 
@@ -13,8 +12,9 @@ const router = Router();
 router.use(protect);
 
 router.get('/', getLetters);
-router.post('/', requireAdmin, createLetter);
-router.put('/:id', requireAdmin, updateLetter);
+router.post('/', createLetter);                // Both users can send letters
+router.patch('/:id/read', markLetterRead);      // Partner marks as read
+router.put('/:id', requireAdmin, updateLetter); // Admin edits capsules
 router.delete('/:id', requireAdmin, deleteLetter);
 
 module.exports = router;

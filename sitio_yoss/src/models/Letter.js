@@ -1,14 +1,20 @@
 /**
- * src/models/Letter.js — Schema de Cartas "Cápsula de Tiempo"
+ * src/models/Letter.js — Schema de Cartas y Cápsulas de Tiempo
  * 
- * Permite dejar una carta bloqueada con una fecha de revelación.
- * El contenido permanecerá oculto hasta la fecha especificada (`unlockDate`).
+ * Soporta dos modos:
+ *   - Carta instantánea: sin unlockDate, visible inmediatamente
+ *   - Cápsula de tiempo: con unlockDate, bloqueada hasta esa fecha
  */
 
 const mongoose = require('mongoose');
 
 const letterSchema = new mongoose.Schema(
   {
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
     title: {
       type: String,
       required: [true, 'El título de la carta es obligatorio'],
@@ -23,7 +29,15 @@ const letterSchema = new mongoose.Schema(
     },
     unlockDate: {
       type: Date,
-      required: [true, 'La fecha de revelación (unlockDate) es obligatoria'],
+      default: null,
+    },
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
+    readAt: {
+      type: Date,
+      default: null,
     },
     createdAt: {
       type: Date,
@@ -33,3 +47,4 @@ const letterSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Letter', letterSchema);
+

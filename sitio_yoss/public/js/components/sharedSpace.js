@@ -123,28 +123,38 @@
     thoughtFeed.innerHTML = thoughts.map((t) => {
       const isAuthor = currentUser && t.author?._id === currentUser.id;
       const isReadByOther = t.readBy && t.readBy.length > 0;
-      const canMarkRead = currentUser && !isAuthor && !(t.readBy || []).includes(currentUser.id);
-      
+      const needsAutoRead = currentUser && !isAuthor && !(t.readBy || []).includes(currentUser.id);
+
+      // Read receipt indicator (only visible to author)
+      let receiptHTML = '';
+      if (isAuthor) {
+        receiptHTML = isReadByOther
+          ? '<span title="Leído" style="color:#34b7f1; font-size:0.75rem; font-weight:bold;">✓✓ Visto</span>'
+          : '<span title="Enviado" style="color:#888; font-size:0.75rem;">✓</span>';
+      }
+
       return `
-      <div class="thought-card" data-id="${t._id}">
+      <div class="thought-card${needsAutoRead ? ' needs-read' : ''}" data-id="${t._id}">
         <span class="thought-card__emoji">${escapeHtml(t.emoji)}</span>
         <div class="thought-card__body">
           <div class="thought-card__meta">
             <span class="thought-card__author">${escapeHtml(t.author?.displayName || 'Anónimo')}</span>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
               <span class="thought-card__time">${timeAgo(t.createdAt)}</span>
-              ${isAuthor && isReadByOther ? '<span title="Leído" style="font-size:0.75rem">✔️ Leído</span>' : ''}
+              ${receiptHTML}
             </div>
           </div>
           <p class="thought-card__content">${escapeHtml(t.content)}</p>
-          ${canMarkRead ? `<button class="thought-card__mark-read" onclick="YossSpace.markThoughtRead('${t._id}')" style="background: none; border: none; color: #ff69b4; font-size: 0.8rem; cursor: pointer; text-decoration: underline; padding: 0; margin-top: 5px;">Marcar como leído ✨</button>` : ''}
         </div>
         ${isAuthor
-          ? `<button class="thought-card__delete" onclick="YossSpace.deleteThought('${t._id}')" title="Eliminar">✕</button>`
+          ? `<button class="thought-card__delete" data-action="delete-thought" data-id="${t._id}" title="Eliminar">✕</button>`
           : ''}
       </div>
       `;
     }).join('');
+
+    // Setup auto-read observer for thoughts from other user
+    setupAutoReadObserver(thoughtFeed, '.thought-card.needs-read', '/api/thoughts/{id}/read');
   }
 
   async function createThought() {
@@ -266,17 +276,26 @@
       return;
     }
 
-    // Ocultar el formulario de "escribir carta" de raíz para todos (ahora vive en Admin Dashboard)
-    const letterFormNode = document.getElementById('letterForm');
-    if (letterFormNode) {
-      letterFormNode.style.display = 'none';
-    }
+    const currentUser = window.YossSession?.getUser();
 
     letterFeed.innerHTML = letters.map((l) => {
-      const isUnread = false; // Se omite la vieja logica de isRead para el modelo TimeLock
-      
       let letterContentHTML;
       let extraClass = '';
+
+      // Read receipt indicator (visible to the author of the letter)
+      const isAuthor = currentUser && l.author && l.author._id === currentUser.id;
+      let receiptHTML = '';
+      if (isAuthor && !l.isLocked) {
+        if (l.isRead) {
+          const readTime = l.readAt ? new Date(l.readAt).toLocaleString('es-MX', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '';
+          receiptHTML = `<span style="font-size: 0.75rem; color:#34b7f1; font-weight:bold;" title="Visto: ${readTime}">✓✓ Visto ${readTime}</span>`;
+        } else {
+          receiptHTML = '<span style="font-size: 0.75rem; color:#888;">✓ Enviada</span>';
+        }
+      }
+
+      // Needs auto-read? (user viewing a letter they didn't write)
+      const needsAutoRead = currentUser && !isAuthor && !l.isLocked && !l.isRead;
 
       if (l.isLocked) {
         letterContentHTML = `<div style="text-align: center; color: var(--text-muted); font-style: italic; padding: 2rem 1rem;">
@@ -299,7 +318,6 @@
         </div>`;
         extraClass = 'locked-card';
       } else {
-        // Formateo expansivo para una carta de amor moderna y abierta
         const formattedBody = escapeHtml(l.body).replace(/\n/g, '<br>');
         letterContentHTML = `
           <div class="letter-card__content" style="
@@ -318,18 +336,20 @@
       }
 
       return `
-        <div class="letter-card ${extraClass}" data-id="${l._id}" style="
+        <div class="letter-card ${extraClass}${needsAutoRead ? ' needs-read-letter' : ''}" data-id="${l._id}" style="
           ${!l.isLocked ? 'background: linear-gradient(145deg, rgba(232, 69, 122, 0.1), rgba(20, 10, 30, 0.6)); border: 1px solid rgba(232, 69, 122, 0.3); transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.5);' : ''}
         ">
           <div class="letter-card__header" style="${!l.isLocked ? 'border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem;' : ''}">
             <span class="letter-card__from" style="${!l.isLocked ? 'font-size: 1.4rem; color: #fff; font-weight: bold;' : ''}">
               ${escapeHtml(l.title)}
+              ${l.author ? `<small style="font-size: 0.75rem; opacity: 0.7; display: block; font-weight: normal;">De: ${escapeHtml(l.author.displayName || 'Anónimo')}</small>` : ''}
             </span>
-            <div style="display: flex; gap: 0.5rem; align-items: center; flex-direction: column; align-items: flex-end;">
+            <div style="display: flex; gap: 0.5rem; align-items: flex-end; flex-direction: column;">
               <span class="letter-card__time" style="${!l.isLocked ? 'color: var(--accent-color); font-weight: 500;' : ''}">
                 ${l.isLocked ? `Abre en: ${formatDate(l.unlockDate)}` : `Abierta el: ${formatDate(l.unlockDate)}`}
               </span>
               ${!l.isLocked ? '<span style="font-size: 0.75rem; background: var(--accent-color); color: white; padding: 2px 8px; border-radius: 12px;">Cápsula Desbloqueada 🔓</span>' : ''}
+              ${receiptHTML}
             </div>
           </div>
           ${letterContentHTML}
@@ -337,8 +357,9 @@
       `;
     }).join('');
 
-    // Iniciar contadores
+    // Iniciar contadores + auto-read observer for letters
     startLetterCountdowns();
+    setupAutoReadObserver(letterFeed, '.letter-card.needs-read-letter', '/api/letters/{id}/read');
   }
 
   let letterCountdownInterval = null;
@@ -388,24 +409,26 @@
     letterCountdownInterval = setInterval(updateCounters, 1000);
   }
   function updateUnreadCount(letters) {
-    // Update tab badge based on unlockable letters instead of unread explicitly
-    const unlockable = letters.filter(l => !l.isLocked);
-    
-    // Si queremos mostrar el numero de cartas desbloqueadas en vez de las 'no leidas'
+    // Count unread letters that the current user didn't write
+    const currentUser = window.YossSession?.getUser();
+    const unread = letters.filter(l =>
+      !l.isLocked && !l.isRead && (!l.author || l.author._id !== currentUser?.id)
+    );
+    const count = unread.length;
+
     if (letterTabBadge) {
-      if (unlockable.length > 0) {
-        letterTabBadge.textContent = unlockable.length;
+      if (count > 0) {
+        letterTabBadge.textContent = count;
         letterTabBadge.classList.remove('hidden');
       } else {
         letterTabBadge.classList.add('hidden');
       }
     }
 
-    // Update user bar badge
     const userBarBadge = document.getElementById('unreadBadge');
     if (userBarBadge) {
-      if (unlockable.length > 0) {
-        userBarBadge.textContent = unlockable.length;
+      if (count > 0) {
+        userBarBadge.textContent = count;
         userBarBadge.classList.remove('hidden');
       } else {
         userBarBadge.classList.add('hidden');
@@ -416,25 +439,23 @@
   async function createLetter() {
     if (!letterInput) return;
 
-    // Para evitar complejidad modal ahora, un prompt basico asume titulo, body y fecha futura
-    const title = prompt("Título de la cápsula:");
-    if (!title) return;
-    
     const body = letterInput.value.trim();
     if (!body) return;
 
-    // Pedimos fecha en formator YYYY-MM-DD
-    const unlockDateStr = prompt("Fecha de desbloqueo (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
-    if (!unlockDateStr) return;
+    const title = prompt('¿Título para tu carta? 💌', 'Para ti...');
+    if (!title) return;
 
     const sendBtn = letterForm?.querySelector('.compose-form__send');
-    if (sendBtn) sendBtn.disabled = true;
+    if (sendBtn) {
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Enviando...';
+    }
 
     try {
       const res = await fetch('/api/letters', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, body, unlockDate: unlockDateStr }),
+        body: JSON.stringify({ title, body }),
         credentials: 'same-origin',
       });
 
@@ -448,24 +469,19 @@
     } catch (err) {
       console.error('Error creando carta:', err);
     } finally {
-      if (sendBtn) sendBtn.disabled = false;
+      if (sendBtn) {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Enviar carta 💌';
+      }
     }
   }
 
   async function markLetterRead(id) {
     try {
-      const res = await fetch(`/api/letters/${id}`, {
+      await fetch(`/api/letters/${id}/read`, {
         method: 'PATCH',
         credentials: 'same-origin',
       });
-
-      if (res.ok) {
-        loadLetters();
-        // Refresh user bar badge too
-        if (window.YossSession?.refreshUnread) {
-          window.YossSession.refreshUnread();
-        }
-      }
     } catch (err) {
       console.error('Error marcando carta:', err);
     }
@@ -512,14 +528,65 @@
   }
 
   // ═════════════════════════════════════════════════════════
-  // PUBLIC API (for inline onclick handlers)
+  // INTERSECTION OBSERVER — auto-read on scroll
   // ═════════════════════════════════════════════════════════
 
+  const readTimers = new Map();          // id -> timeout
+  const alreadyMarked = new Set();       // avoid duplicate calls
+
+  function setupAutoReadObserver(container, selector, urlTemplate) {
+    if (!container) return;
+    const cards = container.querySelectorAll(selector);
+    if (cards.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.dataset.id;
+        if (!id || alreadyMarked.has(id)) return;
+
+        if (entry.isIntersecting) {
+          // Start 1.5s timer
+          const timer = setTimeout(async () => {
+            alreadyMarked.add(id);
+            const url = urlTemplate.replace('{id}', id);
+            try {
+              await fetch(url, { method: 'PATCH', credentials: 'same-origin' });
+              // Silently update UI: swap to ✓✓ if visible
+              entry.target.classList.remove('needs-read', 'needs-read-letter');
+            } catch (err) {
+              console.error('Auto-read error:', err);
+            }
+          }, 1500);
+          readTimers.set(id, timer);
+        } else {
+          // Scrolled away before 1.5s — cancel
+          if (readTimers.has(id)) {
+            clearTimeout(readTimers.get(id));
+            readTimers.delete(id);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    cards.forEach(card => observer.observe(card));
+  }
+
+  // ═════════════════════════════════════════════════════════
+  // EVENT DELEGATION (replaces inline onclick)
+  // ═════════════════════════════════════════════════════════
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    const id = btn.dataset.id;
+
+    if (action === 'delete-thought' && id) deleteThought(id);
+  });
+
+  // Keep minimal global API for modal control
   window.YossSpace = {
     open: openModal,
     close: closeModal,
-    deleteThought,
-    markLetterRead,
-    markThoughtRead,
   };
 })();
