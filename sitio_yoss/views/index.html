@@ -79,7 +79,21 @@
     <!-- MOOD TRACKER WIDGET -->
     <div class="mood-tracker hidden" id="moodTracker">
       <div class="mood-tracker__display" id="moodDisplay"></div>
-      <button class="mood-tracker__action" id="updateMoodBtn">¿Cómo te sientes hoy?</button>
+      <button class="mood-tracker__action" id="updateMoodBtn">¿Cómo te sientes hoy? 💫</button>
+    </div>
+
+    <!-- MOOD PICKER MODAL -->
+    <div class="mood-picker-overlay" id="moodPickerOverlay">
+      <div class="mood-picker">
+        <button class="mood-picker__close" id="moodPickerClose">✕</button>
+        <h3 id="moodPickerTitle">¿Cómo te sientes?</h3>
+        <p class="mood-picker__subtitle">Toca una emoción o escribe la tuya</p>
+        <div class="mood-options" id="moodOptionsGrid"></div>
+        <div class="mood-custom">
+          <input type="text" class="mood-custom-input" id="moodCustomInput" placeholder="Escribe tu mood personalizado..." maxlength="50" />
+          <button class="mood-save-btn" id="saveMoodBtn">Actualizar ✨</button>
+        </div>
+      </div>
     </div>
 
     <!-- Reading Progress Bar -->
