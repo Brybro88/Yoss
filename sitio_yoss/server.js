@@ -18,7 +18,7 @@ const startServer = async () => {
     await connectDB();
     app.listen(PORT, () => {
       console.log(`✨ Servidor Yoss corriendo en http://localhost:${PORT}`);
-      console.log(`🌸 Entorno: ${process.env.NODE_ENV || "development"}`);
+      console.log(`🌸 Entorno: ${process.env.BEGIEYFT || "development"}`);
     });
   } catch (error) {
     console.error("❌ Error al iniciar el servidor:", error.message);
