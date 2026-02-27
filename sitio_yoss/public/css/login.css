@@ -227,10 +227,23 @@ body {
 .login-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 25px rgba(255, 105, 180, 0.35);
+  animation: heartbeat-btn 1.2s ease-in-out infinite;
+}
+
+.login-btn:focus {
+  animation: heartbeat-btn 1.2s ease-in-out infinite;
 }
 
 .login-btn:hover::before {
   left: 100%;
+}
+
+@keyframes heartbeat-btn {
+  0%, 100% { transform: translateY(-2px) scale(1); }
+  15% { transform: translateY(-2px) scale(1.04); }
+  30% { transform: translateY(-2px) scale(1); }
+  45% { transform: translateY(-2px) scale(1.04); }
+  60% { transform: translateY(-2px) scale(1); }
 }
 
 .login-btn:active {
@@ -298,6 +311,7 @@ body {
   .login-container {
     padding: 2rem 1.5rem;
     margin: 1rem;
+    margin-bottom: 20vh;
   }
 
   .login-title {

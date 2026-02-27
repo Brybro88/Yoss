@@ -61,7 +61,8 @@ if (form) {
 
     // Loading state
     loginBtn.disabled = true;
-    loginBtn.innerHTML = '<span class="spinner"></span>Un momento...';
+    loginBtn.style.opacity = '0.75';
+    loginBtn.innerHTML = '<span class="spinner"></span>Viajando a nuestro universo... ✨';
 
     try {
       const res = await fetch("/api/auth/login", {
@@ -97,5 +98,6 @@ function showError(msg) {
 
 function resetBtn() {
   loginBtn.disabled = false;
+  loginBtn.style.opacity = '1';
   loginBtn.textContent = originalBtnText;
 }

@@ -29,7 +29,18 @@
 
   function renderTimeline(events) {
     if (events.length === 0) {
-      timelineContainer.innerHTML = '<div class="timeline-empty">Nuestra historia apenas comienza a escribirse aquí... 📖</div>';
+      timelineContainer.innerHTML = `
+        <div class="timeline-empty-state">
+          <div class="timeline-empty-state__icon">📸</div>
+          <h3 class="timeline-empty-state__title">Aún no tenemos fotos aquí...</h3>
+          <p class="timeline-empty-state__text">
+            ¡Es la excusa perfecta para tomarnos la primera foto juntos pronto!
+          </p>
+          <a href="#roulette" class="timeline-empty-state__btn">
+            Planear nuestra próxima foto 🎡
+          </a>
+        </div>
+      `;
       return;
     }
 

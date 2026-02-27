@@ -36,10 +36,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function applyRolePermissions(role) {
-  // Ej: Ocultar el botón rojo de eliminar en el Timeline form u otros elementos de admin
   if (role === 'partner') {
+    // Ocultar todos los elementos exclusivos de admin
     const adminOnlyElements = document.querySelectorAll('.admin-only');
     adminOnlyElements.forEach(el => el.style.display = 'none');
+
+    // Títulos cálidos para la partner
+    const heroWelcome = document.getElementById('heroWelcome');
+    if (heroWelcome) heroWelcome.textContent = 'Tu espacio seguro, hermosa ✨';
+
+    document.title = 'Nuestro Universo 💖';
   } else if (role === 'admin') {
     const adminBtn = document.getElementById('adminPanelBtn');
     if (adminBtn) adminBtn.classList.remove('hidden');

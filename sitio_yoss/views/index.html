@@ -377,46 +377,19 @@
           un momento que fue real, que fue nuestro.
         </p>
 
-        <div class="photo-grid">
-          <!-- Polaroid 1 -->
-          <div class="polaroid">
-            <div class="polaroid-image">
-              <!-- Reemplaza con: <img src="/images/foto1.jpg" alt="Nosotros"> -->
-              <span class="polaroid-placeholder">📸</span>
-            </div>
-            <div class="polaroid-caption">Ese día que todo empezó...</div>
+        <div class="photos-empty-state">
+          <div class="photos-empty-state__frame">
+            <span class="photos-empty-state__icon">📷</span>
+            <div class="photos-empty-state__sparkle">✨</div>
           </div>
-
-          <!-- Polaroid 2 -->
-          <div class="polaroid">
-            <div class="polaroid-image">
-              <!-- Reemplaza con: <img src="/images/foto2.jpg" alt="Nosotros"> -->
-              <span class="polaroid-placeholder">💕</span>
-            </div>
-            <div class="polaroid-caption"></div>
-          </div>
-
-          <!-- Polaroid 3 -->
-          <div class="polaroid">
-            <div class="polaroid-image">
-              <!-- Reemplaza con: <img src="/images/foto3.jpg" alt="Nosotros"> -->
-              <span class="polaroid-placeholder">🌸</span>
-            </div>
-            <div class="polaroid-caption"></div>
-          </div>
-        </div>
-
-        <!-- Memory Invitation -->
-        <div class="memory-invitation">
-          <p>
-            Estas son
-            <span class="highlight">las pocas que tenemos</span>...<br />
-            pero me encantaría que juntos
-            <span class="highlight">creemos miles más</span>.<br />
-            <br />
-            Momentos reales. Sonrisas genuinas.
-            <span class="highlight">Recuerdos que valgan la pena guardar</span>.
+          <h3 class="photos-empty-state__title">Nuestros recuerdos están esperando...</h3>
+          <p class="photos-empty-state__text">
+            Aún no tenemos fotos aquí, pero eso solo significa que lo mejor está por venir.<br>
+            Cada momento que vivamos juntos será un recuerdo que valdrá la pena guardar.
           </p>
+          <a href="#roulette" class="photos-empty-state__btn">
+            🎡 Planear nuestra próxima aventura
+          </a>
         </div>
       </section>
 
@@ -517,7 +490,7 @@
           <button class="btn btn--primary roulette-btn" id="spinRouletteBtn">Girar Ruleta ✨</button>
         </div>
 
-        <div class="roulette-add">
+        <div class="roulette-add admin-only">
           <p>¿Tienes una nueva idea? ¡Agrégala!</p>
           <form class="compose-form" id="addDateForm" style="max-width: 400px; margin: 0 auto;">
             <input class="compose-form__input" id="dateIdeaInput" placeholder="Ej. Ir por un helado..." maxlength="100" required>
@@ -607,6 +580,37 @@
         <span class="footer-message" id="dailyNoteMessage">🌸</span>
       </p>
     </footer>
+
+    <!-- Ambient Music FAB (Gorillaz — pon tu canción favorita como src) -->
+    <button class="music-fab" id="ambientMusicBtn" title="Música de ambiente 🎵">🎵</button>
+    <audio id="ambientAudio" preload="none" loop>
+      <source src="/audio/ytmp3free.cc_on-melancholy-hill-youtubemp3free.org.mp3" type="audio/mpeg"> 
+    </audio>
+    <script>
+      (function() {
+        const btn = document.getElementById('ambientMusicBtn');
+        const audio = document.getElementById('ambientAudio');
+        if (!btn || !audio) return;
+        let playing = false;
+        btn.addEventListener('click', () => {
+          if (playing) {
+            audio.pause();
+            btn.classList.remove('playing');
+            btn.textContent = '🎵';
+          } else {
+            audio.play().catch(() => {});
+            btn.classList.add('playing');
+            btn.textContent = '💿';
+          }
+          playing = !playing;
+        });
+        audio.addEventListener('ended', () => {
+          playing = false;
+          btn.classList.remove('playing');
+          btn.textContent = '🎵';
+        });
+      })();
+    </script>
 
     <!-- Audio Element -->
     <audio id="romanticSong" preload="auto">
@@ -757,7 +761,6 @@
     <script src="/js/components/sharedSpace.js"></script>
 
     <!-- Core Scripts -->
-    <script src="/js/auth.js"></script>
     <script src="/js/siteContent.js"></script>
     <script src="/js/main.js"></script>
 
@@ -769,8 +772,5 @@
     <script src="/js/components/easterEggs.js"></script>
     <script src="/js/components/timelineAndRoulette.js"></script>
     <script src="/js/components/moodTracker.js"></script>
-    
-    <!-- Main orchestrator -->
-    <script src="/js/main.js"></script>
   </body>
 </html>

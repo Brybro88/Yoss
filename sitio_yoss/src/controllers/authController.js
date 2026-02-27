@@ -51,7 +51,7 @@ const login = async (req, res, next) => {
     }
 
     // Buscar usuario (incluir passwordHash explícitamente)
-    const user = await User.findOne({ username: username.toLowerCase() });
+    const user = await User.findOne({ username: username.trim().toLowerCase() });
 
     if (!user) {
       return res.status(401).json({
