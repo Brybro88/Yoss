@@ -33,7 +33,7 @@ const USERS = [
 const seedUsers = async () => {
   try {
     // Conectar a MongoDB
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     console.log('🗄️  Conectado a MongoDB para seeding...');
 
     for (const userData of USERS) {
