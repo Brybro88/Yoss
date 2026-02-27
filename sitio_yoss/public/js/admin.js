@@ -146,7 +146,7 @@ function renderMomentCard(m) {
       <div class="moment-card__content">${escapeHtml(m.content)}</div>
       <div class="moment-card__status">
         ${statusHTML}
-        <button class="btn btn--danger btn--sm" onclick="YossAdmin.deleteMoment('${m._id}')">
+        <button class="btn btn--danger btn--sm" data-action="delete-moment" data-id="${m._id}">
           🗑️ Eliminar
         </button>
       </div>
@@ -274,10 +274,10 @@ function renderLetterCard(l) {
         ${statusHTML}
         <div>
           <button class="btn btn--sm" style="background: rgba(255,255,255,0.1); margin-right: 5px;" 
-            onclick="YossAdmin.editLetter('${l._id}', '${safeTitle}', '${safeBody}', '${localDatetime}')">
+            data-action="edit-letter" data-id="${l._id}" data-title="${safeTitle}" data-body="${safeBody}" data-datetime="${localDatetime}">
             ✏️ Editar
           </button>
-          <button class="btn btn--danger btn--sm" onclick="YossAdmin.deleteLetter('${l._id}')">
+          <button class="btn btn--danger btn--sm" data-action="delete-letter" data-id="${l._id}">
             🗑️ Eliminar
           </button>
         </div>
@@ -525,10 +525,24 @@ function showToast(message, type = 'success') {
 
 
 // ═══════════════════════════════════════════════════
-// GLOBAL API (for inline handlers)
+// EVENT DELEGATION (replaces inline onclick handlers)
 // ═══════════════════════════════════════════════════
-window.YossAdmin = {
-  deleteMoment,
-  editLetter,
-  deleteLetter,
-};
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+
+  const action = btn.dataset.action;
+  const id = btn.dataset.id;
+
+  switch (action) {
+    case 'delete-moment':
+      deleteMoment(id);
+      break;
+    case 'delete-letter':
+      deleteLetter(id);
+      break;
+    case 'edit-letter':
+      editLetter(id, btn.dataset.title || '', btn.dataset.body || '', btn.dataset.datetime || '');
+      break;
+  }
+});
