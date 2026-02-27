@@ -13,7 +13,7 @@
   },
   "name": "sitio_yoss",
   "version": "1.0.0",
-  "description": "**🌸 Creado con código, corazón y toda la intención del mundo 🌸**",
+  "description": "**🌸 Creado con código, corazón y toda la intención del mundo, para mi cariñito precioso 🌸**",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
