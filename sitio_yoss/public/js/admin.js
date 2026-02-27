@@ -522,53 +522,7 @@ function showToast(message, type = 'success') {
   setTimeout(() => toast.remove(), 3200);
 }
 
-// ═══════════════════════════════════════════════════
-// TEST CORE FEATURES
-// ═══════════════════════════════════════════════════
-function setupCoreTesters() {
-  const rouletteBtn = document.getElementById('testRouletteBtn');
-  const rouletteRes = document.getElementById('rouletteResult');
-  
-  if (rouletteBtn && rouletteRes) {
-    rouletteBtn.addEventListener('click', async () => {
-      rouletteBtn.textContent = 'Girando...';
-      try {
-        const res = await fetch('/api/dates/random');
-        const data = await res.json();
-        
-        if (data.success) {
-          rouletteRes.innerHTML = `<span style="font-size: 1.5rem;">✨</span> <b>${escapeHtml(data.idea.title)}</b> <br><small style="color: #888;">Categoría: ${data.idea.category}</small>`;
-        } else {
-          rouletteRes.textContent = data.message || 'Error: No ideas';
-        }
-      } catch (err) {
-        rouletteRes.textContent = 'Error de conexión';
-      } finally {
-        rouletteBtn.textContent = 'Volver a Tirar 🎡';
-      }
-    });
-  }
 
-  const timelineBtn = document.getElementById('testTimelineBtn');
-  const timelineRes = document.getElementById('timelineResult');
-  
-  if (timelineBtn && timelineRes) {
-    timelineBtn.addEventListener('click', async () => {
-      try {
-        const res = await fetch('/api/timeline');
-        const data = await res.json();
-        timelineRes.innerHTML = `<pre style="white-space: pre-wrap; margin: 0;">${JSON.stringify(data, null, 2)}</pre>`;
-      } catch (err) {
-        timelineRes.textContent = 'Error de conexión';
-      }
-    });
-  }
-}
-
-// Llama al setup en INIT de los Testers core en caso de haber un error de DOM content load
-document.addEventListener('DOMContentLoaded', async () => {
-  setupCoreTesters(); // <---- NEW
-});
 
 // ═══════════════════════════════════════════════════
 // GLOBAL API (for inline handlers)

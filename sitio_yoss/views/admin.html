@@ -1,210 +1,262 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Bryan — Yoss 🌸</title>
-  <link rel="icon" type="image/png" href="/images/favicon.png">
-  <link rel="stylesheet" href="/css/admin.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Bryan — Yoss 🌸</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="stylesheet" href="/css/admin.css" />
+  </head>
+  <body>
+    <!-- ═══ HEADER ═══ -->
+    <header class="admin-header">
+      <div class="admin-header__brand">
+        <span class="admin-header__logo">🌸</span>
+        <span class="admin-header__title" id="adminGreeting"
+          >Panel de Admin</span
+        >
+      </div>
+      <div class="admin-header__actions">
+        <a href="/site" class="btn btn--ghost">👁️ Ver como Yoss</a>
+        <button class="btn btn--ghost" id="adminLogout">🚪 Salir</button>
+      </div>
+    </header>
 
-  <!-- ═══ HEADER ═══ -->
-  <header class="admin-header">
-    <div class="admin-header__brand">
-      <span class="admin-header__logo">🌸</span>
-      <span class="admin-header__title" id="adminGreeting">Panel de Admin</span>
-    </div>
-    <div class="admin-header__actions">
-      <a href="/site" class="btn btn--ghost">👁️ Ver como Yoss</a>
-      <button class="btn btn--ghost" id="adminLogout">🚪 Salir</button>
-    </div>
-  </header>
-
-  <!-- ═══ MAIN CONTENT ═══ -->
-  <main class="admin-main">
-
-    <!-- Quick Stats -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-card__value" id="statThoughts">—</div>
-        <div class="stat-card__label">Pensamientos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__value" id="statLetters">—</div>
-        <div class="stat-card__label">Cartas</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__value" id="statMoments">—</div>
-        <div class="stat-card__label">Momentos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__value" id="statUnread">—</div>
-        <div class="stat-card__label">Sin leer</div>
-      </div>
-    </div>
-
-    <!-- ═══ CONFIGURACIÓN DEL SITIO (CMS) ═══ -->
-    <section class="admin-section" id="cmsSection">
-      <div class="admin-section__header">
-        <h2 class="admin-section__title">📝 Configuración del Sitio (CMS)</h2>
-        <span class="admin-section__badge">Global</span>
-      </div>
-      <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1rem;">
-        Modifica el contenido dinámico de la página de inicio (Hero y Footer).
-      </p>
-      
-      <form class="moment-form" id="cmsForm">
-        <div class="form-group">
-          <label for="welcomeMessage">Mensaje de Bienvenida Principal (Hero Section)</label>
-          <textarea id="welcomeMessage" rows="3" placeholder="Escribe el texto central de la aplicación..." maxlength="500" required></textarea>
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="admin-main">
+      <!-- Quick Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card__value" id="statThoughts">—</div>
+          <div class="stat-card__label">Pensamientos</div>
         </div>
-        <div class="form-group">
-          <label for="dailyNote">Nota Diaria o Mensaje del Footer</label>
-          <input type="text" id="dailyNote" placeholder="Ej. 'Piensa en mí' o el mes actual" maxlength="100" required>
+        <div class="stat-card">
+          <div class="stat-card__value" id="statLetters">—</div>
+          <div class="stat-card__label">Cartas</div>
         </div>
-        
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-          <span id="cmsStatus" style="font-size: 0.85rem; color: #fff;"></span>
-          <button type="submit" class="btn btn--primary" id="saveCmsBtn">
-            ✨ Guardar Cambios
-          </button>
+        <div class="stat-card">
+          <div class="stat-card__value" id="statMoments">—</div>
+          <div class="stat-card__label">Momentos</div>
         </div>
-      </form>
-    </section>
-
-    <!-- ═══ CREAR MOMENTO ESPECIAL ═══ -->
-    <section class="admin-section">
-      <div class="admin-section__header">
-        <h2 class="admin-section__title">✨ Crear Momento Especial</h2>
-        <span class="admin-section__badge">Sorpresa</span>
+        <div class="stat-card">
+          <div class="stat-card__value" id="statUnread">—</div>
+          <div class="stat-card__label">Sin leer</div>
+        </div>
       </div>
-      <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1rem;">
-        Publica un mensaje especial que Yoss verá como popup al entrar. Solo para ocasiones importantes 💖
-      </p>
-      <form class="moment-form" id="momentForm">
-        <div class="form-row">
+
+      <!-- ═══ CONFIGURACIÓN DEL SITIO (CMS) ═══ -->
+      <section class="admin-section" id="cmsSection">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title">📝 Configuración del Sitio (CMS)</h2>
+          <span class="admin-section__badge">Global</span>
+        </div>
+        <p
+          style="
+            font-size: 0.85rem;
+            color: var(--admin-text-muted);
+            margin-bottom: 1rem;
+          "
+        >
+          Modifica el contenido dinámico de la página de inicio (Hero y Footer).
+        </p>
+
+        <form class="moment-form" id="cmsForm">
           <div class="form-group">
-            <label for="momentTitle">Título</label>
-            <input type="text" id="momentTitle" placeholder="Ej: Feliz aniversario, mi amor" maxlength="100" required>
+            <label for="welcomeMessage"
+              >Mensaje de Bienvenida Principal (Hero Section)</label
+            >
+            <textarea
+              id="welcomeMessage"
+              rows="3"
+              placeholder="Escribe el texto central de la aplicación..."
+              maxlength="500"
+              required
+            ></textarea>
           </div>
           <div class="form-group">
-            <label>Emoji</label>
-            <div class="emoji-select">
-              <button type="button" data-emoji="💖">💖</button>
-              <button type="button" data-emoji="🌸">🌸</button>
-              <button type="button" data-emoji="✨">✨</button>
-              <button type="button" data-emoji="💌">💌</button>
-              <button type="button" data-emoji="🌙">🌙</button>
-              <button type="button" data-emoji="🦋">🦋</button>
-              <button type="button" data-emoji="💍">💍</button>
-              <button type="button" data-emoji="🎉">🎉</button>
+            <label for="dailyNote">Nota Diaria o Mensaje del Footer</label>
+            <input
+              type="text"
+              id="dailyNote"
+              placeholder="Ej. 'Piensa en mí' o el mes actual"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 1rem;
+            "
+          >
+            <span id="cmsStatus" style="font-size: 0.85rem; color: #fff"></span>
+            <button type="submit" class="btn btn--primary" id="saveCmsBtn">
+              ✨ Guardar Cambios
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ═══ CREAR MOMENTO ESPECIAL ═══ -->
+      <section class="admin-section">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title">✨ Crear Momento Especial</h2>
+          <span class="admin-section__badge">Sorpresa</span>
+        </div>
+        <p
+          style="
+            font-size: 0.85rem;
+            color: var(--admin-text-muted);
+            margin-bottom: 1rem;
+          "
+        >
+          Publica un mensaje especial que Yoss verá como popup al entrar. Solo
+          para ocasiones importantes 💖
+        </p>
+        <form class="moment-form" id="momentForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="momentTitle">Título</label>
+              <input
+                type="text"
+                id="momentTitle"
+                placeholder="Ej: Feliz aniversario, mi amor"
+                maxlength="100"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Emoji</label>
+              <div class="emoji-select">
+                <button type="button" data-emoji="💖">💖</button>
+                <button type="button" data-emoji="🌸">🌸</button>
+                <button type="button" data-emoji="✨">✨</button>
+                <button type="button" data-emoji="💌">💌</button>
+                <button type="button" data-emoji="🌙">🌙</button>
+                <button type="button" data-emoji="🦋">🦋</button>
+                <button type="button" data-emoji="💍">💍</button>
+                <button type="button" data-emoji="🎉">🎉</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="momentContent">Tu mensaje especial</label>
-          <textarea id="momentContent" rows="5" placeholder="Escribe algo hermoso para ella..." maxlength="5000" required></textarea>
-        </div>
-        <button type="submit" class="btn btn--primary" style="align-self: flex-end; padding: 0.6rem 1.5rem;">
-          ✨ Publicar Momento
-        </button>
-      </form>
-    </section>
-
-    <!-- ═══ MOMENTOS EXISTENTES ═══ -->
-    <section class="admin-section">
-      <div class="admin-section__header">
-        <h2 class="admin-section__title">📋 Momentos Publicados</h2>
-      </div>
-      <div id="momentList">
-        <div class="empty-state">
-          <div class="empty-state__emoji">⏳</div>
-          <p class="empty-state__text">Cargando...</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ GESTOR DE CÁPSULAS (CARTAS TIME-LOCKED) ═══ -->
-    <section class="admin-section" id="letterSection">
-      <div class="admin-section__header">
-        <h2 class="admin-section__title">💌 Gestor de Cápsulas (Cartas)</h2>
-        <span class="admin-section__badge" style="background: rgba(255, 182, 193, 0.2); color: #ffb6c1;">Nuevo</span>
-      </div>
-      <p style="font-size: 0.9rem; color: var(--admin-text-muted); margin-bottom: 1.5rem;">
-        Escribe cartas que se desbloquearán en el futuro. Ella no podrá leerlas hasta la fecha y hora indicadas.
-      </p>
-
-      <form id="letterForm" class="moment-form" style="margin-bottom: 2rem;">
-        <input type="hidden" id="editLetterId" value="">
-        <div class="form-group">
-          <label for="letterTitle">Título de la Carta</label>
-          <input type="text" id="letterTitle" placeholder="Ej: Para cuando te gradúes 🎓" required />
-        </div>
-        <div class="form-group">
-          <label for="letterContent">Mensaje Secreto</label>
-          <textarea id="letterContent" rows="4" placeholder="Escribe aquí todo lo que sientes..." required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="letterUnlockDate">Fecha y Hora de Desbloqueo</label>
-          <input type="datetime-local" id="letterUnlockDate" required />
-        </div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button type="submit" class="btn btn--primary" id="saveLetterBtn">
-            ⏳ Guardar Cápsula
+          <div class="form-group">
+            <label for="momentContent">Tu mensaje especial</label>
+            <textarea
+              id="momentContent"
+              rows="5"
+              placeholder="Escribe algo hermoso para ella..."
+              maxlength="5000"
+              required
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="btn btn--primary"
+            style="align-self: flex-end; padding: 0.6rem 1.5rem"
+          >
+            ✨ Publicar Momento
           </button>
-          <button type="button" class="btn btn--secondary" id="cancelEditLetterBtn" style="display: none;">
-            Cancelar Edición
-          </button>
-        </div>
-      </form>
+        </form>
+      </section>
 
-      <!-- Lista de cartas creadas -->
-      <div class="admin-section__header" style="margin-top: 2rem; border-top: 1px solid var(--admin-border); padding-top: 1.5rem;">
-        <h3 class="admin-section__title" style="font-size: 1.1rem;">Cápsulas Existentes</h3>
-      </div>
-      <div id="letterList">
-        <div class="empty-state">
-          <div class="empty-state__emoji">💌</div>
-          <p class="empty-state__text">Cargando cápsulas...</p>
+      <!-- ═══ MOMENTOS EXISTENTES ═══ -->
+      <section class="admin-section">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title">📋 Momentos Publicados</h2>
         </div>
-      </div>
-    </section>
-
-    <!-- ═══ PRUEBAS DE CORE FEATURES ═══ -->
-    <section class="admin-section">
-      <div class="admin-section__header">
-        <h2 class="admin-section__title">🧪 Pruebas de Funcionalidades Core</h2>
-        <span class="admin-section__badge">Dev</span>
-      </div>
-      <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1rem;">
-        Aquí puedes probar que los nuevos endpoints (Timeline y Ruleta de Citas) devuelven la información correctamente.
-      </p>
-      
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <!-- Ruleta Test -->
-        <div style="flex: 1; min-width: 250px; background: rgba(30, 20, 50, 0.4); border: 1px solid rgba(255,105,180,0.2); padding: 1rem; border-radius: 12px;">
-          <h3 style="color: #ffb6c1; margin-bottom: 10px;">🎡 Ruleta de Citas (Test)</h3>
-          <button class="btn btn--primary" id="testRouletteBtn" style="margin-bottom: 10px; width: 100%;">Tirar la Ruleta</button>
-          <div id="rouletteResult" style="padding: 10px; background: rgba(0,0,0,0.5); border-radius: 6px; font-size: 0.9rem; min-height: 40px; color: #fff;">
-            Haz clic en el botón...
+        <div id="momentList">
+          <div class="empty-state">
+            <div class="empty-state__emoji">⏳</div>
+            <p class="empty-state__text">Cargando...</p>
           </div>
         </div>
-        
-        <!-- Timeline Test -->
-        <div style="flex: 1; min-width: 250px; background: rgba(30, 20, 50, 0.4); border: 1px solid rgba(255,105,180,0.2); padding: 1rem; border-radius: 12px;">
-          <h3 style="color: #ffb6c1; margin-bottom: 10px;">📖 Timeline (Test)</h3>
-          <button class="btn btn--ghost" id="testTimelineBtn" style="margin-bottom: 10px; width: 100%;">Cargar Timeline</button>
-          <div id="timelineResult" style="padding: 10px; background: rgba(0,0,0,0.5); border-radius: 6px; font-size: 0.8rem; max-height: 200px; overflow-y: auto; color: #aaa;">
-            La respuesta JSON aparecerá aquí...
+      </section>
+
+      <!-- ═══ GESTOR DE CÁPSULAS (CARTAS TIME-LOCKED) ═══ -->
+      <section class="admin-section" id="letterSection">
+        <div class="admin-section__header">
+          <h2 class="admin-section__title">💌 Gestor de Cápsulas (Cartas)</h2>
+          <span
+            class="admin-section__badge"
+            style="background: rgba(255, 182, 193, 0.2); color: #ffb6c1"
+            >Nuevo</span
+          >
+        </div>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--admin-text-muted);
+            margin-bottom: 1.5rem;
+          "
+        >
+          Escribe cartas que se desbloquearán en el futuro. Ella no podrá
+          leerlas hasta la fecha y hora indicadas.
+        </p>
+
+        <form id="letterForm" class="moment-form" style="margin-bottom: 2rem">
+          <input type="hidden" id="editLetterId" value="" />
+          <div class="form-group">
+            <label for="letterTitle">Título de la Carta</label>
+            <input
+              type="text"
+              id="letterTitle"
+              placeholder="Ej: Para cuando te gradúes 🎓"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="letterContent">Mensaje Secreto</label>
+            <textarea
+              id="letterContent"
+              rows="4"
+              placeholder="Escribe aquí todo lo que sientes..."
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="letterUnlockDate">Fecha y Hora de Desbloqueo</label>
+            <input type="datetime-local" id="letterUnlockDate" required />
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap">
+            <button type="submit" class="btn btn--primary" id="saveLetterBtn">
+              ⏳ Guardar Cápsula
+            </button>
+            <button
+              type="button"
+              class="btn btn--secondary"
+              id="cancelEditLetterBtn"
+              style="display: none"
+            >
+              Cancelar Edición
+            </button>
+          </div>
+        </form>
+
+        <!-- Lista de cartas creadas -->
+        <div
+          class="admin-section__header"
+          style="
+            margin-top: 2rem;
+            border-top: 1px solid var(--admin-border);
+            padding-top: 1.5rem;
+          "
+        >
+          <h3 class="admin-section__title" style="font-size: 1.1rem">
+            Cápsulas Existentes
+          </h3>
+        </div>
+        <div id="letterList">
+          <div class="empty-state">
+            <div class="empty-state__emoji">💌</div>
+            <p class="empty-state__text">Cargando cápsulas...</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-  </main>
-
-  <script src="/js/auth.js"></script>
-  <script src="/js/admin.js"></script>
-</body>
+    <script src="/js/admin.js"></script>
+  </body>
 </html>

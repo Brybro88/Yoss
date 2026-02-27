@@ -7,7 +7,7 @@ const SiteContent = require('../models/SiteContent');
 const migrate = async () => {
   try {
     // Conectar a MongoDB
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     console.log('🗄️  Conectado a MongoDB para aplicar migraciones...');
 
     // 1. Actualizar el rol de la usuaria Yoss a 'partner'

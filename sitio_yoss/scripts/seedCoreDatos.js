@@ -14,7 +14,7 @@ const DateIdea = require('../src/models/DateIdea');
 async function seedCore() {
   try {
     console.log('⏳ Conectando a MongoDB para insertar datos de prueba...');
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     
     // Obtener a Bryan (Admin) para asignar la autoría
     const adminUser = await User.findOne({ role: 'admin' });
